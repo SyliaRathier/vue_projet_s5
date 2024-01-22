@@ -1,0 +1,37 @@
+div.contentBox {
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    box-shadow: 0 0 0.3rem #999;
+    border-radius: 15px 15px 0px 0px;
+    border-bottom: black 2px solid;
+    padding: 8px;
+    font-size: 8pt;
+}
+
+.top .clicable {
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.top .clicable:hover {
+    color: aliceblue;
+}
+
+.content {
+    margin: 0px;
+    padding: 20px;
+    flex-grow: 1;
+    box-shadow: 0 0 0.3rem #999;
+    font: 1.2em "Fira Sans", sans-serif;
+}
+
+.content.clicable:hover {
+    box-shadow: 0 0 0.3rem #000;
+    cursor: pointer;
+}
