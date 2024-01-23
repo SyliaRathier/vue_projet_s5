@@ -1,23 +1,19 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
-import type { Recette } from '@/types';
+import type { Ingredient } from '@/types';
 
 const router = useRouter();
-const props = defineProps<{ recette: Recette }>();
+const props = defineProps<{ ingredient: Ingredient }>();
 </script>
 
 <template>
     <div class="recipe">
         <div class="recipe-header">
-            <h2>{{ recette.titre }}</h2>
+            <h2>{{ ingredient.titre }}</h2>
         </div>
         <div class="recipe-content">
-            <p>{{ recette.description }}</p>
+            <p>{{ ingredient.description }}</p>
             <!-- <img :src="recipe.image" alt="Recipe Image" /> -->
-        </div>
-        <div class="recipe-footer">
-            <!-- <p>Créé par {{ recipe.user }} le {{ formatDate(recipe.date) }}</p> -->
-            <p>Créer pas User</p>
         </div>
     </div>
 </template>

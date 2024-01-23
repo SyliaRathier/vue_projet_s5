@@ -11,3 +11,14 @@ export interface Recette{
     description: string;
     datePublication: string;
 }
+
+export interface Ingredient{
+    id: number;
+    titre: string;
+    description: string;
+}
+
+export interface Categorie{
+    id: number;
+    nom: string;
+}
