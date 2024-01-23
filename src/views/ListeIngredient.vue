@@ -6,18 +6,25 @@ import BoiteIngredient from '@/components/BoiteIngredient.vue';
 import { useRoute } from 'vue-router'
 
 
-// Toutes les ingredients
+// Toutes les recettes
 const ingredients: Ref<Ingredient[]> = ref([]);
-function chargerFeed() {
-    fetch(encodeURI('https://localhost:8000/api/ingredients'))
-        .then(reponsehttp => reponsehttp.json())
-        .then(reponseJSON => {
-            ingredients.value = reponseJSON["hydra:member"];
-        });
+function chargerFeed(idCategorie: string) {
+    if (idCategorie == '0') {
+        fetch(encodeURI('https://localhost:8000/api/ingredients'))
+            .then(reponsehttp => reponsehttp.json())
+            .then(reponseJSON => {
+                ingredients.value = reponseJSON["hydra:member"];
+            });
+    } else {
+        fetch(encodeURI(`https://localhost:8000/api/categorie_ingredients/${idCategorie}`))
+            .then(reponsehttp => reponsehttp.json())
+            .then(reponseJSON => {
+                ingredients.value = reponseJSON["ingredients"];
+                console.log(reponseJSON)
+            });
+    }
 }
-onMounted(() => {
-    chargerFeed()
-})
+
 
 // Liste des catégorie pour champs select
 
@@ -27,18 +34,16 @@ function chargerCategorie() {
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];
-            console.log(categories.value)
         });
 }
 
 
 onMounted(() => {
     chargerCategorie()
+    chargerFeed('0')
 })
 
-
 const selected = ref('')
-const id = ref('')
 
 </script>
 
@@ -46,15 +51,15 @@ const id = ref('')
 <template>
     <div>Selected: {{ selected }}</div>
 
-    <select v-model="selected">
+    <select v-model="selected" @change="chargerFeed(selected)">
         <option disabled value="">Please select one</option>
-        <option v-for="categorie in categories" :key="categorie.id" :categorie="categorie" :value="categorie.id"
-            @updated="chargerCategorie()">{{
-                categorie.nom }}</option>
+        <option value="0">All Categories</option>
+        <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
+            {{ categorie.nom }}
+        </option>
     </select>
     <div class="recipe-list">
-        <BoiteIngredient v-for="ingredient in ingredients" :key="ingredient.id" :ingredient="ingredient"
-            @updated="chargerFeed()" />
+        <BoiteIngredient v-for="ingredient in ingredients" :key="ingredient.id" :ingredient="ingredient" />
     </div>
 </template>
 

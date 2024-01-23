@@ -8,16 +8,22 @@ import { useRoute } from 'vue-router'
 
 // Toutes les recettes
 const recettes: Ref<Recette[]> = ref([]);
-function chargerFeed() {
-    fetch(encodeURI('https://localhost:8000/api/recettes'))
-        .then(reponsehttp => reponsehttp.json())
-        .then(reponseJSON => {
-            recettes.value = reponseJSON["hydra:member"];
-        });
+function chargerFeed(idCategorie: string) {
+    if (idCategorie == '0') {
+        fetch(encodeURI('https://localhost:8000/api/recettes'))
+            .then(reponsehttp => reponsehttp.json())
+            .then(reponseJSON => {
+                recettes.value = reponseJSON["hydra:member"];
+            });
+    } else {
+        fetch(encodeURI(`https://localhost:8000/api/categorie_recettes/${idCategorie}`))
+            .then(reponsehttp => reponsehttp.json())
+            .then(reponseJSON => {
+                recettes.value = reponseJSON["recettes"];
+            });
+    }
 }
-onMounted(() => {
-    chargerFeed()
-})
+
 
 // Liste des catégorie pour champs select
 
@@ -27,18 +33,16 @@ function chargerCategorie() {
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];
-            console.log(categories.value)
         });
 }
 
 
 onMounted(() => {
     chargerCategorie()
+    chargerFeed('0')
 })
 
-
 const selected = ref('')
-const id = ref('')
 
 </script>
 
@@ -46,14 +50,15 @@ const id = ref('')
 <template>
     <div>Selected: {{ selected }}</div>
 
-    <select v-model="selected">
+    <select v-model="selected" @change="chargerFeed(selected)">
         <option disabled value="">Please select one</option>
-        <option v-for="categorie in categories" :key="categorie.id" :categorie="categorie" :value="categorie.id"
-            @updated="chargerCategorie()">{{
-                categorie.nom }}</option>
+        <option value="0">All Categories</option>
+        <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
+            {{ categorie.nom }}
+        </option>
     </select>
     <div class="recipe-list">
-        <BoiteRecette v-for="recette in recettes" :key="recette.id" :recette="recette" @updated="chargerFeed()" />
+        <BoiteRecette v-for="recette in recettes" :key="recette.id" :recette="recette" />
     </div>
 </template>
 
