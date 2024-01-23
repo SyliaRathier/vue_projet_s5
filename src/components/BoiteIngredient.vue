@@ -9,7 +9,7 @@ const props = defineProps<{ ingredient: Ingredient }>();
 <template>
     <div class="recipe">
         <div class="recipe-header">
-            <h2>{{ ingredient.titre }}</h2>
+            <h2>{{ ingredient.nom }}</h2>
         </div>
         <div class="recipe-content">
             <p>{{ ingredient.description }}</p>
