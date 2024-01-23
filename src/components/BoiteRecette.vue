@@ -19,6 +19,10 @@ const props = defineProps<{ recette: Recette }>();
             <!-- <p>Créé par {{ recipe.user }} le {{ formatDate(recipe.date) }}</p> -->
             <p>Créer pas User</p>
         </div>
+        <div class="recipe-footer">
+            <!-- <p>Créé par {{ recipe.user }} le {{ formatDate(recipe.date) }}</p> -->
+            {{ recette.imageFile }}
+        </div>
     </div>
 </template>
 

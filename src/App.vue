@@ -25,6 +25,9 @@ import HelloWorld from './components/HelloWorld.vue'
       <router-link to="/about">About</router-link>
       <router-link to="/recettes">Recettes</router-link>
       <router-link to="/ingredients">Ingredients</router-link>
+      <router-link to="/creerRecette">Créer une recette</router-link>
+      <router-link to="/creerIngredient">Créer un ingredient</router-link>
+
     </nav>
 
     <router-view></router-view>

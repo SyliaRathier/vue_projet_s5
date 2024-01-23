@@ -10,6 +10,7 @@ export interface Recette{
     titre: string;
     description: string;
     datePublication: string;
+    imageFile : File;
 }
 
 export interface Ingredient{
@@ -21,4 +22,13 @@ export interface Ingredient{
 export interface Categorie{
     id: number;
     nom: string;
+}
+
+export interface Utilisateur{
+    id: number;
+    adresseEmail: string;
+    login: string;
+    nom : string;
+    prenom : string;
+    premium: boolean;
 }

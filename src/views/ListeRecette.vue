@@ -14,12 +14,16 @@ function chargerFeed(idCategorie: string) {
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["hydra:member"];
+                console.log(reponseJSON)
+
             });
     } else {
         fetch(encodeURI(`https://localhost:8000/api/categorie_recettes/${idCategorie}`))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["recettes"];
+                console.log(reponseJSON)
+
             });
     }
 }

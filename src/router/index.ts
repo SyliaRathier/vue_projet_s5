@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ListeRecette from '@/views/ListeRecette.vue'
 import ListeIngredient from '@/views/ListeIngredient.vue'
+import FormulaireIngredient from '@/views/FormulaireIngredient.vue'
+import FormulaireRecette from '@/views/FormulaireRecette.vue'
+
 
 
 const router = createRouter({
@@ -29,6 +32,16 @@ const router = createRouter({
       path: '/ingredients',
       name: 'ingredients',
       component: ListeIngredient
+    },
+    {
+      path: '/creerRecette',
+      name: 'creerRecette',
+      component: FormulaireRecette
+    },
+    {
+      path: '/creerIngredient',
+      name: 'creerIngredient',
+      component: FormulaireIngredient
     }
   ]
 })
