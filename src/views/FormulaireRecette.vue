@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Créer une nouvelle recette</h2>
-        <form @submit.prevent="submitForm(selectedIngredients)">
+        <form @submit.prevent="submitForm(selectedIngredients, selectedMateriels)">
             <label for="titre">Titre:</label>
             <input v-model="recette.titre" type="text" required />
 
@@ -9,7 +9,7 @@
             <textarea v-model="recette.description" rows="4" required></textarea>
 
             <label for="conseil">Conseil:</label>
-            <textarea v-model="recette.conseil" rows="4" required></textarea>
+            <textarea v-model="recette.conseil" rows="4"></textarea>
 
             <label for="ingredients">Ingrédients:</label>
 
@@ -38,14 +38,12 @@
                         <li v-for="(item, index) in selectedIngredients" :key="item.id_ingredient_id.id">
                             {{ item.id_ingredient_id.nom }}
 
-                            <!-- <label>Quantité: <input></label> {{ item.quantity }} -<label>Unité:
-                        <input></label> {{ item.unit }} -->
+
                             <label>Quantité: <input v-model="item.quantite"></label>
                             <label>Unité: <input v-model="item.unite"></label>
                             <button
                                 @click="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
                             <button @click="removeIngredientFromList(item.id_ingredient_id.id, index)">Supprimer</button>
-                            <!-- <button @click="showInfo(selectedIngredients)">info(dans console)</button> -->
 
 
                         </li>
@@ -58,6 +56,39 @@
             <!--Fin création QuantiteIngredient -->
 
 
+            <!-- Ajouter mtériels -->
+
+            <div>
+                <div>Selected: {{ selectedM }}</div>
+
+                <label for="searchM">Search:</label>
+                <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher un ingrédient" />
+
+                <select v-model="selectedM" @change="chargerFeedMateriel">
+                    <option disabled value="">Please select one</option>
+                    <option value="0">All Materiels</option>
+                    <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
+                        {{ materiel.nom }}
+                    </option>
+                </select>
+
+                <button @click="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
+
+                <div v-if="selectedMateriels.length > 0">
+                    <h3>Ingrédients sélectionnés :</h3>
+                    <ul>
+                        <li v-for="(item, index) in selectedMateriels" :key="item.id">
+                            {{ item.nom }}
+                            <button @click="removeMaterielFromList(item.id, index)">Supprimer</button>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Fin de Ajouter mtériels -->
+
+
             <label for="duree">Durée:</label>
             <input v-model="recette.duree" type="text" required />
 
@@ -68,7 +99,7 @@
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" />
 
             <button type="submit">Créer la recette</button>
-            <button @click="showInfo(selectedIngredients)">info(dans console)</button>
+            <button @click="fillIngredients(selectedIngredients)">info(dans console)</button>
 
         </form>
     </div>
@@ -94,13 +125,13 @@ const recette = ref({
     description: '',
     conseil: '',
     ingredients: [],
+    materiels: [],
     duree: '',
     prix: '',
     imageUrl: '',
 });
 
-const showInfo = (selectedIngredients: any) => {
-    console.log(selectedIngredients);
+const fillIngredients = (selectedIngredients: any) => {
     const tabIngredient = [];
     let urlIngredient = '';
     let i: number = 0
@@ -110,21 +141,40 @@ const showInfo = (selectedIngredients: any) => {
             tabIngredient.push(urlIngredient);
         }
     }
-    console.log(tabIngredient)
     return tabIngredient
 }
 
-const submitForm = async (selectedIngredients: any) => {
+const fillMateriels = (selectedMateriel: any) => {
+    console.log(selectedMateriel);
+    const tabMateriel = [];
+    let urlIngredient = '';
+    let i: number = 0
+    for (i = 0; i < selectedMateriel.length; i++) {
+        if (selectedMateriel[i].id !== null) {
+            urlIngredient = "https://127.0.0.1:8000/api/materiels/" + selectedMateriel[i].id;
+            tabMateriel.push(urlIngredient);
+        }
+    }
+    console.log(tabMateriel)
+    return tabMateriel
+}
 
-    let tab = showInfo(selectedIngredients)
+
+const submitForm = async (selectedIngredients: any, selectedMateriels: any) => {
+
+    let tab = fillIngredients(selectedIngredients)
+    let tabM = fillMateriels(selectedMateriels)
 
     console.log(JSON.stringify(tab))
+    console.log(JSON.stringify(tabM))
+
 
     const formData = new FormData();
     formData.append('titre', recette.value.titre);
     formData.append('description', recette.value.description);
     formData.append('conseil', recette.value.conseil);
     formData.append('ingredients', JSON.stringify(tab));
+    formData.append('materiels', JSON.stringify(tabM));
     formData.append('duree', recette.value.duree);
     formData.append('prix', recette.value.prix);
 
@@ -139,7 +189,7 @@ const submitForm = async (selectedIngredients: any) => {
         const response = await fetch('https://127.0.0.1:8000/api/recettes', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDYxMjA4NDYsImV4cCI6MTcwNjEyNDQ0Niwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoic3lsaWFhIiwiaWQiOjQsImFkcmVzc2VNYWlsIjoic3lsaWFhQGV4YW1wbGUuY29tIiwicHJlbWl1bSI6ZmFsc2V9.sr64hxoOJakzHdVO2chs-67pQp0u1_LpaOwGJD6xOexZd1nvJs6RjblAE39__Ucg7CjutdXNUSMYPSrJQs7Eo0XdepSv5gBdlufEYjPVB_rxo82sBsMMGqEU4Irv_-oQ_jyRH5Oj6emQBnErX5XwVcNprnWSF4M4LRTgxrms-66UdYeEOcEltWXrK_IwV389GeI4oaQGZjygbi9WB5aiO8CnqQljanmD7sBxCu2UbLHbR4p6kWeINMp8fx8w3hGdqP9Pv7AuCKyLtz4ikwB_c_kuMoXYHGVm_bkdtakWBl4kT34-VcSfSU28CSQGO6KfHmdkjJGjRKjQ7Gv15J87NA"
+                'Authorization': 'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDYxMjkzMDIsImV4cCI6MTcwNjEzMjkwMiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoic3lsaWFhIiwiaWQiOjQsImFkcmVzc2VNYWlsIjoic3lsaWFhQGV4YW1wbGUuY29tIiwicHJlbWl1bSI6ZmFsc2V9.7a547sgWdn3y1mopAA7C7so1CiJLPdqCWr1JdBmOgrpqrbpCUE_Hb6qPNka7dC9x16avvJVoXNTPafK2FB7TeZORI0jmww3YGJt34Wu95_XF5W1Z2FCadj8o3WNQgmcccS-olnPsiF_WmZg5qOq2mTcBzT3h27ioOu4q9q6yKf99A9OIZoqQwPNZjz4FeBZ8pL6oWlMcjVRR6FQm44ZMzchTEaMr7gYnl9lm2TCNGfyUUvtCyMVMRKz3GPTHh11ONZ08wEc2sLQq_quHnMvvY8Yqbpa68xALuu9X7RmXkbY_7sH2ACeebfwDp7v9_tmSrB26jD9oJAGyO_9WsGXIPg"
             },
             body: formData,
         });
@@ -285,14 +335,59 @@ const createIngredientFromList = (id: number, quantite: number, unite: string, i
 };
 
 
-onMounted(() => {
-    chargerFeed();
-
-});
 
 console.log(selectedIngredients.value)
 
 
+// Créer MATERIELS
+
+const selectedMateriels: Ref<{ id: number, nom: string }[]> = ref([]);
+// Toutes les recettes
+const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
+function chargerFeedMateriel() {
+    fetch(encodeURI('https://localhost:8000/api/materiels'))
+        .then(reponsehttp => reponsehttp.json())
+        .then(reponseJSON => {
+            materiels.value = reponseJSON["hydra:member"];
+        });
+}
+const selectedM: Ref<string> = ref(''); // Ensure that selected is a ref
+const searchM: Ref<string> = ref('');
+const filterMateriels = () => {
+    if (searchM.value === '') {
+        return materiels.value;
+    } else {
+        return materiels.value.filter(materiel =>
+            materiel.nom.toLowerCase().startsWith(searchM.value.toLowerCase())
+        );
+    }
+};
+const addMaterielToList = () => {
+    const selectedMateriel = materiels.value.find(materiel => materiel.id === parseInt(selectedM.value));
+    if (selectedMateriel) {
+        selectedMateriels.value.push({
+            id: selectedMateriel.id,
+            nom: selectedMateriel.nom,
+
+        });
+    }
+};
+const removeMaterielFromList = (id: number, index: number) => {
+    const response = fetch('https://127.0.0.1:8000/api/materiels/' + id, {
+        method: 'DELETE',
+    });
+    selectedMateriels.value.splice(index, 1);
+};
+
+
+onMounted(() => {
+    chargerFeedMateriel();
+    chargerFeed();
+
+});
 
 </script>
   
+
+<style scoped>
+</style>
