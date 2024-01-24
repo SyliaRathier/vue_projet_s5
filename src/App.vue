@@ -3,35 +3,27 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
-<!-- <template>
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-    </nav>
-  </header>
-
-  <RouterView />
-</template>
-
-<style scoped>
-</style> -->
-
 <template>
-  <div>
-    <nav class="navbar">
-      <div class="logo">Logo</div>
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
-      <router-link to="/recettes">Recettes</router-link>
-      <router-link to="/ingredients">Ingredients</router-link>
-      <router-link to="/creerRecette">Créer une recette</router-link>
-      <router-link to="/creerIngredient">Créer un ingredient</router-link>
+  <header>
+    <div>
+      <nav class="navbar">
+        <div class="logo">Logo</div>
+        <router-link to="/">Home</router-link>
+        <router-link to="/about">About</router-link>
+        <router-link to="/recettes">Recettes</router-link>
+        <router-link to="/ingredients">Ingredients</router-link>
+        <router-link to="/creerRecette">Créer une recette</router-link>
+        <router-link to="/creerIngredient">Créer un ingredient</router-link>
 
-    </nav>
+      </nav>
+      <router-view></router-view>
+    </div>
+  </header>
+  <main>
+    <FlashMessage position="top" />
 
-    <router-view></router-view>
-  </div>
+
+  </main>
 </template>
 
 

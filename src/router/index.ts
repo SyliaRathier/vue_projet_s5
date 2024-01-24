@@ -4,6 +4,7 @@ import ListeRecette from '@/views/ListeRecette.vue'
 import ListeIngredient from '@/views/ListeIngredient.vue'
 import FormulaireIngredient from '@/views/FormulaireIngredient.vue'
 import FormulaireRecette from '@/views/FormulaireRecette.vue'
+import Test from '@/views/Test.vue'
 
 
 
@@ -42,6 +43,11 @@ const router = createRouter({
       path: '/creerIngredient',
       name: 'creerIngredient',
       component: FormulaireIngredient
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
     }
   ]
 })

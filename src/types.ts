@@ -19,6 +19,14 @@ export interface Ingredient{
     description: string;
 }
 
+export interface QuantiteIngredient{
+    id : number;
+    id_ingredient_id : number;
+    recette_id : number;
+    quantite : GLfloat;
+    unite : string;
+}
+
 export interface Categorie{
     id: number;
     nom: string;

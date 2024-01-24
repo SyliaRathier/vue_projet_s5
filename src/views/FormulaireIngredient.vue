@@ -21,6 +21,8 @@
   
 <script setup lang="ts">
 import { ref } from 'vue';
+import { flashMessage } from '@smartweb/vue-flash-message';
+
 
 const imageInput = ref<HTMLInputElement | null>(null);
 
@@ -52,7 +54,15 @@ const submitForm = async () => {
             console.log('Ingrédient créé avec succès !');
             // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
             ingredient.value.imageUrl = 'URL_de_l_image_retournee_par_votre_API';
+            flashMessage.show({
+                type: 'error',
+                title: 'La connection a échoué'
+            });
         } else {
+            flashMessage.show({
+                type: 'success',
+                title: 'Vous êtes connecté'
+            });
             console.error('Erreur lors de la création de l\'ingrédient');
         }
     } catch (error) {
