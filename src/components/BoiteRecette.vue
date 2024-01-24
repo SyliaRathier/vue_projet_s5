@@ -27,5 +27,5 @@ const props = defineProps<{ recette: Recette }>();
 </template>
 
 <style scoped>
-@import "@/components/ContentBox.css";
+@import "@/assets/contentBox.css";
 </style>
