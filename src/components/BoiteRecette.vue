@@ -35,5 +35,5 @@ const staticUrl = "c:\Users\rathi\Desktop\Dossier\Dossier IUT\Annee3\projet_web\
 </template>
 
 <style scoped>
-@import "@/components/ContentBox.css";
+@import "@/assets/contentBox.css";
 </style>

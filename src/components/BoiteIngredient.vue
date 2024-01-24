@@ -4,6 +4,8 @@ import type { Ingredient } from '@/types';
 
 const router = useRouter();
 const props = defineProps<{ ingredient: Ingredient }>();
+
+
 </script>
 
 <template>
@@ -13,11 +15,12 @@ const props = defineProps<{ ingredient: Ingredient }>();
         </div>
         <div class="recipe-content">
             <p>{{ ingredient.description }}</p>
-            <!-- <img :src="recipe.image" alt="Recipe Image" /> -->
+
+            <img :src="'https://localhost:8000/image/ingredient/'+ingredient.imageName" alt="Recipe Image" loading="lazy" />
         </div>
     </div>
 </template>
 
 <style scoped>
-@import "@/components/ContentBox.css";
+@import "@/assets/contentBox.css";
 </style>

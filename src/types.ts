@@ -17,6 +17,7 @@ export interface Ingredient{
     id: number;
     nom: string;
     description: string;
+    imageName : string;
 }
 
 export interface QuantiteIngredient{
