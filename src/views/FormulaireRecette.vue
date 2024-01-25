@@ -116,6 +116,7 @@ import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { Ingredient, QuantiteIngredient } from '@/types';
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { storeAuthentification } from '@/store/storeAuthentification.ts';
 
 const selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
 const imageInput = ref<HTMLInputElement | null>(null);
@@ -186,39 +187,40 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any) => {
     }
 
     try {
+        console.log()
         const response = await fetch('https://127.0.0.1:8000/api/recettes', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDYxMjkzMDIsImV4cCI6MTcwNjEzMjkwMiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoic3lsaWFhIiwiaWQiOjQsImFkcmVzc2VNYWlsIjoic3lsaWFhQGV4YW1wbGUuY29tIiwicHJlbWl1bSI6ZmFsc2V9.7a547sgWdn3y1mopAA7C7so1CiJLPdqCWr1JdBmOgrpqrbpCUE_Hb6qPNka7dC9x16avvJVoXNTPafK2FB7TeZORI0jmww3YGJt34Wu95_XF5W1Z2FCadj8o3WNQgmcccS-olnPsiF_WmZg5qOq2mTcBzT3h27ioOu4q9q6yKf99A9OIZoqQwPNZjz4FeBZ8pL6oWlMcjVRR6FQm44ZMzchTEaMr7gYnl9lm2TCNGfyUUvtCyMVMRKz3GPTHh11ONZ08wEc2sLQq_quHnMvvY8Yqbpa68xALuu9X7RmXkbY_7sH2ACeebfwDp7v9_tmSrB26jD9oJAGyO_9WsGXIPg"
+                'Authorization': 'Bearer ' + storeAuthentification.JWT
             },
             body: formData,
         });
-        // .then(reponsehttp => reponsehttp.json())
-        //     .then(reponseJSON => {
-        //         valeur.value = reponseJSON["hydra:member"];
-        //         console.log(reponseJSON)
 
-        //     });
-        if (response.ok) {
-            const reponseJSON = await response.json();
-            console.log(reponseJSON);
+        response.json().then(reponseJSON => {
 
-            // Show success flash message
-            flashMessage.show({
-                type: 'success',
-                title: 'Recette créée avec succès!',
-            });
+            if (response.ok) {
+                console.log(reponseJSON);
 
-            // You can do additional actions or redirects if needed
-        } else {
-            // Show error flash message
-            flashMessage.show({
-                type: 'error',
-                title: 'Erreur lors de la création de la recette',
-            });
-            console.error('Erreur lors de la création de la recette');
-        }
+                // Show success flash message
+                flashMessage.show({
+                    type: 'success',
+                    title: 'Recette créée avec succès!',
+                });
 
+                // You can do additional actions or redirects if needed
+            } else {
+                // Show error flash message
+                let erreur = reponseJSON["detail"];
+
+                flashMessage.show({
+                    type: 'error',
+                    title: erreur,
+                });
+                console.error('Erreur lors de la création de la recette');
+            }
+
+
+        })
 
     } catch (error) {
         console.error('Erreur lors de la requête :', error);

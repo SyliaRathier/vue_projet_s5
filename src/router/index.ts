@@ -7,6 +7,8 @@ import FormulaireRecette from '@/views/FormulaireRecette.vue'
 import Test from '@/views/Test.vue'
 import FormulaireMateriel from '@/views/FormulaireMateriel.vue'
 import SingleIngredient from '@/views/SingleIngredient.vue'
+import Connexion from '@/views/Connexion.vue'
+import Inscription from '@/views/Inscription.vue'
 
 
 
@@ -60,6 +62,16 @@ const router = createRouter({
       path: '/ingredient/:id',
       name: 'ingredient',
       component: SingleIngredient
+    },
+    {
+      path: '/connexion',
+      name: 'connexion',
+      component: Connexion
+    },
+    {
+      path: '/inscription',
+      name: 'inscription',
+      component: Inscription
     }
   ]
 })

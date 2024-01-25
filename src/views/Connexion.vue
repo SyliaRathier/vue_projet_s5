@@ -1,6 +1,6 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
-import { storeAuthentification } from '../store/storeAuthentification';
+import { storeAuthentification } from '@/store/storeAuthentification';
 import { useRouter } from 'vue-router';
 import { flashMessage } from '@smartweb/vue-flash-message';
 const router = useRouter();
@@ -19,7 +19,7 @@ function connect(): void {
                 type: 'success',
                 title: 'Vous êtes connecté'
             });
-            router.push('/feed');
+            router.push('/recettes');
             console.log(storeAuthentification.JWT)
         },
         () => {
@@ -38,11 +38,11 @@ function connect(): void {
 
 <template>
     <!-- <p>{{ storeAuthentification.JWT }}</p> -->
-<div class="wrapper">
+    <div class="wrapper">
         <div class="top">
             <h3>Création du profil</h3>
         </div>
-<form @submit.prevent="connect" class="content">
+        <form @submit.prevent="connect" class="content">
             <div class="group">
                 <label>Login</label>
                 <input v-model="connectingUser.login">
@@ -59,11 +59,11 @@ function connect(): void {
 </template>
 
 <style scoped>
-@import "@/assets/contentBox.css";
+/* @import "@/components/ContentBox.css"; */
 </style>
 
 
 <!-- {
-    "login": "string",
-    "password": "SEYRBfujygvnuiy3456U7779"
-  } --> -->
+  "login": "syliaa",
+  "password": "erY33XVn0UC3uEmEbAaak"
+  } -->
