@@ -15,6 +15,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <router-link to="/creerRecette">Créer une recette</router-link>
         <router-link to="/creerIngredient">Créer un ingredient</router-link>
         <router-link to="/creerMateriel">Créer un Matériel</router-link>
+        <router-link to="/utilisateur">Profil</router-link>
 
       </nav>
       <FlashMessage position="top" />

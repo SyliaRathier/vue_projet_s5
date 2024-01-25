@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { storeAuthentification } from '@/store/storeAuthentification';
+// import { storeAuthentification } from '@/store/storeAuthentification'
 import { useRouter } from 'vue-router';
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { storeAuthentification } from '@/storeAuthentification'
+
 const router = useRouter();
 let jwt = ref()
 const connectingUser = ref({
@@ -20,7 +22,7 @@ function connect(): void {
                 title: 'Vous êtes connecté'
             });
             router.push('/recettes');
-            console.log(storeAuthentification.JWT)
+            console.log(storeAuthentification)
         },
         () => {
             flashMessage.show({

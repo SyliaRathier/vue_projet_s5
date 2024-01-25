@@ -5,7 +5,6 @@ import type { Recette, Categorie } from '@/types';
 import BoiteRecette from '@/components/BoiteRecette.vue';
 import { useRoute } from 'vue-router'
 
-
 // Toutes les recettes
 const recettes: Ref<Recette[]> = ref([]);
 function chargerFeed(idCategorie: string) {
@@ -14,7 +13,6 @@ function chargerFeed(idCategorie: string) {
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["hydra:member"];
-                console.log(reponseJSON)
 
             });
     } else {
@@ -22,7 +20,6 @@ function chargerFeed(idCategorie: string) {
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["recettes"];
-                console.log(reponseJSON)
 
             });
     }

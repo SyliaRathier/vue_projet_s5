@@ -116,7 +116,7 @@ import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { Ingredient, QuantiteIngredient } from '@/types';
 import { flashMessage } from '@smartweb/vue-flash-message';
-import { storeAuthentification } from '@/store/storeAuthentification.ts';
+import { storeAuthentification } from '@/storeAuthentification'
 
 const selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
 const imageInput = ref<HTMLInputElement | null>(null);
@@ -479,3 +479,4 @@ li button:hover {
     background-color: #d73838;
 }
 </style>
+@/storeAuthentification

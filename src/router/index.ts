@@ -9,6 +9,7 @@ import FormulaireMateriel from '@/views/FormulaireMateriel.vue'
 import SingleIngredient from '@/views/SingleIngredient.vue'
 import Connexion from '@/views/Connexion.vue'
 import Inscription from '@/views/Inscription.vue'
+import InfoUtilisateur from '@/views/InfoUtilisateur.vue'
 
 
 
@@ -72,6 +73,11 @@ const router = createRouter({
       path: '/inscription',
       name: 'inscription',
       component: Inscription
+    },
+    {
+      path: '/utilisateur',
+      name: 'utilisateur',
+      component: InfoUtilisateur
     }
   ]
 })
