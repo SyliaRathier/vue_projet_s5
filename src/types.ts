@@ -20,6 +20,20 @@ export interface Ingredient{
     imageName : string;
 }
 
+export interface Materiel{
+    id: number;
+    nom: string;
+    description: string;
+    imageName : string;
+}
+export interface QuantiteIngredient{
+    id : number;
+    id_ingredient_id : number;
+    recette_id : number;
+    quantite : GLfloat;
+    unite : string;
+}
+
 export interface Categorie{
     id: number;
     nom: string;
