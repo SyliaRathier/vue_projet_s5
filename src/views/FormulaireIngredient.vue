@@ -9,7 +9,7 @@
             <textarea v-model="ingredient.description" rows="4" required class="input-field"></textarea>
 
             <label for="prix">Prix:</label>
-            <input v-model="ingredient.prix" type="text" required class="input-field" />
+            <input v-model="ingredient.prix" type="number" required class="input-field" />
 
             <label for="imageFile" class="file-label">Image:</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
@@ -50,28 +50,34 @@ const submitForm = async () => {
             body: formData,
         });
 
-        if (response.ok) {
-            console.log('Ingrédient créé avec succès !');
-            // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
-            flashMessage.show({
-                type: 'success',
-                title: "L'ingrédient a bien été créé"
-            });
-        } else {
-            ingredient.value.imageUrl = 'URL_de_l_image_retournee_par_votre_API';
-            flashMessage.show({
-                type: 'error',
-                title: "L'ingrédient n'a pas pu être créé"
-            });
-            console.error('Erreur lors de la création de l\'ingrédient');
-        }
-    } catch (error) {
+        response.json().then(reponseJSON => {
+            if (response.ok) {
+                console.log('Ingrédient créé avec succès !');
+                // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
+                flashMessage.show({
+                    type: 'success',
+                    title: "L'ingrédient a bien été créé"
+                });
+            } else {
+                let erreur = reponseJSON["detail"];
+                console.log(reponseJSON)
+                ingredient.value.imageUrl = 'URL_de_l_image_retournee_par_votre_API';
+                flashMessage.show({
+                    type: 'error',
+                    title: erreur
+                });
+                console.error('Erreur lors de la création de l\'ingrédient');
+            }
+        })
+    }
+    catch (error) {
         flashMessage.show({
             type: 'error',
             title: "L'ingrédient n'a pas pu être créé"
         });
         console.error('Erreur lors de la requête :', error);
     }
+
 };
 
 
