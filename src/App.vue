@@ -14,13 +14,17 @@ import HelloWorld from './components/HelloWorld.vue'
         <router-link to="/ingredients">Ingredients</router-link>
         <router-link to="/creerRecette">Créer une recette</router-link>
         <router-link to="/creerIngredient">Créer un ingredient</router-link>
+        <router-link to="/creerMateriel">Créer un Matériel</router-link>
 
       </nav>
+      <FlashMessage position="top" />
+
       <router-view></router-view>
+
     </div>
   </header>
   <main>
-    <FlashMessage position="top" />
+    <!-- <FlashMessage position="top" /> -->
 
 
   </main>

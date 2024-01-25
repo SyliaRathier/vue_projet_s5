@@ -24,7 +24,10 @@ export interface Materiel{
     id: number;
     nom: string;
     description: string;
+    prix: GLfloat;
     imageName : string;
+    caracteristique: string;
+
 }
 export interface QuantiteIngredient{
     id : number;
