@@ -11,6 +11,7 @@ export interface Recette{
     description: string;
     datePublication: string;
     imageName : string;
+    ingredients : Ingredient[];
 }
 
 export interface Ingredient{
@@ -18,6 +19,7 @@ export interface Ingredient{
     nom: string;
     description: string;
     imageName : string;
+    link : string;
 }
 
 export interface Materiel{
