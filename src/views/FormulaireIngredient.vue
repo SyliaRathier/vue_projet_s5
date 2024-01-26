@@ -14,6 +14,9 @@
             <label for="imageFile" class="file-label">Image:</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
 
+            <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
+            <input v-if="storeAuthentification.premium" v-model="ingredient.lien" type="text" class="input-field" />
+
             <button type="submit" class="submit-button">Créer l'ingrédient</button>
         </form>
     </div>
@@ -22,22 +25,32 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { storeAuthentification } from '@/storeAuthentification'
 
 
 const imageInput = ref<HTMLInputElement | null>(null);
+
 
 const ingredient = ref({
     name: '',
     description: '',
     prix: '',
     imageUrl: '',
+    lien: '',
 });
 
 const submitForm = async () => {
+
+    let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
+
     const formData = new FormData();
     formData.append('nom', ingredient.value.name);
     formData.append('description', ingredient.value.description);
     formData.append('prix', ingredient.value.prix);
+    formData.append('utilisateur', utilisateur);
+    formData.append('lien', ingredient.value.lien);
+
+
     if (imageInput.value?.files) {
         formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
     }

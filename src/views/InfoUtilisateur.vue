@@ -16,6 +16,11 @@
 
             <button type="submit" class="submit-button">Modifier profil</button>
         </form>
+
+        <router-link v-if="storeAuthentification.estConnecte" to="/mesRecettes">Mes Recettes</router-link>
+        <router-link v-if="storeAuthentification.estConnecte" to="/mesIngredients">Mes Ingredients</router-link>
+        <router-link v-if="storeAuthentification.estConnecte" to="/mesMateriels">Mes Matériels</router-link>
+
     </div>
 </template>
   
