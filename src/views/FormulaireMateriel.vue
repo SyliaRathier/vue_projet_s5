@@ -12,10 +12,16 @@
             <input v-model="materiel.prix" type="number" class="input-field" />
 
             <label for="caracteristique">Caractéristique:</label>
-            <input v-model="materiel.caracteristique" type="text" class="input-field" />
+            <input v-model="materiel.caracteristique" type="text" rows="4" class="input-field" />
+
+            <label for="caracteristique">Utilisation:</label>
+            <input v-model="materiel.utilisation" type="text" rows="4" class="input-field" />
 
             <label for="imageFile" class="file-label">Image:</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
+
+            <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
+            <input v-if="storeAuthentification.premium" v-model="materiel.lien" type="text" class="input-field" />
 
             <button type="submit" class="submit-button">Créer</button>
         </form>
@@ -25,6 +31,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { storeAuthentification } from '@/storeAuthentification'
+
 
 
 const imageInput = ref<HTMLInputElement | null>(null);
@@ -32,17 +40,28 @@ const imageInput = ref<HTMLInputElement | null>(null);
 const materiel = ref({
     name: '',
     description: '',
+    utilisation: '',
     prix: '',
     imageUrl: '',
-    caracteristique: ''
+    caracteristique: '',
+    lien: '',
 });
 
 const submitForm = async () => {
+
+    let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
+
+
     const formData = new FormData();
     formData.append('nom', materiel.value.name);
     formData.append('description', materiel.value.description);
     formData.append('prix', materiel.value.prix);
     formData.append('caracteristique', materiel.value.caracteristique);
+    formData.append('utilisation', materiel.value.utilisation);
+    formData.append('utilisateur', utilisateur);
+    formData.append('lien', materiel.value.lien);
+
+
 
     if (imageInput.value?.files) {
         formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));

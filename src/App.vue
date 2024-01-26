@@ -17,6 +17,8 @@ import { storeAuthentification } from '@/storeAuthentification'
         <router-link v-if="storeAuthentification.estConnecte" to="/creerIngredient">Créer un ingredient</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/creerMateriel">Créer un Matériel</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/utilisateur">Profil</router-link>
+        <!-- <router-link v-if="storeAuthentification.estConnecte" to="/mesRecettes">Mes Recettes</router-link>
+        <router-link v-if="storeAuthentification.estConnecte" to="/mesIngredients">Mes Ingredients</router-link> -->
         <router-link to="/connexion">Connexion</router-link>
         <router-link to="/inscription">Inscription</router-link>
 

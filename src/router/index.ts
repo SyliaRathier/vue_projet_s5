@@ -11,6 +11,11 @@ import Inscription from '@/views/Inscription.vue'
 import InfoUtilisateur from '@/views/InfoUtilisateur.vue'
 import SingleMateriel from '@/views/SingleMateriel.vue'
 import SingleRecette from '@/views/SingleRecette.vue'
+import MesRecettes from '@/views/MesRecettes.vue'
+import MesIngredients from '@/views/MesIngredients.vue'
+import MesMateriels from '@/views/MesMateriels.vue'
+
+
 
 
 const router = createRouter({
@@ -83,6 +88,21 @@ const router = createRouter({
       path: '/recette/:id',
       name: 'recette',
       component: SingleRecette
+    },
+    {
+      path: '/mesRecettes',
+      name: 'mesRecettes',
+      component: MesRecettes
+    },
+    {
+      path: '/mesIngredients',
+      name: 'mesIngredients',
+      component: MesIngredients
+    },
+    {
+      path: '/mesMateriels',
+      name: 'mesMateriels',
+      component: MesMateriels
     }
   ]
 })
