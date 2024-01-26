@@ -1,47 +1,53 @@
 <script setup lang="ts">
-
-import {useRoute} from "vue-router";
-import {onMounted, ref} from "vue";
+import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
-import type { Recette } from '@/types';
-import BoiteDetailRecette from '@/components/BoiteDetailRecette.vue';
+import type { Ingredient, Recette, Utilisateur, Materiel, QuantiteIngredient } from '@/types';
+import RecetteDetaille from '@/components/RecetteDetaille.vue';
 
-const route = useRoute();
-const id = route.params.id;
-const fakeRecette : Ref<Recette> = ref({
+const route = useRoute()
+const id = route.params.id
+const utilisateur: Ref<Utilisateur> = ref({
     id: 0,
-    titre: "Fake Recette",
-    description: "Fake Description",
-    imageName: "fake.jpg",
-    ingredients: [
-        {
-            id: 0,
-            nom: "Fake Ingredient",
-            description: "Fake Description",
-            imageName: "fake.jpg",
-            link: "SingleIngredient"
-        }
-    ]
+    adresseEmail: '',
+    login: '',
+    premium: false,
+    nom: '',
+    prenom: '',
 });
 
-onMounted(()=>{
-    fetch(encodeURI(`https://localhost:8000/api/recettes/`+encodeURI(id)))
+const ingredients: Ref<QuantiteIngredient[]> = ref([]);
+const materiels: Ref<Materiel[]> = ref([]);
+
+
+const recette: Ref<Recette> = ref({
+    id: 0,
+    titre: '',
+    description: '',
+    datePublication: '',
+    conseil: '',
+    prix: 0,
+    duree: '',
+    imageName: '',
+    utilisateur: utilisateur,
+    ingredients: ingredients,
+    materiels: materiels
+
+});
+
+
+onMounted(() => {
+    fetch(encodeURI('https://localhost:8000/api/recettes/' + Number(id)))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
-          ingredient.value = reponseJSON;
+            recette.value = reponseJSON;
+            console.log(reponseJSON);
         });
 })
+
 </script>
 
-
 <template>
-  <BoiteDetailRecette :key="fakeRecette.id" :recette="fakeRecette"/>
+    <RecetteDetaille :key="recette.id" :recette="recette" />
 </template>
 
-<style scoped>
-.recipe-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-</style>
