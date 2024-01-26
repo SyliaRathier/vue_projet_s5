@@ -19,6 +19,7 @@ export interface Recette{
     utilisateur: Utilisateur,
     ingredients: QuantiteIngredient[],
     materiels: Materiel[]
+
 }
 
 export interface Ingredient{
@@ -27,6 +28,7 @@ export interface Ingredient{
     prix: GLfloat,
     description: string;
     imageName : string;
+    link : string;
 }
 
 export interface Materiel{

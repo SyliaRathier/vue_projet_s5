@@ -50,3 +50,4 @@ onMounted(() => {
 <template>
     <RecetteDetaille :key="recette.id" :recette="recette" />
 </template>
+

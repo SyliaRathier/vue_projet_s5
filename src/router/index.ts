@@ -4,6 +4,7 @@ import ListeIngredient from '@/views/ListeIngredient.vue'
 import FormulaireIngredient from '@/views/FormulaireIngredient.vue'
 import FormulaireRecette from '@/views/FormulaireRecette.vue'
 import Test from '@/views/Test.vue'
+import SingleRecette from "@/views/SingleRecette.vue";
 import FormulaireMateriel from '@/views/FormulaireMateriel.vue'
 import SingleIngredient from '@/views/SingleIngredient.vue'
 import Connexion from '@/views/Connexion.vue'
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/recettes',
       name: 'recettes',
       component: ListeRecette
+    },
+    {
+      path: '/recette/:id',
+      name: 'SingleRecettes',
+      component: SingleRecette
     },
     {
       path: '/ingredients',
