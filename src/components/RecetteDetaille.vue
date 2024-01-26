@@ -19,7 +19,7 @@ const getImageUrl = (file: File) => {
 
         <div class="info">
             <p>Durée : {{ recette.duree }}</p>
-            <p>Prix : {{ recette.prix }}</p>
+            <p>Prix : {{ recette.prix }} €</p>
         </div>
 
         <div class="section">

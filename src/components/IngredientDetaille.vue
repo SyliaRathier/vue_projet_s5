@@ -21,7 +21,7 @@ const props = defineProps<{ ingredient: Ingredient }>();
         </div>
 
         <div class="footer">
-            <p>Prix : {{ ingredient.prix }}</p>
+            <p>Prix : {{ ingredient.prix }} €</p>
         </div>
     </div>
 </template>

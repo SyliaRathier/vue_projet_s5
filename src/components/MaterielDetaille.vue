@@ -21,7 +21,7 @@ const props = defineProps<{ materiel: Materiel }>();
         </div>
 
         <div class="footer">
-            <p>Prix : {{ materiel.prix }}</p>
+            <p>Prix : {{ materiel.prix }} €</p>
         </div>
     </div>
 </template>

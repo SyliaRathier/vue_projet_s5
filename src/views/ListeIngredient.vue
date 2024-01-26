@@ -8,19 +8,19 @@ import { useRoute } from 'vue-router'
 
 // Toutes les recettes
 const ingredients: Ref<Ingredient[]> = ref([]);
-function chargerFeed(idCategorie: string) {
+const images = ref([]);
+async function chargerFeed(idCategorie: string) {
     if (idCategorie == '0') {
         fetch(encodeURI('https://localhost:8000/api/ingredients'))
             .then(reponsehttp => reponsehttp.json())
-            .then(reponseJSON => {
-                ingredients.value = reponseJSON["hydra:member"];
+            .then(async reponseJSON => {
+                ingredients.value = await reponseJSON["hydra:member"];
             });
     } else {
         fetch(encodeURI(`https://localhost:8000/api/categorie_ingredients/${idCategorie}`))
             .then(reponsehttp => reponsehttp.json())
-            .then(reponseJSON => {
-                ingredients.value = reponseJSON["ingredients"];
-                console.log(reponseJSON)
+            .then(async reponseJSON => {
+                ingredients.value = await reponseJSON["ingredients"];
             });
     }
 }
@@ -29,18 +29,18 @@ function chargerFeed(idCategorie: string) {
 // Liste des catégorie pour champs select
 
 const categories: Ref<Categorie[]> = ref([]);
-function chargerCategorie() {
+async function chargerCategorie() {
     fetch(encodeURI('https://localhost:8000/api/categorie_ingredients'))
         .then(reponsehttp => reponsehttp.json())
-        .then(reponseJSON => {
-            categories.value = reponseJSON["hydra:member"];
+        .then(async reponseJSON => {
+            categories.value = await reponseJSON["hydra:member"];
         });
 }
 
 
-onMounted(() => {
-    chargerCategorie()
-    chargerFeed('0')
+onMounted(async () => {
+    await chargerCategorie()
+    await chargerFeed('0')
 })
 
 const selected = ref('')

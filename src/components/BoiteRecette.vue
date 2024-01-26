@@ -12,7 +12,7 @@ const getImageUrl = (file: File) => {
 </script>
 
 <template>
-    <router-link :to="{ name: 'recette', params: { id: recette.id } }" class="clicable">
+    <router-link :to="{ name: 'recette', params: { id: recette.id } }" class="clickable">
 
         <div class="recipe">
             <div class="recipe-header">
@@ -20,10 +20,8 @@ const getImageUrl = (file: File) => {
             </div>
             <div class="recipe-content">
                 <p>{{ recette.description }}</p>
-            </div>
-            <div class="recipe-content">
-                <img :src="'https://localhost:8000/image/recette/' + recette.imageName" alt="Recipe Image" loading="lazy" />
-
+              <img :src="'https://localhost:8000/image/recette/' + recette.imageName" alt="Recipe Image"
+                   loading="lazy" />
             </div>
             <div class="recipe-footer">
                 <p>Créé par {{ recette.utilisateur.login }}</p>
