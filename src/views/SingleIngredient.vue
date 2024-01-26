@@ -3,15 +3,13 @@ import { useRoute } from 'vue-router'
 import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import type { Ingredient } from '@/types';
-import IngredientDetaille from '@/components/IngredientDetaille.vue';
-
+import BoiteIngredient from '@/components/BoiteIngredient.vue';
 
 const route = useRoute()
 const id = route.params.id
 const ingredient: Ref<Ingredient> = ref({
     id: 0,
     nom: '',
-    prix: 0,
     description: '',
     imageName: ''
 });
@@ -22,12 +20,11 @@ onMounted(() => {
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             ingredient.value = reponseJSON;
-            console.log(reponseJSON)
         });
 })
 
 </script>
 
 <template>
-    <IngredientDetaille :key="ingredient.id" :ingredient="ingredient" />
+    <BoiteIngredient :key="ingredient.id" :ingredient="ingredient" />
 </template>

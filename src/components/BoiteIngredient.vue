@@ -18,7 +18,7 @@ const props = defineProps<{ ingredient: Ingredient }>();
             <div class="recipe-content">
                 <p>{{ ingredient.description }}</p>
 
-                <img :src="'https://localhost:8000/image/ingredient/' + ingredient.imageName" alt="Ingredient Image"
+                <img :src="'https://localhost:8000/image/ingredient/' + ingredient.imageName" alt="Recipe Image"
                     loading="lazy" />
             </div>
         </div>

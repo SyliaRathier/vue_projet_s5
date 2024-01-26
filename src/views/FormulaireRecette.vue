@@ -377,7 +377,6 @@ const createIngredientFromList = (id: number, quantite: number, unite: string, i
                     id_ingredient_id: {
                         id: reponseQuantite.value.idIngredient.id,
                         nom: reponseQuantite.value.idIngredient.nom,
-                        prix: reponseQuantite.value.idIngredient.prix,
                         description: reponseQuantite.value.idIngredient.description,
                         imageName: ''
                     },

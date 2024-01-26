@@ -4,14 +4,12 @@ import ListeIngredient from '@/views/ListeIngredient.vue'
 import FormulaireIngredient from '@/views/FormulaireIngredient.vue'
 import FormulaireRecette from '@/views/FormulaireRecette.vue'
 import Test from '@/views/Test.vue'
-import SingleRecette from "@/views/SingleRecette.vue";
 import FormulaireMateriel from '@/views/FormulaireMateriel.vue'
 import SingleIngredient from '@/views/SingleIngredient.vue'
 import Connexion from '@/views/Connexion.vue'
 import Inscription from '@/views/Inscription.vue'
 import InfoUtilisateur from '@/views/InfoUtilisateur.vue'
-import SingleMateriel from '@/views/SingleMateriel.vue'
-import SingleRecette from '@/views/SingleRecette.vue'
+
 
 
 const router = createRouter({
@@ -29,11 +27,6 @@ const router = createRouter({
       path: '/recettes',
       name: 'recettes',
       component: ListeRecette
-    },
-    {
-      path: '/recette/:id',
-      name: 'SingleRecettes',
-      component: SingleRecette
     },
     {
       path: '/ingredients',
@@ -79,16 +72,6 @@ const router = createRouter({
       path: '/utilisateur',
       name: 'utilisateur',
       component: InfoUtilisateur
-    },
-    {
-      path: '/materiel/:id',
-      name: 'materiel',
-      component: SingleMateriel
-    },
-    {
-      path: '/recette/:id',
-      name: 'recette',
-      component: SingleRecette
     }
   ]
 })

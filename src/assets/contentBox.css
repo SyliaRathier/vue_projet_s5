@@ -41,15 +41,3 @@
     margin-right: auto;
 
 }
-
-.clickable:hover{
-    box-shadow: 0 0 0.3rem #000;
-    cursor: pointer;
-}
-
-.clickable{
-    font-size:16px;
-    font-weight: 600;
-    color:black;
-    text-decoration: none;
-}
