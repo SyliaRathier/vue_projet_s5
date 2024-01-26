@@ -9,29 +9,28 @@ const getImageUrl = (file: File) => {
     return file ? URL.createObjectURL(file) : '';
 };
 
-// const staticUrl = "c:/Users/rathi/Desktop/Dossier/Dossier IUT/Annee3/projet_web/projet_s5/api_s5/public/img/ingredient/"
-// const staticUrl = "../../../../projet_web/projet_s5/api_s5/public/img/ingredient/"
-const staticUrl = "c:\Users\rathi\Desktop\Dossier\Dossier IUT\Annee3\projet_web\projet_s5\api_s5\public\img\ingredient\ordi-eval-and-go-65b025dbbc633555419159.png"
 </script>
 
 <template>
-    <div class="recipe">
-        <div class="recipe-header">
-            <h2>{{ recette.titre }}</h2>
-        </div>
-        <div class="recipe-content">
-            <p>{{ recette.description }}</p>
-        </div>
-        <div class="recipe-content">
-            <img
-                :src="'../../../projet_web/projet_s5/api_s5/public/img/ingredient/ordi-eval-and-go-65b025dbbc633555419159.png'" />
+    <router-link :to="{ name: 'recette', params: { id: recette.id } }" class="clicable">
 
-            <!-- c:/Users/rathi/Desktop/Dossier/Dossier IUT/Annee3/projet_web/projet_s5/api_s5/public/img/ingredient/anonyme-65b021bea09fd147537619.jpg -->
+        <div class="recipe">
+            <div class="recipe-header">
+                <h2>{{ recette.titre }}</h2>
+            </div>
+            <div class="recipe-content">
+                <p>{{ recette.description }}</p>
+            </div>
+            <div class="recipe-content">
+                <img :src="'https://localhost:8000/image/ingredient/' + recette.imageName" alt="Recipe Image"
+                    loading="lazy" />
+
+            </div>
+            <div class="recipe-footer">
+                <p>Créé par {{ recette.utilisateur.login }}</p>
+            </div>
         </div>
-        <div class="recipe-footer">
-            <p>Créé par</p>
-        </div>
-    </div>
+    </router-link>
 </template>
 
 <style scoped>
