@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Créer une nouvelle recette</h2>
-        <form @submit.prevent="submitForm(selectedIngredients, selectedMateriels)">
+        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)">
             <label for="titre">Titre:</label>
             <input v-model="recette.titre" type="text" required />
 
@@ -24,13 +24,12 @@
 
                 <select v-model="selected" @change="chargerFeed">
                     <option disabled value="">Please select one</option>
-                    <option value="0">All Ingredients</option>
                     <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id">
                         {{ ingredient.nom }}
                     </option>
                 </select>
 
-                <button @click="addIngredientToList" :disabled="selected === ''">Ajouter</button>
+                <button @click.prevent="addIngredientToList" :disabled="selected === ''">Ajouter</button>
 
                 <div v-if="selectedIngredients.length > 0">
                     <h3>Ingrédients sélectionnés :</h3>
@@ -42,8 +41,9 @@
                             <label>Quantité: <input v-model="item.quantite"></label>
                             <label>Unité: <input v-model="item.unite"></label>
                             <button
-                                @click="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
-                            <button @click="removeIngredientFromList(item.id_ingredient_id.id, index)">Supprimer</button>
+                                @click.prevent="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
+                            <button
+                                @click.prevent="removeIngredientFromList(item.id_ingredient_id.id, index)">Supprimer</button>
 
 
                         </li>
@@ -62,17 +62,16 @@
                 <div>Selected: {{ selectedM }}</div>
 
                 <label for="searchM">Search:</label>
-                <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher un ingrédient" />
+                <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
 
                 <select v-model="selectedM" @change="chargerFeedMateriel">
                     <option disabled value="">Please select one</option>
-                    <option value="0">All Materiels</option>
                     <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
                         {{ materiel.nom }}
                     </option>
                 </select>
 
-                <button @click="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
+                <button @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
 
                 <div v-if="selectedMateriels.length > 0">
                     <h3>Ingrédients sélectionnés :</h3>
@@ -98,8 +97,41 @@
             <label for="imageFile">Image:</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" />
 
+
+
+            <div>
+                <div>Selected: {{ selectedCategorie }}</div>
+
+                <label for="searchCategorie">Search:</label>
+                <input v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
+                    placeholder="Rechercher une catégorie" />
+
+                <select v-model="selectedCategorie" @change="chargerFeedCategorie">
+                    <option disabled value="">Veuillez en sélectionner une</option>
+                    <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
+                        {{ categorie.nom }}
+                    </option>
+                </select>
+
+                <button @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
+
+                <div v-if="selectedCategories.length > 0">
+                    <h3> Catégories sélectionnées :</h3>
+                    <ul>
+                        <li v-for="(item, index) in selectedCategories" :key="item.id">
+                            {{ item.nom }}
+                            <button @click="removeCategorieFromList(item.id, index)">Supprimer</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+
+
             <button type="submit">Créer la recette</button>
-            <button @click="fillIngredients(selectedIngredients)">info(dans console)</button>
 
         </form>
     </div>
@@ -110,13 +142,17 @@
 
   
 <script setup lang="ts">
-
-// Création RECETTE
 import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
-import type { Ingredient, QuantiteIngredient } from '@/types';
+import type { Ingredient, QuantiteIngredient, Categorie } from '@/types';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification'
+
+
+// Création RECETTE
+
+const submitting = ref(false);
+
 
 const selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
 const imageInput = ref<HTMLInputElement | null>(null);
@@ -160,70 +196,102 @@ const fillMateriels = (selectedMateriel: any) => {
     return tabMateriel
 }
 
-
-const submitForm = async (selectedIngredients: any, selectedMateriels: any) => {
-
-    let tab = fillIngredients(selectedIngredients)
-    let tabM = fillMateriels(selectedMateriels)
-
-    console.log(JSON.stringify(tab))
-    console.log(JSON.stringify(tabM))
-
-
-    const formData = new FormData();
-    formData.append('titre', recette.value.titre);
-    formData.append('description', recette.value.description);
-    formData.append('conseil', recette.value.conseil);
-    formData.append('ingredients', JSON.stringify(tab));
-    formData.append('materiels', JSON.stringify(tabM));
-    formData.append('duree', recette.value.duree);
-    formData.append('prix', recette.value.prix);
-
-    const valeur: Ref<[]> = ref([]);
-
-
-    if (imageInput.value?.files) {
-        formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
+const fillCategories = (selectedCategories: any) => {
+    console.log(selectedCategories);
+    const tabCategorie = [];
+    let urlCategorie = '';
+    let i: number = 0
+    for (i = 0; i < selectedCategories.length; i++) {
+        if (selectedCategories[i].id !== null) {
+            urlCategorie = "https://127.0.0.1:8000/api/categorie_recettes/" + selectedCategories[i].id;
+            tabCategorie.push(urlCategorie);
+        }
     }
+    console.log(tabCategorie)
+    return tabCategorie
+}
 
+
+const submitForm = async (selectedIngredients: any, selectedMateriels: any, selectedCategories: any) => {
+
+    if (submitting.value) {
+        return;
+    }
+    submitting.value = true;
     try {
-        console.log()
-        const response = await fetch('https://127.0.0.1:8000/api/recettes', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + storeAuthentification.JWT
-            },
-            body: formData,
-        });
+        let tab = fillIngredients(selectedIngredients)
+        let tabM = fillMateriels(selectedMateriels)
+        let tabC = fillCategories(selectedCategories);
 
-        response.json().then(reponseJSON => {
+        console.log(JSON.stringify(tab))
+        console.log(JSON.stringify(tabM))
+        console.log(JSON.stringify(tabC))
 
-            if (response.ok) {
-                console.log(reponseJSON);
+        let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
 
-                // Show success flash message
-                flashMessage.show({
-                    type: 'success',
-                    title: 'Recette créée avec succès!',
-                });
-
-                // You can do additional actions or redirects if needed
-            } else {
-                // Show error flash message
-                let erreur = reponseJSON["detail"];
-
-                flashMessage.show({
-                    type: 'error',
-                    title: erreur,
-                });
-                console.error('Erreur lors de la création de la recette');
-            }
+        const formData = new FormData();
+        formData.append('titre', recette.value.titre);
+        formData.append('description', recette.value.description);
+        formData.append('conseil', recette.value.conseil);
+        formData.append('ingredients', JSON.stringify(tab));
+        formData.append('materiels', JSON.stringify(tabM));
+        formData.append('duree', recette.value.duree);
+        formData.append('prix', recette.value.prix);
+        formData.append('utilisateur', utilisateur);
+        formData.append('categorieRecettes', JSON.stringify(tabC));
 
 
-        })
+        const valeur: Ref<[]> = ref([]);
 
+
+        if (imageInput.value?.files) {
+            formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
+        }
+
+        try {
+            console.log()
+            const response = await fetch('https://127.0.0.1:8000/api/recettes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + storeAuthentification.JWT
+                },
+                body: formData,
+            });
+
+            response.json().then(reponseJSON => {
+
+                if (response.ok) {
+                    console.log(reponseJSON);
+
+                    // Show success flash message
+                    flashMessage.show({
+                        type: 'success',
+                        title: 'Recette créée avec succès!',
+                    });
+
+                    // You can do additional actions or redirects if needed
+                } else {
+                    // Show error flash message
+                    let erreur = reponseJSON["detail"];
+
+                    flashMessage.show({
+                        type: 'error',
+                        title: erreur,
+                    });
+                    console.error('Erreur lors de la création de la recette');
+                }
+
+
+            })
+
+        } catch (error) {
+            console.error('Erreur lors de la requête :', error);
+        }
     } catch (error) {
-        console.error('Erreur lors de la requête :', error);
+        // Handle errors as needed
+    } finally {
+        // Reset submitting to false after the form submission is complete
+        submitting.value = false;
     }
 };
 
@@ -344,7 +412,6 @@ console.log(selectedIngredients.value)
 // Créer MATERIELS
 
 const selectedMateriels: Ref<{ id: number, nom: string }[]> = ref([]);
-// Toutes les recettes
 const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
 function chargerFeedMateriel() {
     fetch(encodeURI('https://localhost:8000/api/materiels'))
@@ -375,16 +442,56 @@ const addMaterielToList = () => {
     }
 };
 const removeMaterielFromList = (id: number, index: number) => {
-    const response = fetch('https://127.0.0.1:8000/api/materiels/' + id, {
-        method: 'DELETE',
-    });
     selectedMateriels.value.splice(index, 1);
 };
+
+
+// Pour CATEGORIE
+
+const selectedCategories: Ref<{ id: number, nom: string }[]> = ref([]);
+const categories: Ref<{ id: number, nom: string }[]> = ref([]);
+
+function chargerFeedCategorie() {
+    fetch(encodeURI('https://localhost:8000/api/categorie_recettes'))
+        .then(reponsehttp => reponsehttp.json())
+        .then(reponseJSON => {
+            categories.value = reponseJSON["hydra:member"];
+        });
+}
+
+const selectedCategorie: Ref<string> = ref('');
+const searchCategorie: Ref<string> = ref('');
+
+const filterCategories = () => {
+    if (searchCategorie.value === '') {
+        return categories.value;
+    } else {
+        return categories.value.filter(categorie =>
+            categorie.nom.toLowerCase().startsWith(searchCategorie.value.toLowerCase())
+        );
+    }
+};
+
+const addCategorieToList = () => {
+    const selectedCat = categories.value.find(categorie => categorie.id === parseInt(selectedCategorie.value));
+    if (selectedCat) {
+        selectedCategories.value.push({
+            id: selectedCat.id,
+            nom: selectedCat.nom,
+        });
+    }
+};
+
+const removeCategorieFromList = (id: number, index: number) => {
+    selectedCategories.value.splice(index, 1);
+};
+
 
 
 onMounted(() => {
     chargerFeedMateriel();
     chargerFeed();
+    chargerFeedCategorie();
 
 });
 
