@@ -3,20 +3,29 @@ export interface Utilisateur{
     adresseEmail: string;
     login: string;
     premium: boolean;
+    nom: string,
+    prenom: string
 }
 
 export interface Recette{
     id: number;
     titre: string;
     description: string;
+    conseil: string;
     datePublication: string;
-    imageName : string;
-    ingredients : Ingredient[];
+    prix: GLfloat;
+    duree: string;
+    imageName : string,
+    utilisateur: Utilisateur,
+    ingredients: QuantiteIngredient[],
+    materiels: Materiel[]
+
 }
 
 export interface Ingredient{
     id: number;
     nom: string;
+    prix: GLfloat,
     description: string;
     imageName : string;
     link : string;
@@ -29,6 +38,7 @@ export interface Materiel{
     prix: GLfloat;
     imageName : string;
     caracteristique: string;
+    utilisation: string;
 
 }
 export interface QuantiteIngredient{
@@ -37,6 +47,7 @@ export interface QuantiteIngredient{
     recette_id : number;
     quantite : GLfloat;
     unite : string;
+    idIngredient: Ingredient
 }
 
 export interface Categorie{
