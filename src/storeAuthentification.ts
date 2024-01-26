@@ -1,12 +1,15 @@
 import { reactive } from 'vue'
 import VueJwtDecode from 'vue-jwt-decode'
-import type { Utilisateur } from '@/types';
-import { type ref } from 'vue';
+
 
 export const storeAuthentification = reactive({
   JWT: "",
   estConnecte: false,
-  user: Object as PropType<Utilisateur>,
+  userId: 0,
+  adresseEmail: "",
+  username: "",
+  premium: "",
+
   connexion(login: string, motDePasse: string, succes:()=>void, echec:()=>void): void{
     //fait le fetch et change le JWT si succès
     //execute succes ou echec en fonction du succès de l'authentification
@@ -28,14 +31,14 @@ export const storeAuthentification = reactive({
             .then(reponseJSON => {
                 this.JWT = reponseJSON.token;
                 this.estConnecte = true;
-                console.log(VueJwtDecode.decode(this.JWT))
-                this.user.login = VueJwtDecode.decode(this.JWT).username
-                this.user.id = VueJwtDecode.decode(this.JWT).id
-                this.user.adresseEmail= VueJwtDecode.decode(this.JWT).adresseMail
-                this.user.premium = VueJwtDecode.decode(this.JWT).premium
-                console.log(this.user.id)
+                console.log(VueJwtDecode.decode(this.JWT).id)
+                this.username = VueJwtDecode.decode(this.JWT).username
+                this.userId = VueJwtDecode.decode(this.JWT).id
+                this.adresseEmail= VueJwtDecode.decode(this.JWT).adresseMail
+                this.premium = VueJwtDecode.decode(this.JWT).premium
+                console.log("gg")
                 succes();
-                console.log(this.JWT);
+                // console.log(this.JWT);
                 }
             );
             

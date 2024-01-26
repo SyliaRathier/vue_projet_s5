@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import ListeRecette from '@/views/ListeRecette.vue'
 import ListeIngredient from '@/views/ListeIngredient.vue'
 import FormulaireIngredient from '@/views/FormulaireIngredient.vue'
@@ -9,17 +8,13 @@ import FormulaireMateriel from '@/views/FormulaireMateriel.vue'
 import SingleIngredient from '@/views/SingleIngredient.vue'
 import Connexion from '@/views/Connexion.vue'
 import Inscription from '@/views/Inscription.vue'
+import InfoUtilisateur from '@/views/InfoUtilisateur.vue'
 
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
     {
       path: '/about',
       name: 'about',
@@ -72,6 +67,11 @@ const router = createRouter({
       path: '/inscription',
       name: 'inscription',
       component: Inscription
+    },
+    {
+      path: '/utilisateur',
+      name: 'utilisateur',
+      component: InfoUtilisateur
     }
   ]
 })
