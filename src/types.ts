@@ -10,7 +10,7 @@ export interface Recette{
     titre: string;
     description: string;
     datePublication: string;
-    imageFile : File;
+    imageName : string;
 }
 
 export interface Ingredient{
