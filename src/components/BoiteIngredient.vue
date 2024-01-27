@@ -21,6 +21,9 @@ const props = defineProps<{ ingredient: Ingredient }>();
                 <img :src="'https://localhost:8000/image/ingredient/' + ingredient.imageName" alt="Recipe Image"
                     loading="lazy" />
             </div>
+            <div class="recipe-footer">
+                <p>Créé par {{ ingredient.utilisateur.login }}</p>
+            </div>
         </div>
     </router-link>
 </template>

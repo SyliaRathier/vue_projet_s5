@@ -27,6 +27,7 @@ export interface Ingredient{
     prix: GLfloat,
     description: string;
     imageName : string;
+    utilisateur: Utilisateur
 }
 
 export interface Materiel{
@@ -37,6 +38,8 @@ export interface Materiel{
     imageName : string;
     caracteristique: string;
     utilisation: string;
+    utilisateur: Utilisateur
+
 
 }
 export interface QuantiteIngredient{

@@ -1,11 +1,22 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Materiel } from '@/types';
+import { onMounted } from 'vue';
+import { storeAuthentification } from '@/storeAuthentification'
+
 
 const router = useRouter();
 const props = defineProps<{ materiel: Materiel }>();
+let utilisateur = '';
 
+let utilisateurId: number;
+let utilisateurLogin = '';
 
+if (props.materiel.utilisateur) {
+    utilisateurId = props.materiel.utilisateur.id;
+    utilisateurLogin = props.materiel.utilisateur.login;
+    console.log(utilisateurId + " " + utilisateurLogin);
+}
 </script>
 
 <template>
@@ -23,6 +34,11 @@ const props = defineProps<{ materiel: Materiel }>();
         <div class="footer">
             <p>Prix : {{ materiel.prix }}</p>
         </div>
+        <div class="recipe-footer">
+            <p>Créé par {{ utilisateur }}</p>
+        </div>
+        <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+
     </div>
 </template>
   

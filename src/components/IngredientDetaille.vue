@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Ingredient } from '@/types';
+import { onMounted } from 'vue';
+import { storeAuthentification } from '@/storeAuthentification'
 
 const router = useRouter();
 const props = defineProps<{ ingredient: Ingredient }>();
 
+let utilisateurId: number;
+let utilisateurLogin = '';
+
+if (props.ingredient.utilisateur) {
+    utilisateurId = props.ingredient.utilisateur.id;
+    utilisateurLogin = props.ingredient.utilisateur.login;
+    console.log(utilisateurId + " " + utilisateurLogin);
+}
 
 </script>
 
@@ -16,13 +26,18 @@ const props = defineProps<{ ingredient: Ingredient }>();
 
         <div class="content">
             <p>{{ ingredient.description }}</p>
-            <img :src="'https://localhost:8000/image/ingredient/' + ingredient.imageName" alt="Ingredient Image"
+            <img :src="'https://localhost:8000/img/ingredient/' + ingredient.imageName" alt="Ingredient Image"
                 loading="lazy" />
         </div>
 
         <div class="footer">
             <p>Prix : {{ ingredient.prix }}</p>
         </div>
+        {{ ingredient.id }}
+        <router-link :to="{ name: 'modifierIngredient', params: { id: ingredient.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+        </router-link>
+
     </div>
 </template>
   
