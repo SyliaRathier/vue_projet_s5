@@ -11,6 +11,7 @@ function chargerFeed() {
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];
+            console.log(materiels.value)
         });
 }
 

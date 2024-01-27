@@ -36,7 +36,6 @@ export const storeAuthentification = reactive({
                 this.userId = VueJwtDecode.decode(this.JWT).id
                 this.adresseEmail= VueJwtDecode.decode(this.JWT).adresseMail
                 this.premium = VueJwtDecode.decode(this.JWT).premium
-                console.log("gg")
                 succes();
                 // console.log(this.JWT);
                 }

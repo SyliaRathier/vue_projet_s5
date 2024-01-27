@@ -21,6 +21,9 @@ const props = defineProps<{ materiel: Materiel }>();
                 <img :src="'https://localhost:8000/image/materiel/' + materiel.imageName" alt="Recipe Image"
                     loading="lazy" />
             </div>
+            <div class="recipe-footer">
+                <p>Créé par {{ materiel.utilisateur.login }}</p>
+            </div>
         </div>
     </router-link>
 </template>

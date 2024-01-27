@@ -14,7 +14,8 @@ const materiel: Ref<Materiel> = ref({
     prix: 0,
     imageName: '',
     caracteristique: '',
-    utilisation: ''
+    utilisation: '',
+    utilisateur: ref()
 });
 
 
