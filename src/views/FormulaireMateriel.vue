@@ -33,8 +33,6 @@ import { ref } from 'vue';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification'
 
-
-
 const imageInput = ref<HTMLInputElement | null>(null);
 
 const materiel = ref({

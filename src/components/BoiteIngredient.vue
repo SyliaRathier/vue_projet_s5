@@ -32,6 +32,9 @@ onMounted(async () => {
                 <img :src="url" alt="Ingredient Image"
                     loading="lazy" />
             </div>
+            <div class="recipe-footer">
+                <p>Créé par {{ ingredient.utilisateur.login }}</p>
+            </div>
         </div>
     </router-link>
 </template>

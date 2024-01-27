@@ -13,7 +13,8 @@ const ingredient: Ref<Ingredient> = ref({
     nom: '',
     prix: 0,
     description: '',
-    imageName: ''
+    imageName: '',
+    utilisateur: ref()
 });
 
 

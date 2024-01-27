@@ -14,8 +14,9 @@ import SingleRecette from '@/views/SingleRecette.vue'
 import MesRecettes from '@/views/MesRecettes.vue'
 import MesIngredients from '@/views/MesIngredients.vue'
 import MesMateriels from '@/views/MesMateriels.vue'
-
-
+import { storeAuthentification } from '@/storeAuthentification'
+import ListeMateriel from '@/views/ListeMateriel.vue'
+import ModifierIngredient from '@/views/ModifierIngredient.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,14 +40,37 @@ const router = createRouter({
       component: ListeIngredient
     },
     {
+      path: '/materiels',
+      name: 'materiels',
+      component: ListeMateriel
+    },
+    {
       path: '/creerRecette',
       name: 'creerRecette',
-      component: FormulaireRecette
+      component: FormulaireRecette,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
     },
     {
       path: '/creerIngredient',
       name: 'creerIngredient',
-      component: FormulaireIngredient
+      component: FormulaireIngredient,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
     },
     {
       path: '/test',
@@ -56,12 +80,16 @@ const router = createRouter({
     {
       path: '/creerMateriel',
       name: 'creerMateriel',
-      component: FormulaireMateriel
-    },
-    {
-      path: '/ingredient/:id',
-      name: 'ingredient',
-      component: SingleIngredient
+      component: FormulaireMateriel,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
     },
     {
       path: '/connexion',
@@ -76,7 +104,16 @@ const router = createRouter({
     {
       path: '/utilisateur',
       name: 'utilisateur',
-      component: InfoUtilisateur
+      component: InfoUtilisateur,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
     },
     {
       path: '/materiel/:id',
@@ -89,20 +126,66 @@ const router = createRouter({
       component: SingleRecette
     },
     {
+      path: '/ingredient/:id',
+      name: 'ingredient',
+      component: SingleIngredient
+    },
+    {
       path: '/mesRecettes',
       name: 'mesRecettes',
-      component: MesRecettes
+      component: MesRecettes,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
     },
     {
       path: '/mesIngredients',
       name: 'mesIngredients',
-      component: MesIngredients
+      component: MesIngredients,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
     },
     {
       path: '/mesMateriels',
       name: 'mesMateriels',
-      component: MesMateriels
-    }
+      component: MesMateriels,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
+    },
+    {
+      path: '/modifierIngredient/:id',
+      name: 'modifierIngredient',
+      component: ModifierIngredient,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
+    },
   ]
 })
 
