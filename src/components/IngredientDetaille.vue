@@ -3,6 +3,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import type { Ingredient } from '@/types';
 import { onMounted } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
+import { flashMessage } from '@smartweb/vue-flash-message';
 
 const router = useRouter();
 const props = defineProps<{ ingredient: Ingredient }>();
@@ -34,9 +35,8 @@ if (props.ingredient.utilisateur) {
             <p>Prix : {{ ingredient.prix }}</p>
         </div>
         {{ ingredient.id }}
-        <router-link :to="{ name: 'modifierIngredient', params: { id: ingredient.id } }" class="clicable">
-            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
-        </router-link>
+        <!-- <button v-if="utilisateurId === storeAuthentification.userId"
+            @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button> -->
 
     </div>
 </template>
