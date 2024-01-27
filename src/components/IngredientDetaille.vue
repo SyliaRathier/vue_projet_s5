@@ -17,6 +17,81 @@ if (props.ingredient.utilisateur) {
     console.log(utilisateurId + " " + utilisateurLogin);
 }
 
+
+const deleteIngredient = async (ingredientId: number) => {
+    fetch(encodeURI('https://localhost:8000/api/ingredients/' + Number(ingredientId) + '/quantite_ingredients'))
+        .then(reponsehttp => reponsehttp.json())
+        .then(async reponseJSON => {
+            // console.log(reponseJSON['hydra:member']);
+            if (reponseJSON['hydra:member'].length === 0) {
+                console.log('hello')
+                const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + storeAuthentification.JWT
+                    },
+                });
+
+                console.log(response)
+                if (response.ok) {
+                    console.log('Ingrédient supprimé avec succès !');
+                    flashMessage.show({
+                        type: 'success',
+                        title: "L'ingrédient a bien été supprimé"
+                    });
+                    router.push('/mesIngredients')
+
+                } else {
+                    flashMessage.show({
+                        type: 'error',
+                        title: "L'ingrédient n'a pas pu être supprimé"
+                    });
+                    console.error('Erreur lors de la suppression de l\'ingrédient');
+                }
+            }
+            else {
+
+                reponseJSON['hydra:member'].forEach(async (ingre: { recette: any; }) => {
+                    console.log('ok')
+                    if (ingre.recette) {
+                        console.log('hello')
+                        const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + storeAuthentification.JWT
+                            },
+                        });
+
+                        console.log(response)
+                        if (response.ok) {
+                            console.log('Ingrédient supprimé avec succès !');
+                            flashMessage.show({
+                                type: 'success',
+                                title: "L'ingrédient a bien été supprimé"
+                            });
+                            router.push('/mesIngredients')
+
+                        } else {
+                            flashMessage.show({
+                                type: 'error',
+                                title: "L'ingrédient n'a pas pu être supprimé"
+                            });
+                            console.error('Erreur lors de la suppression de l\'ingrédient');
+                        }
+                    }
+                    else {
+                        console.log('by')
+                        flashMessage.show({
+                            type: 'error',
+                            title: "L'ingredient ne peut pas être supprimé car des recettes l'utilise"
+                        });
+                        return;
+                    }
+                })
+            }
+        });
+};
+
 </script>
 
 <template>
@@ -35,9 +110,11 @@ if (props.ingredient.utilisateur) {
             <p>Prix : {{ ingredient.prix }} €</p>
         </div>
         {{ ingredient.id }}
-        <!-- <button v-if="utilisateurId === storeAuthentification.userId"
-            @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button> -->
-
+        <router-link :to="{ name: 'modifierIngredient', params: { id: ingredient.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+        </router-link>
+        <button v-if="utilisateurId === storeAuthentification.userId"
+            @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button>
     </div>
 </template>
   

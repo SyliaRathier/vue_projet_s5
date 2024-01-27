@@ -42,11 +42,9 @@ const deleteRecette = async (recetteId: number) => {
         },
     });
 
-    // router.push('/mesRecette');
     console.log(response)
     if (response.ok) {
         console.log('Recette supprimée avec succès !');
-        // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
         flashMessage.show({
             type: 'success',
             title: "La recette a bien été supprimée"
