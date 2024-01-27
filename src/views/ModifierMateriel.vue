@@ -1,6 +1,6 @@
 <template>
     <div class="materiel-form">
-        <h2>Créer du matériel</h2>
+        <h2>Modifier le matériel</h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">Nom:</label>
             <input v-model="materiel.nom" type="text" required class="input-field" />
