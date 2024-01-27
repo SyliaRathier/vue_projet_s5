@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Recette } from '@/types';
+import { storeAuthentification } from '@/storeAuthentification'
+
 
 const router = useRouter();
 const props = defineProps<{ recette: Recette }>();
@@ -9,6 +11,14 @@ const getImageUrl = (file: File) => {
     return file ? URL.createObjectURL(file) : '';
 };
 
+let utilisateurId: number;
+let utilisateurLogin = '';
+
+if (props.recette.utilisateur) {
+    utilisateurId = props.recette.utilisateur.id;
+    utilisateurLogin = props.recette.utilisateur.login;
+    console.log(utilisateurId + " " + utilisateurLogin);
+}
 </script>
 
 <template>
@@ -55,8 +65,11 @@ const getImageUrl = (file: File) => {
         </div>
 
         <div class="footer">
-            <p>Créé par {{ recette.utilisateur.login }}</p>
+            <p>Créé par {{ utilisateurLogin }}</p>
         </div>
+
+        <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+
     </div>
 </template>
   
