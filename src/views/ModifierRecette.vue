@@ -11,6 +11,13 @@
             <label for="prix">Prix:</label>
             <input v-model="ingredient.prix" type="number" required class="input-field" />
 
+            <label for="imageFile" class="file-label">Image:</label>
+            <div>
+                <input type="file" id="imageFile" ref="imageInput" accept="image/*" @change="handleImageChange"
+                    class="input-field" />
+                <span v-if="ingredient.imageName">Fichier sélectionné: {{ ingredient.imageName }}</span>
+            </div>
+
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
             <input v-if="storeAuthentification.premium" v-model="ingredient.lien" type="text" class="input-field" />
 
@@ -27,6 +34,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const id = route.params.id
+const imageInput = ref<HTMLInputElement | null>(null);
 
 
 const ingredient = ref({
@@ -53,6 +61,14 @@ function fillIngredient() {
 
 }
 
+const handleImageChange = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+        // Mettez à jour le champ imageName avec le nom du fichier
+        ingredient.value.imageName = input.files[0]?.name ?? '';
+    }
+};
+
 onMounted(() => {
     fillIngredient();
 });
@@ -61,19 +77,25 @@ onMounted(() => {
 
 const submitForm = async () => {
 
+
+    const formData = new FormData();
+    formData.append('nom', ingredient.value.nom);
+    formData.append('description', ingredient.value.description);
+    formData.append('prix', ingredient.value.prix);
+    formData.append('lien', ingredient.value.lien);
+
+
+    if (imageInput.value?.files) {
+        // formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
+    }
     try {
         const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + id, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/merge-patch+json',
+                // 'Content-Type': 'application/merge-patch+json',
                 'Authorization': 'Bearer ' + storeAuthentification.JWT
             },
-            body: JSON.stringify({
-                nom: ingredient.value.nom,
-                description: ingredient.value.description,
-                prix: String(ingredient.value.prix),
-                lien: ingredient.value.lien,
-            })
+            body: formData,
         });
 
         response.json().then(reponseJSON => {

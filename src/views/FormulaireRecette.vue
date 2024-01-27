@@ -352,6 +352,7 @@ const createIngredientFromList = (id: number, quantite: number, unite: string, i
         method: 'POST',
         headers: {
             'Content-Type': 'application/ld+json',
+            'Authorization': 'Bearer ' + storeAuthentification.JWT
         },
         body: JSON.stringify({
             quantite: Number(quantite),

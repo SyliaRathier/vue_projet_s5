@@ -17,6 +17,8 @@ import MesMateriels from '@/views/MesMateriels.vue'
 import { storeAuthentification } from '@/storeAuthentification'
 import ListeMateriel from '@/views/ListeMateriel.vue'
 import ModifierIngredient from '@/views/ModifierIngredient.vue'
+import ModifierMateriel from '@/views/ModifierMateriel.vue'
+import ModifierRecette from '@/views/ModifierRecette.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -176,6 +178,34 @@ const router = createRouter({
       path: '/modifierIngredient/:id',
       name: 'modifierIngredient',
       component: ModifierIngredient,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
+    },
+    {
+      path: '/modifierMateriel/:id',
+      name: 'modifierMateriel',
+      component: ModifierMateriel,
+      beforeEnter: (to, from, next) => {
+        if (storeAuthentification.estConnecte) {
+          // L'utilisateur est connecté, autoriser l'accès
+          next();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          next('/connexion');
+        }
+      },
+    },
+    {
+      path: '/modifierRecette/:id',
+      name: 'modifierRecette',
+      component: ModifierRecette,
       beforeEnter: (to, from, next) => {
         if (storeAuthentification.estConnecte) {
           // L'utilisateur est connecté, autoriser l'accès
