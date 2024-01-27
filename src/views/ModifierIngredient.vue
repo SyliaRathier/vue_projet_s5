@@ -1,6 +1,6 @@
 <template>
     <div class="ingredient-form">
-        <h2>Créer un nouvel ingrédient</h2>
+        <h2>Modifier l'ingrédient</h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">Nom:</label>
             <input v-model="ingredient.nom" type="text" required class="input-field" />
@@ -33,7 +33,6 @@ const ingredient = ref({
     nom: '',
     description: '',
     prix: '',
-    imageName: '',
     lien: '',
 });
 
@@ -87,7 +86,6 @@ const submitForm = async () => {
             } else {
                 let erreur = reponseJSON["detail"];
                 console.log(reponseJSON)
-                ingredient.value.imageName = 'URL_de_l_image_retournee_par_votre_API';
                 flashMessage.show({
                     type: 'error',
                     title: erreur

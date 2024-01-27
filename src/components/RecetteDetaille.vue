@@ -110,8 +110,9 @@ const deleteRecette = async (recetteId: number) => {
         <div class="footer">
             <p>Créé par {{ utilisateurLogin }}</p>
         </div>
-
-        <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+        <router-link :to="{ name: 'modifierRecette', params: { id: recette.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
+        </router-link>
         <button v-if="utilisateurId === storeAuthentification.userId"
             @click.prevent="deleteRecette(recette.id)">Supprimer</button>
 
