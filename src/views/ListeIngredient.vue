@@ -5,17 +5,29 @@ import type { Ingredient, Categorie } from '@/types';
 import BoiteIngredient from '@/components/BoiteIngredient.vue';
 import { useRoute } from 'vue-router'
 
+const page = ref(1);
+const hasNextPage = ref(true);
+const loading = ref(false);
 
 // Toutes les recettes
 const ingredients: Ref<Ingredient[]> = ref([]);
 const images = ref([]);
 async function chargerFeed(idCategorie: string) {
     if (idCategorie == '0') {
-        fetch(encodeURI('https://localhost:8000/api/ingredients'))
+        if (!hasNextPage.value || loading.value) return;
+
+        loading.value = true;
+
+        fetch(encodeURI(`https://localhost:8000/api/ingredients?page=${page.value}`))
             .then(reponsehttp => reponsehttp.json())
             .then(async reponseJSON => {
-                ingredients.value = await reponseJSON["hydra:member"];
+                ingredients.value = [...ingredients.value, ...reponseJSON['hydra:member']];
+                hasNextPage.value = reponseJSON['hydra:member'].length < reponseJSON['hydra:totalItems'];
+                page.value += 1;
             });
+
+        loading.value = false;
+
     } else {
         fetch(encodeURI(`https://localhost:8000/api/categorie_ingredients/${idCategorie}`))
             .then(reponsehttp => reponsehttp.json())
@@ -25,6 +37,10 @@ async function chargerFeed(idCategorie: string) {
     }
 }
 
+
+function chargerSuite(idCategorie: string) {
+    chargerFeed(idCategorie);
+}
 
 // Liste des catégorie pour champs select
 
@@ -60,6 +76,9 @@ const selected = ref('')
     </select>
     <div class="recipe-list">
         <BoiteIngredient v-for="ingredient in ingredients" :key="ingredient.id" :ingredient="ingredient" />
+        <button v-if="ingredients.length >= 25" @click="chargerSuite(selected)" :disabled="loading">Charger la
+            suite</button>
+
     </div>
 </template>
 
