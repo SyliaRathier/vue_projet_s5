@@ -3,7 +3,7 @@
         <h2>Profil</h2>
         <form @submit.prevent="submitForm" class="form-container">
 
-          <img :src="url" alt="Profil Image" loading="lazy" />
+          <img :src="'data:image/jpeg;base64,'+state.url" alt="Profil Image" loading="lazy" />
 
           <label for="name">login:</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
@@ -43,7 +43,7 @@
 <script setup lang="ts">
 
 import md5 from 'crypto-js/md5';
-import { onMounted, ref } from 'vue';
+import {onMounted, reactive, type Ref, ref, type UnwrapRef} from 'vue';
 import { useRouter } from 'vue-router';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification';
@@ -57,7 +57,10 @@ let utilisateur = ref({
     prenom: '',
     mdp: '',
 });
-let url = ref('');
+
+let state = reactive({
+  url: '',
+});
 async function fillProfil() {
     console.log(storeAuthentification.userId);
     try{
@@ -70,7 +73,7 @@ async function fillProfil() {
 
 onMounted(async () => {
   utilisateur.value = await fillProfil();
-  url.value = 'https://127.0.0.1:8001/my/avatar/' + md5(utilisateur.value.adresseEmail);
+  await loadImage();
 });
 
 function submitForm() {
@@ -123,6 +126,16 @@ function logout() {
 function redirectTo(url: string) {
     router.push(url);
 }
+
+async function loadImage() {
+  try{
+    const response = await fetch('https://127.0.0.1:8001/my/avatar/' + md5(utilisateur.value.adresseEmail));
+    state.url =  await response.text();
+  } catch (error) {
+      console.error('Erreur lors du chargement de l\'image:', error);
+  }
+}
+
 
 </script>
 

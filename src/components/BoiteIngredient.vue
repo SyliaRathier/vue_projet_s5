@@ -30,7 +30,7 @@ onMounted(async () => {
                 <p>{{ ingredient.description }}</p>
 
                 <img :src="url" alt="Ingredient Image"
-                    loading="lazy" />
+                    loading="lazy"  sizes="(max-width: 800px) 100vw, 50vw"/>
             </div>
             <div class="recipe-footer">
                 <p>Créé par {{ ingredient.utilisateur.login }}</p>
