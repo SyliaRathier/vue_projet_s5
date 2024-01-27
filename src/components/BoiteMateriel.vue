@@ -9,7 +9,7 @@ const props = defineProps<{ materiel: Materiel }>();
 </script>
 
 <template>
-    <router-link :to="{ name: 'materiel', params: { id: materiel.id } }" class="clicable">
+    <router-link :to="{ name: 'materiel', params: { id: materiel.id } }" class="clickable">
 
         <div class="recipe">
             <div class="recipe-header">
@@ -18,8 +18,8 @@ const props = defineProps<{ materiel: Materiel }>();
             <div class="recipe-content">
                 <p>{{ materiel.description }}</p>
 
-                <img :src="'https://localhost:8000/image/materiel/' + materiel.imageName" alt="Recipe Image"
-                    loading="lazy" />
+              <img :src="'https://localhost:8000/image/materiel/' + materiel.imageName" alt="Stuff Image"
+                   loading="lazy" />
             </div>
             <div class="recipe-footer">
                 <p>Créé par {{ materiel.utilisateur.login }}</p>

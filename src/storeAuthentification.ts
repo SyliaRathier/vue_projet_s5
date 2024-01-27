@@ -44,7 +44,7 @@ export const storeAuthentification = reactive({
         }})
         
     }, 
-    deconnection() : void{
+    deconnexion() : void{
         this.JWT = "";
         this.estConnecte = false
     }      

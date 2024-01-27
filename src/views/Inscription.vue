@@ -1,6 +1,6 @@
 <template>
     <div class="ingredient-form">
-        <h2>Créer un nouvel ingrédient</h2>
+        <h2>Créer un nouveau compte </h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">login:</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
@@ -17,7 +17,7 @@
             <label for="prix">mot de passe</label>
             <input v-model="utilisateur.mdp" type="password" required class="input-field" />
 
-            <button type="submit" class="submit-button">Créer l'ingrédient</button>
+            <button type="submit" class="submit-button">Créer votre compte</button>
         </form>
     </div>
 </template>
@@ -56,9 +56,12 @@ function submitForm() {
         console.log(val);
         let erreur;
         val.then(reponseJSON => {
-            // ingredients.value = reponseJSON["ingredients"];
-            console.log(reponseJSON["hydra:description"])
-            erreur = reponseJSON["hydra:description"];
+
+            if (reponseJSON.violations) {
+                erreur = reponseJSON.violations[0].message
+            } else {
+                erreur = reponseJSON.message
+            }
 
             if (reponsehttp.status !== 201) {
                 console.log("Echec")

@@ -2,6 +2,7 @@
 import { useRouter, RouterLink } from 'vue-router';
 import type { Recette } from '@/types';
 import { storeAuthentification } from '@/storeAuthentification'
+import { flashMessage } from '@smartweb/vue-flash-message';
 
 
 const router = useRouter();
@@ -17,8 +18,52 @@ let utilisateurLogin = '';
 if (props.recette.utilisateur) {
     utilisateurId = props.recette.utilisateur.id;
     utilisateurLogin = props.recette.utilisateur.login;
-    console.log(utilisateurId + " " + utilisateurLogin);
+    console.log(props.recette);
 }
+
+const deleteRecette = async (recetteId: number) => {
+    props.recette.ingredients.forEach(ingredient => {
+        fetch('https://127.0.0.1:8000/api/quantite_ingredients/' + ingredient.id, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + storeAuthentification.JWT
+            },
+        }).then(reponsehttp => reponsehttp.json())
+            .then(reponseJSON => {
+                console.log(reponseJSON["hydra:member"]);
+            });
+    });
+
+
+    const response = await fetch('https://127.0.0.1:8000/api/recettes/' + recetteId, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + storeAuthentification.JWT
+        },
+    });
+
+    // router.push('/mesRecette');
+    console.log(response)
+    if (response.ok) {
+        console.log('Recette supprimée avec succès !');
+        // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
+        flashMessage.show({
+            type: 'success',
+            title: "La recette a bien été supprimée"
+        });
+        router.push('/mesRecettes')
+
+    } else {
+        flashMessage.show({
+            type: 'error',
+            title: "La recette n'a pas pu être supprimée"
+        });
+        console.error('Erreur lors de la suppression de la recette');
+    }
+
+};
+
+
 </script>
 
 <template>
@@ -29,7 +74,7 @@ if (props.recette.utilisateur) {
 
         <div class="info">
             <p>Durée : {{ recette.duree }}</p>
-            <p>Prix : {{ recette.prix }}</p>
+            <p>Prix : {{ recette.prix }} €</p>
         </div>
 
         <div class="section">
@@ -69,6 +114,9 @@ if (props.recette.utilisateur) {
         </div>
 
         <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+        <button v-if="utilisateurId === storeAuthentification.userId"
+            @click.prevent="deleteRecette(recette.id)">Supprimer</button>
+
 
     </div>
 </template>

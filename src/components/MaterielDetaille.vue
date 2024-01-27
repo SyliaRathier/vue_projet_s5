@@ -3,6 +3,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import type { Materiel } from '@/types';
 import { onMounted } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
+import { flashMessage } from '@smartweb/vue-flash-message';
 
 
 const router = useRouter();
@@ -17,6 +18,52 @@ if (props.materiel.utilisateur) {
     utilisateurLogin = props.materiel.utilisateur.login;
     console.log(utilisateurId + " " + utilisateurLogin);
 }
+
+
+const deleteMateriel = async (materielId: number) => {
+    // props.materiel.ingredients.forEach(ingredient => {
+    fetch(encodeURI('https://localhost:8000/api/materiels/' + Number(materielId)))
+        .then(reponsehttp => reponsehttp.json())
+        .then(async reponseJSON => {
+            console.log(reponseJSON.recettes.length);
+            if (reponseJSON.recettes.length != 0) {
+                flashMessage.show({
+                    type: 'error',
+                    title: "Le materiel ne peut pas être supprimé car des recettes l'utilise"
+                });
+                return;
+            }
+            else {
+                const response = await fetch('https://127.0.0.1:8000/api/materiels/' + Number(materielId), {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + storeAuthentification.JWT
+                    },
+                });
+
+                // router.push('/mesRecette');
+                console.log(response)
+                if (response.ok) {
+                    console.log('Matériel supprimé avec succès !');
+                    // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
+                    flashMessage.show({
+                        type: 'success',
+                        title: "Le matériel a bien été supprimé"
+                    });
+                } else {
+                    flashMessage.show({
+                        type: 'error',
+                        title: "Le matériel n'a pas pu être supprimé"
+                    });
+                    console.error('Erreur lors de la suppression du matériel');
+                }
+                router.push('/mesMateriels')
+            }
+
+        });
+};
+
+
 </script>
 
 <template>
@@ -32,12 +79,15 @@ if (props.materiel.utilisateur) {
         </div>
 
         <div class="footer">
-            <p>Prix : {{ materiel.prix }}</p>
+            <p>Prix : {{ materiel.prix }} €</p>
         </div>
         <div class="recipe-footer">
             <p>Créé par {{ utilisateur }}</p>
         </div>
-        <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+        <router-link :to="{ name: 'modifierIngredient', params: { id: materiel.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+        </router-link> <button v-if="utilisateurId === storeAuthentification.userId"
+            @click.prevent="deleteMateriel(materiel.id)">Supprimer</button>
 
     </div>
 </template>

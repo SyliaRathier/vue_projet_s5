@@ -18,7 +18,6 @@ import { storeAuthentification } from '@/storeAuthentification'
 import ListeMateriel from '@/views/ListeMateriel.vue'
 import ModifierIngredient from '@/views/ModifierIngredient.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
