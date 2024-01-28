@@ -13,6 +13,7 @@ import { storeAuthentification } from '@/storeAuthentification'
         <router-link to="/about">About</router-link>
         <router-link to="/recettes">Recettes</router-link>
         <router-link to="/ingredients">Ingredients</router-link>
+        <router-link to="/materiels">Materiels</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/creerRecette">Créer une recette</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/creerIngredient">Créer un ingredient</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/creerMateriel">Créer un Matériel</router-link>

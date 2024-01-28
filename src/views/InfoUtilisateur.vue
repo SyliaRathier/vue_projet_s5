@@ -2,6 +2,9 @@
     <div class="ingredient-form">
         <h2>Profil</h2>
         <form @submit.prevent="submitForm" class="form-container">
+
+            <img :src="'data:image/jpeg;base64,' + state.url" alt="Profil Image" loading="lazy" />
+
             <label for="name">login:</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
 
@@ -16,18 +19,31 @@
 
             <button type="submit" class="submit-button">Modifier profil</button>
         </form>
+        <div class="redirect-container">
+            <div class="button-redirect" @click="redirectTo('/mesRecettes')">
+                Mes Recettes
+            </div>
+            <div class="button-redirect" @click="redirectTo('/mesIngredients')">
+                Mes Ingredients
+            </div>
+            <div class="button-redirect" @click="redirectTo('/mesMateriels')">
+                Mes Matériels
+            </div>
+        </div>
 
-        <router-link v-if="storeAuthentification.estConnecte" to="/mesRecettes">Mes Recettes</router-link>
-        <router-link v-if="storeAuthentification.estConnecte" to="/mesIngredients">Mes Ingredients</router-link>
-        <router-link v-if="storeAuthentification.estConnecte" to="/mesMateriels">Mes Matériels</router-link>
 
+        <div class="button-logout" @click="logout">
+            Deconnexion
+        </div>
     </div>
 </template>
   
 
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+
+import md5 from 'crypto-js/md5';
+import { onMounted, reactive, type Ref, ref, type UnwrapRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification';
@@ -41,23 +57,23 @@ let utilisateur = ref({
     prenom: '',
     mdp: '',
 });
-function fillProfil() {
+
+let state = reactive({
+    url: '',
+});
+async function fillProfil() {
     console.log(storeAuthentification.userId);
-
-    fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId))
-        .then((reponsehttp) => reponsehttp.json())
-        .then((reponseJSON) => {
-            utilisateur.value = reponseJSON;
-            console.log(reponseJSON);
-
-        })
-        .catch((error) => {
-            console.error('Erreur lors du chargement du profil:', error);
-        });
+    try {
+        const response = await fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId));
+        return await response.json();
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
 }
 
-onMounted(() => {
-    fillProfil();
+onMounted(async () => {
+    utilisateur.value = await fillProfil();
+    await loadImage();
 });
 
 function submitForm() {
@@ -101,65 +117,31 @@ function submitForm() {
             console.error('Erreur lors de la soumission du formulaire:', error);
         });
 }
+
+function logout() {
+    storeAuthentification.deconnexion();
+    router.push('/recettes');
+}
+
+function redirectTo(url: string) {
+    router.push(url);
+}
+
+async function loadImage() {
+    try {
+        const response = await fetch('https://127.0.0.1:8001/my/avatar/' + md5(utilisateur.value.adresseEmail));
+        state.url = await response.text();
+    } catch (error) {
+        console.error('Erreur lors du chargement de l\'image:', error);
+    }
+}
+
+
 </script>
 
 
 
 
 <style scoped>
-.ingredient-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #555;
-}
-
-.input-field {
-    width: 100%;
-    padding: 8px;
-    margin: 6px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-textarea {
-    resize: vertical;
-}
-
-.submit-button {
-    background-color: #4caf50;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.submit-button:hover {
-    background-color: #45a049;
-}
+@import "@/assets/userProfil.css";
 </style>
-
