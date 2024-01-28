@@ -9,7 +9,6 @@ import { useRoute } from 'vue-router'
 
 // Toutes les recettes
 const ingredients: Ref<Ingredient[]> = ref([]);
-const images = ref([]);
 async function chargerFeed(idCategorie: string) {
     if (idCategorie == '0') {
 

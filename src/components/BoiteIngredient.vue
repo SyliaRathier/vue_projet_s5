@@ -33,7 +33,7 @@ onMounted(async () => {
                     loading="lazy"  sizes="(max-width: 800px) 100vw, 50vw"/>
             </div>
             <div class="recipe-footer">
-                <p>Créé par {{ ingredient.utilisateur.login }}</p>
+                <p v-if="ingredient.utilisateur">Créé par {{ ingredient.utilisateur.login }}</p>
             </div>
         </div>
     </router-link>
