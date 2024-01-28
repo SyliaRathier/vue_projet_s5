@@ -2,28 +2,27 @@
     <div>
         <h2>Créer une nouvelle recette</h2>
         <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)">
-            <label for="titre">Titre:</label>
+            <label for="titre">Titre</label>
             <input v-model="recette.titre" type="text" required />
 
-            <label for="description">Description:</label>
+            <label for="description">Description</label>
             <textarea v-model="recette.description" rows="4" required></textarea>
 
-            <label for="conseil">Conseil:</label>
+            <label for="conseil">Conseil</label>
             <textarea v-model="recette.conseil" rows="4"></textarea>
 
-            <label for="ingredients">Ingrédients:</label>
+            <label for="ingredients">Ingrédients</label>
 
             <!-- Création QuantiteIngredient  -->
 
-
             <div>
-                <div>Selected: {{ selected }}</div>
+              <div>Selected: {{ selected }}</div>
 
-                <label for="search">Search:</label>
+              <!--<label for="search">Search</label> -->
                 <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />
 
                 <select v-model="selected" @change="chargerFeed">
-                    <option disabled value="">Please select one</option>
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id">
                         {{ ingredient.nom }}
                     </option>
@@ -61,11 +60,11 @@
             <div>
                 <div>Selected: {{ selectedM }}</div>
 
-                <label for="searchM">Search:</label>
+                <!-- <label for="searchM">Search:</label> -->
                 <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
 
                 <select v-model="selectedM" @change="chargerFeedMateriel">
-                    <option disabled value="">Please select one</option>
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
                         {{ materiel.nom }}
                     </option>
@@ -88,13 +87,13 @@
             <!-- Fin de Ajouter mtériels -->
 
 
-            <label for="duree">Durée:</label>
+            <label for="duree">Durée</label>
             <input v-model="recette.duree" type="text" required />
 
-            <label for="prix">Prix:</label>
+            <label for="prix">Prix</label>
             <input v-model="recette.prix" type="text" required />
 
-            <label for="imageFile">Image:</label>
+            <label for="imageFile">Image</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" />
 
 
@@ -107,7 +106,7 @@
                     placeholder="Rechercher une catégorie" />
 
                 <select v-model="selectedCategorie" @change="chargerFeedCategorie">
-                    <option disabled value="">Veuillez en sélectionner une</option>
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
                         {{ categorie.nom }}
                     </option>
@@ -116,7 +115,7 @@
                 <button @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
 
                 <div v-if="selectedCategories.length > 0">
-                    <h3> Catégories sélectionnées :</h3>
+                    <h3> Catégories sélectionnées</h3>
                     <ul>
                         <li v-for="(item, index) in selectedCategories" :key="item.id">
                             {{ item.nom }}
@@ -499,94 +498,113 @@ onMounted(() => {
 });
 
 </script>
-  
+
 
 <style scoped>
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f8f8;
+  font-family: 'FreeMono', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
 }
 
 div {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
 
 h2 {
-    color: #333;
-    text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
 }
 
 form {
-    display: grid;
-    gap: 20px;
+  display: grid;
+  gap: 20px;
 }
 
 label {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #444;
 }
 
 input,
 textarea,
 select {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-size: 16px;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #4caf50;
+  background-color: #fff;
 }
 
 button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #45a049;
 }
 
 ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 li button {
-    background-color: #ff5b5b;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
+  background-color: #ff5b5b;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
 }
 
 li button:hover {
-    background-color: #d73838;
+  background-color: #d73838;
 }
 </style>
 @/storeAuthentification

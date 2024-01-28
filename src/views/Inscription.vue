@@ -1,23 +1,23 @@
 <template>
     <div class="ingredient-form">
-        <h2>Créer un nouveau compte </h2>
+        <h2>Créer un nouveau compte</h2>
         <form @submit.prevent="submitForm" class="form-container">
-            <label for="name">login:</label>
+            <label for="name">Login</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
 
-            <label for="description">adresse E-mail:</label>
-            <textarea v-model="utilisateur.email" type="email" required class="input-field"></textarea>
-
-            <label for="prix">nom</label>
+            <label for="prix">Nom</label>
             <input v-model="utilisateur.nom" type="text" required class="input-field" />
 
-            <label for="prix">prénom</label>
+            <label for="prix">Prénom</label>
             <input v-model="utilisateur.prenom" type="text" required class="input-field" />
 
-            <label for="prix">mot de passe</label>
+            <label for="description">Adresse mail</label>
+            <textarea v-model="utilisateur.email" type="email" required class="input-field"></textarea>
+
+            <label for="prix">Mot de passe</label>
             <input v-model="utilisateur.mdp" type="password" required class="input-field" />
 
-            <button type="submit" class="submit-button">Créer votre compte</button>
+            <button type="submit" class="submit-button">S'inscrire</button>
         </form>
     </div>
 </template>
@@ -56,12 +56,9 @@ function submitForm() {
         console.log(val);
         let erreur;
         val.then(reponseJSON => {
-
-            if (reponseJSON.violations) {
-                erreur = reponseJSON.violations[0].message
-            } else {
-                erreur = reponseJSON.message
-            }
+            // ingredients.value = reponseJSON["ingredients"];
+            console.log(reponseJSON["hydra:description"])
+            erreur = reponseJSON["hydra:description"];
 
             if (reponsehttp.status !== 201) {
                 console.log("Echec")
@@ -83,58 +80,69 @@ function submitForm() {
 
 <style scoped>
 .ingredient-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
 
-h2 {
-    text-align: center;
-    color: #333;
+.ingredient-form h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
+.ingredient-form form {
+  display: grid;
+  gap: 20px;
 }
 
-label {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #555;
+.ingredient-form label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #444;
 }
 
-.input-field {
-    width: 100%;
-    padding: 8px;
-    margin: 6px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+.ingredient-form input,
+.ingredient-form textarea {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
-textarea {
-    resize: vertical;
+.ingredient-form input:focus,
+.ingredient-form textarea:focus {
+  border-color: #4caf50;
+  background-color: #fff;
 }
 
-.submit-button {
-    background-color: #4caf50;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+.ingredient-form button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-.submit-button:hover {
-    background-color: #45a049;
+.ingredient-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.ingredient-form button:hover {
+  background-color: #45a049;
 }
 </style>
 
