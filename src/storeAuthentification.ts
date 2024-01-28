@@ -13,7 +13,7 @@ export const storeAuthentification = reactive({
   connexion(login: string, motDePasse: string, succes:()=>void, echec:()=>void): void{
     //fait le fetch et change le JWT si succès
     //execute succes ou echec en fonction du succès de l'authentification
-    fetch("https://localhost:8000/api/auth", {
+    fetch("https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/auth", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
