@@ -2,22 +2,22 @@
     <div class="materiel-form">
         <h2>Créer du matériel</h2>
         <form @submit.prevent="submitForm" class="form-container">
-            <label for="name">Nom:</label>
+            <label for="name">Nom</label>
             <input v-model="materiel.name" type="text" required class="input-field" />
 
-            <label for="description">Description:</label>
+            <label for="description">Description</label>
             <textarea v-model="materiel.description" rows="4" class="input-field"></textarea>
 
-            <label for="prix">Prix:</label>
+            <label for="prix">Prix</label>
             <input v-model="materiel.prix" type="number" class="input-field" />
 
-            <label for="caracteristique">Caractéristique:</label>
+            <label for="caracteristique">Caractéristiques</label>
             <input v-model="materiel.caracteristique" type="text" rows="4" class="input-field" />
 
-            <label for="caracteristique">Utilisation:</label>
+            <label for="caracteristique">Utilisation</label>
             <input v-model="materiel.utilisation" type="text" rows="4" class="input-field" />
 
-            <label for="imageFile" class="file-label">Image:</label>
+            <label for="imageFile" class="file-label">Image</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
 
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
@@ -99,56 +99,75 @@ const submitForm = async () => {
 
 
 </script>
-  
-
-
-
 
 
 <style scoped>
+body{
+  background-color: #E4D7CE;
+}
 .materiel-form {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+
+.materiel-form h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
 }
 
 .form-container {
-    display: flex;
-    flex-direction: column;
+  display: grid;
+  gap: 20px;
 }
 
-.label {
-    margin-bottom: 8px;
+label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #444;
 }
 
-.input-field {
-    margin-bottom: 16px;
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
+.input-field,
 .file-label {
-    margin-bottom: 8px;
-    display: block;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.input-field:focus,
+.file-label:focus {
+  border-color: #4caf50;
+  background-color: #fff;
 }
 
 .submit-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .submit-button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 </style>

@@ -1,48 +1,56 @@
 <template>
-    <div class="ingredient-form">
-        <h2>Modifier l'ingrédient</h2>
+    <div class="materiel-form">
+        <h2>Modifier le matériel</h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">Nom:</label>
-            <input v-model="ingredient.nom" type="text" required class="input-field" />
+            <input v-model="materiel.nom" type="text" required class="input-field" />
 
             <label for="description">Description:</label>
-            <textarea v-model="ingredient.description" rows="4" required class="input-field"></textarea>
+            <textarea v-model="materiel.description" rows="4" class="input-field"></textarea>
 
             <label for="prix">Prix:</label>
-            <input v-model="ingredient.prix" type="number" required class="input-field" />
+            <input v-model="materiel.prix" type="number" class="input-field" />
+
+            <label for="caracteristique">Caractéristique:</label>
+            <input v-model="materiel.caracteristique" type="text" rows="4" class="input-field" />
+
+            <label for="caracteristique">Utilisation:</label>
+            <input v-model="materiel.utilisation" type="text" rows="4" class="input-field" />
 
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
-            <input v-if="storeAuthentification.premium" v-model="ingredient.lien" type="text" class="input-field" />
+            <input v-if="storeAuthentification.premium" v-model="materiel.lien" type="text" class="input-field" />
 
-            <button type="submit" class="submit-button">Modifier l'ingrédient</button>
+            <button type="submit" class="submit-button">Modifier</button>
         </form>
     </div>
 </template>
   
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification'
 import { useRoute } from 'vue-router'
 
-const route = useRoute()
-const id = route.params.id
 
-
-const ingredient = ref({
+const materiel = ref({
     nom: '',
     description: '',
+    utilisation: '',
     prix: '',
+    caracteristique: '',
     lien: '',
 });
+
+const route = useRoute()
+const id = route.params.id
 
 function fillIngredient() {
     console.log(id);
 
-    fetch(encodeURI('https://localhost:8000/api/ingredients/' + id))
+    fetch(encodeURI('https://localhost:8000/api/materiels/' + id))
         .then((reponsehttp) => reponsehttp.json())
         .then((reponseJSON) => {
-            ingredient.value = reponseJSON;
+            materiel.value = reponseJSON;
             console.log(reponseJSON);
 
         })
@@ -61,47 +69,48 @@ onMounted(() => {
 const submitForm = async () => {
 
     try {
-        const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + id, {
+        const response = await fetch('https://127.0.0.1:8000/api/materiels/' + id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/merge-patch+json',
                 'Authorization': 'Bearer ' + storeAuthentification.JWT
             },
             body: JSON.stringify({
-                nom: ingredient.value.nom,
-                description: ingredient.value.description,
-                prix: String(ingredient.value.prix),
-                lien: ingredient.value.lien,
+                nom: materiel.value.nom,
+                description: materiel.value.description,
+                prix: String(materiel.value.prix),
+                caracteristique: materiel.value.caracteristique,
+                utilisation: materiel.value.utilisation,
+                lien: materiel.value.lien,
             })
         });
-
         response.json().then(reponseJSON => {
+
             if (response.ok) {
-                console.log('Ingrédient modifié avec succès !');
+                console.log('Matériel modifié avec succès !');
                 // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
                 flashMessage.show({
                     type: 'success',
-                    title: "L'ingrédient a bien été modifié"
+                    title: 'Le matériel a bien été modifié'
                 });
             } else {
                 let erreur = reponseJSON["detail"];
                 console.log(reponseJSON)
+                // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
                 flashMessage.show({
                     type: 'error',
                     title: erreur
                 });
-                console.error('Erreur lors de la modification de l\'ingrédient');
             }
         })
-    }
-    catch (error) {
+
+    } catch (error) {
+        console.error('Erreur lors de la requête :', error);
         flashMessage.show({
             type: 'error',
-            title: "L'ingrédient n'a pas pu être modifié"
+            title: "Le matériel n'a pas pu être modifié"
         });
-        console.error('Erreur lors de la requête :', error);
     }
-
 };
 
 
@@ -111,8 +120,9 @@ const submitForm = async () => {
 
 
 
+
 <style scoped>
-.ingredient-form {
+.materiel-form {
     max-width: 600px;
     margin: auto;
     padding: 20px;

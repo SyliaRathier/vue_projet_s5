@@ -3,9 +3,9 @@
         <h2>Profil</h2>
         <form @submit.prevent="submitForm" class="form-container">
 
-          <img :src="'data:image/jpeg;base64,'+state.url" alt="Profil Image" loading="lazy" />
+            <img :src="'data:image/jpeg;base64,' + state.url" alt="Profil Image" loading="lazy" />
 
-          <label for="name">login:</label>
+            <label for="name">login:</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
 
             <label for="description">adresse E-mail:</label>
@@ -20,20 +20,20 @@
             <button type="submit" class="submit-button">Modifier profil</button>
         </form>
         <div class="redirect-container">
-          <div class="button-redirect" @click="redirectTo('/mesRecettes')">
-            Mes Recettes
-          </div>
-          <div class="button-redirect" @click="redirectTo('/mesIngredients')">
-            Mes Ingredients
-          </div>
-          <div class="button-redirect" @click="redirectTo('/mesMateriels')">
-            Mes Matériels
-          </div>
+            <div class="button-redirect" @click="redirectTo('/mesRecettes')">
+                Mes Recettes
+            </div>
+            <div class="button-redirect" @click="redirectTo('/mesIngredients')">
+                Mes Ingredients
+            </div>
+            <div class="button-redirect" @click="redirectTo('/mesMateriels')">
+                Mes Matériels
+            </div>
         </div>
 
 
         <div class="button-logout" @click="logout">
-          Deconnexion
+            Deconnexion
         </div>
     </div>
 </template>
@@ -43,7 +43,7 @@
 <script setup lang="ts">
 
 import md5 from 'crypto-js/md5';
-import {onMounted, reactive, type Ref, ref, type UnwrapRef} from 'vue';
+import { onMounted, reactive, type Ref, ref, type UnwrapRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification';
@@ -59,21 +59,21 @@ let utilisateur = ref({
 });
 
 let state = reactive({
-  url: '',
+    url: '',
 });
 async function fillProfil() {
     console.log(storeAuthentification.userId);
-    try{
-      const response = await fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId));
-      return await response.json();
+    try {
+        const response = await fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId));
+        return await response.json();
     } catch (error) {
         console.error('Erreur lors du chargement du profil:', error);
     }
 }
 
 onMounted(async () => {
-  utilisateur.value = await fillProfil();
-  await loadImage();
+    utilisateur.value = await fillProfil();
+    await loadImage();
 });
 
 function submitForm() {
@@ -128,12 +128,12 @@ function redirectTo(url: string) {
 }
 
 async function loadImage() {
-  try{
-    const response = await fetch('https://127.0.0.1:8001/my/avatar/' + md5(utilisateur.value.adresseEmail));
-    state.url =  await response.text();
-  } catch (error) {
-      console.error('Erreur lors du chargement de l\'image:', error);
-  }
+    try {
+        const response = await fetch('https://127.0.0.1:8001/my/avatar/' + md5(utilisateur.value.adresseEmail));
+        state.url = await response.text();
+    } catch (error) {
+        console.error('Erreur lors du chargement de l\'image:', error);
+    }
 }
 
 
@@ -145,4 +145,3 @@ async function loadImage() {
 <style scoped>
 @import "@/assets/userProfil.css";
 </style>
-

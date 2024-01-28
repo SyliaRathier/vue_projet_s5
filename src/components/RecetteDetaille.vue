@@ -3,6 +3,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import type { Recette } from '@/types';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { onMounted, ref } from 'vue';
 
 
 const router = useRouter();
@@ -20,6 +21,29 @@ if (props.recette.utilisateur) {
     utilisateurLogin = props.recette.utilisateur.login;
     console.log(props.recette);
 }
+
+
+const isAdmin = ref(false);
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
 
 const deleteRecette = async (recetteId: number) => {
     props.recette.ingredients.forEach(ingredient => {
@@ -42,11 +66,9 @@ const deleteRecette = async (recetteId: number) => {
         },
     });
 
-    // router.push('/mesRecette');
     console.log(response)
     if (response.ok) {
         console.log('Recette supprimée avec succès !');
-        // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
         flashMessage.show({
             type: 'success',
             title: "La recette a bien été supprimée"
@@ -62,6 +84,7 @@ const deleteRecette = async (recetteId: number) => {
     }
 
 };
+
 
 
 </script>
@@ -112,9 +135,10 @@ const deleteRecette = async (recetteId: number) => {
         <div class="footer">
             <p>Créé par {{ utilisateurLogin }}</p>
         </div>
-
-        <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
-        <button v-if="utilisateurId === storeAuthentification.userId"
+        <router-link :to="{ name: 'modifierRecette', params: { id: recette.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
+        </router-link>
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteRecette(recette.id)">Supprimer</button>
 
 

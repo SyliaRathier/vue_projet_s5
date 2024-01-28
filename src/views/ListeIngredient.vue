@@ -6,16 +6,21 @@ import BoiteIngredient from '@/components/BoiteIngredient.vue';
 import { useRoute } from 'vue-router'
 
 
+
 // Toutes les recettes
 const ingredients: Ref<Ingredient[]> = ref([]);
 const images = ref([]);
 async function chargerFeed(idCategorie: string) {
     if (idCategorie == '0') {
-        fetch(encodeURI('https://localhost:8000/api/ingredients'))
+
+        fetch(encodeURI(`https://localhost:8000/api/ingredients`))
             .then(reponsehttp => reponsehttp.json())
             .then(async reponseJSON => {
-                ingredients.value = await reponseJSON["hydra:member"];
+                ingredients.value = reponseJSON['hydra:member'];
+
             });
+
+
     } else {
         fetch(encodeURI(`https://localhost:8000/api/categorie_ingredients/${idCategorie}`))
             .then(reponsehttp => reponsehttp.json())
@@ -24,6 +29,7 @@ async function chargerFeed(idCategorie: string) {
             });
     }
 }
+
 
 
 // Liste des catégorie pour champs select
@@ -38,9 +44,9 @@ async function chargerCategorie() {
 }
 
 
-onMounted(async () => {
-    await chargerCategorie()
-    await chargerFeed('0')
+onMounted(() => {
+    chargerCategorie()
+    chargerFeed('0')
 })
 
 const selected = ref('')

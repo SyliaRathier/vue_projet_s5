@@ -1,28 +1,29 @@
 <template>
     <div>
-        <h2>Créer une nouvelle recette</h2>
+        <h2>Modifier la recette</h2>
         <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)">
-            <label for="titre">Titre</label>
+            <label for="titre">Titre:</label>
             <input v-model="recette.titre" type="text" required />
 
-            <label for="description">Description</label>
+            <label for="description">Description:</label>
             <textarea v-model="recette.description" rows="4" required></textarea>
 
-            <label for="conseil">Conseil</label>
+            <label for="conseil">Conseil:</label>
             <textarea v-model="recette.conseil" rows="4"></textarea>
 
-            <label for="ingredients">Ingrédients</label>
+            <label for="ingredients">Ingrédients:</label>
 
             <!-- Création QuantiteIngredient  -->
 
-            <div>
-              <div>Selected: {{ selected }}</div>
 
-              <!--<label for="search">Search</label> -->
+            <div>
+                <div>Selected: {{ selected }}</div>
+
+                <label for="search">Search:</label>
                 <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />
 
                 <select v-model="selected" @change="chargerFeed">
-                    <option disabled value="">Sélectionner</option>
+                    <option disabled value="">Please select one</option>
                     <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id">
                         {{ ingredient.nom }}
                     </option>
@@ -60,11 +61,11 @@
             <div>
                 <div>Selected: {{ selectedM }}</div>
 
-                <!-- <label for="searchM">Search:</label> -->
+                <label for="searchM">Search:</label>
                 <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
 
                 <select v-model="selectedM" @change="chargerFeedMateriel">
-                    <option disabled value="">Sélectionner</option>
+                    <option disabled value="">Please select one</option>
                     <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
                         {{ materiel.nom }}
                     </option>
@@ -87,17 +88,14 @@
             <!-- Fin de Ajouter mtériels -->
 
 
-            <label for="duree">Durée</label>
+            <label for="duree">Durée:</label>
             <input v-model="recette.duree" type="text" required />
 
-            <label for="prix">Prix</label>
+            <label for="prix">Prix:</label>
             <input v-model="recette.prix" type="text" required />
 
-            <label for="imageFile">Image</label>
-            <input type="file" id="imageFile" ref="imageInput" accept="image/*" />
 
-
-
+            <!-- Ajouter catégorie -->
             <div>
                 <div>Selected: {{ selectedCategorie }}</div>
 
@@ -106,7 +104,7 @@
                     placeholder="Rechercher une catégorie" />
 
                 <select v-model="selectedCategorie" @change="chargerFeedCategorie">
-                    <option disabled value="">Sélectionner</option>
+                    <option disabled value="">Veuillez en sélectionner une</option>
                     <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
                         {{ categorie.nom }}
                     </option>
@@ -115,7 +113,7 @@
                 <button @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
 
                 <div v-if="selectedCategories.length > 0">
-                    <h3> Catégories sélectionnées</h3>
+                    <h3> Catégories sélectionnées :</h3>
                     <ul>
                         <li v-for="(item, index) in selectedCategories" :key="item.id">
                             {{ item.nom }}
@@ -125,12 +123,7 @@
                 </div>
             </div>
 
-
-
-
-
-
-            <button type="submit">Créer la recette</button>
+            <button type="submit">Modifier la recette</button>
 
         </form>
     </div>
@@ -146,15 +139,19 @@ import type { Ref } from 'vue';
 import type { Ingredient, QuantiteIngredient, Categorie } from '@/types';
 import { flashMessage } from '@smartweb/vue-flash-message';
 import { storeAuthentification } from '@/storeAuthentification'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+const id = route.params.id
 
 // Création RECETTE
 
 const submitting = ref(false);
 
 
-const selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
-const imageInput = ref<HTMLInputElement | null>(null);
+let selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
+let selectedMateriels: Ref<{ id: number, nom: string }[]> = ref([]);
+let selectedCategories: Ref<{ id: number, nom: string }[]> = ref([]);
 
 const recette = ref({
     titre: '',
@@ -162,10 +159,51 @@ const recette = ref({
     conseil: '',
     ingredients: [],
     materiels: [],
+    categories: [],
     duree: '',
     prix: '',
     imageUrl: '',
 });
+
+
+function fillRecette() {
+    console.log(id);
+
+    fetch(encodeURI('https://localhost:8000/api/recettes/' + id))
+        .then((reponsehttp) => reponsehttp.json())
+        .then((reponseJSON) => {
+            recette.value = reponseJSON;
+            console.log(reponseJSON);
+            // selectedIngredients.value = reponseJSON.ingredients;
+            reponseJSON.ingredients.forEach((ingre: { idIngredient: any; quantite: any; unite: any; id: any; }) => {
+                selectedIngredients.value.push({
+                    id_ingredient_id: ingre.idIngredient,
+                    quantite: ingre.quantite, // Extract the plain value from Ref
+                    unite: ingre.unite, //.value, // Extract the plain value from Ref,
+                    idQuantite: ingre.id
+                });
+
+            });
+            reponseJSON.materiels.forEach((mat: { id: any; nom: any; }) => {
+                selectedMateriels.value.push({
+                    id: mat.id,
+                    nom: mat.nom,
+                });
+            });
+            reponseJSON.categorieRecettes.forEach((cate: { id: any; nom: any; }) => {
+                selectedCategories.value.push({
+                    id: cate.id,
+                    nom: cate.nom,
+                });
+            });
+        })
+        .catch((error) => {
+            console.error('Erreur lors du chargement du profil:', error);
+        });
+}
+
+
+
 
 const fillIngredients = (selectedIngredients: any) => {
     const tabIngredient = [];
@@ -226,35 +264,28 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
         console.log(JSON.stringify(tabM))
         console.log(JSON.stringify(tabC))
 
-        let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
-
-        const formData = new FormData();
-        formData.append('titre', recette.value.titre);
-        formData.append('description', recette.value.description);
-        formData.append('conseil', recette.value.conseil);
-        formData.append('ingredients', JSON.stringify(tab));
-        formData.append('materiels', JSON.stringify(tabM));
-        formData.append('duree', recette.value.duree);
-        formData.append('prix', recette.value.prix);
-        formData.append('utilisateur', utilisateur);
-        formData.append('categorieRecettes', JSON.stringify(tabC));
-
-
         const valeur: Ref<[]> = ref([]);
 
 
-        if (imageInput.value?.files) {
-            formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
-        }
-
         try {
             console.log()
-            const response = await fetch('https://127.0.0.1:8000/api/recettes', {
-                method: 'POST',
+            const response = await fetch('https://127.0.0.1:8000/api/recettes/' + id, {
+                method: 'PATCh',
                 headers: {
+                    'Content-Type': 'application/merge-patch+json',
                     'Authorization': 'Bearer ' + storeAuthentification.JWT
                 },
-                body: formData,
+                body: JSON.stringify({
+                    titre: recette.value.titre,
+                    description: recette.value.description,
+                    conseil: recette.value.conseil,
+                    ingredients: tab,
+                    materiels: tabM,
+                    duree: recette.value.duree,
+                    prix: String(recette.value.prix),
+                    categorieRecettes: tabC
+
+                })
             });
 
             response.json().then(reponseJSON => {
@@ -265,7 +296,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
                     // Show success flash message
                     flashMessage.show({
                         type: 'success',
-                        title: 'Recette créée avec succès!',
+                        title: 'Recette modifiée avec succès!',
                     });
 
                     // You can do additional actions or redirects if needed
@@ -277,7 +308,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
                         type: 'error',
                         title: erreur,
                     });
-                    console.error('Erreur lors de la création de la recette');
+                    console.error('Erreur lors de la modification de la recette');
                 }
 
 
@@ -297,7 +328,6 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
 
 
 //Création QUAANTITE_INGREDIENTS
-// const selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
 const ingredients: Ref<Ingredient[]> = ref([]);
 function chargerFeed() {
     fetch(encodeURI('https://localhost:8000/api/ingredients'))
@@ -413,7 +443,6 @@ console.log(selectedIngredients.value)
 
 // Créer MATERIELS
 
-const selectedMateriels: Ref<{ id: number, nom: string }[]> = ref([]);
 const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
 function chargerFeedMateriel() {
     fetch(encodeURI('https://localhost:8000/api/materiels'))
@@ -450,7 +479,6 @@ const removeMaterielFromList = (id: number, index: number) => {
 
 // Pour CATEGORIE
 
-const selectedCategories: Ref<{ id: number, nom: string }[]> = ref([]);
 const categories: Ref<{ id: number, nom: string }[]> = ref([]);
 
 function chargerFeedCategorie() {
@@ -491,6 +519,7 @@ const removeCategorieFromList = (id: number, index: number) => {
 
 
 onMounted(() => {
+    fillRecette()
     chargerFeedMateriel();
     chargerFeed();
     chargerFeedCategorie();
@@ -498,113 +527,94 @@ onMounted(() => {
 });
 
 </script>
-
+  
 
 <style scoped>
 body {
-  font-family: 'FreeMono', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f8f8;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
 }
 
 div {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fafafa;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
+    color: #333;
+    text-align: center;
 }
 
 form {
-  display: grid;
-  gap: 20px;
+    display: grid;
+    gap: 20px;
 }
 
 label {
-  font-weight: bold;
-  font-size: 16px;
-  color: #444;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 input,
 textarea,
 select {
-  width: 100%;
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  background-color: #fff;
-  transition: border-color 0.3s, background-color 0.3s;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #4caf50;
-  background-color: #fff;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-button:hover {
-  background-color: #45a049;
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 li button {
-  background-color: #ff5b5b;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+    background-color: #ff5b5b;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 li button:hover {
-  background-color: #d73838;
+    background-color: #d73838;
 }
 </style>
 @/storeAuthentification

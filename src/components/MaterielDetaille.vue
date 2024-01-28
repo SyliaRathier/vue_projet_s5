@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Materiel } from '@/types';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
 
@@ -19,9 +19,31 @@ if (props.materiel.utilisateur) {
     console.log(utilisateurId + " " + utilisateurLogin);
 }
 
+const isAdmin = ref(false);
+
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
+
 
 const deleteMateriel = async (materielId: number) => {
-    // props.materiel.ingredients.forEach(ingredient => {
     fetch(encodeURI('https://localhost:8000/api/materiels/' + Number(materielId)))
         .then(reponsehttp => reponsehttp.json())
         .then(async reponseJSON => {
@@ -41,15 +63,15 @@ const deleteMateriel = async (materielId: number) => {
                     },
                 });
 
-                // router.push('/mesRecette');
                 console.log(response)
                 if (response.ok) {
                     console.log('Matériel supprimé avec succès !');
-                    // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
                     flashMessage.show({
                         type: 'success',
                         title: "Le matériel a bien été supprimé"
                     });
+                    router.push('/mesMateriels')
+
                 } else {
                     flashMessage.show({
                         type: 'error',
@@ -57,7 +79,6 @@ const deleteMateriel = async (materielId: number) => {
                     });
                     console.error('Erreur lors de la suppression du matériel');
                 }
-                router.push('/mesMateriels')
             }
 
         });
@@ -84,9 +105,10 @@ const deleteMateriel = async (materielId: number) => {
         <div class="recipe-footer">
             <p>Créé par {{ utilisateur }}</p>
         </div>
-        <router-link :to="{ name: 'modifierIngredient', params: { id: materiel.id } }" class="clicable">
-            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
-        </router-link> <button v-if="utilisateurId === storeAuthentification.userId"
+        <router-link :to="{ name: 'modifierMateriel', params: { id: materiel.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
+        </router-link>
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteMateriel(materiel.id)">Supprimer</button>
 
     </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
-import type { Ingredient } from '@/types';
-import { onMounted } from 'vue';
+import type { Ingredient, Utilisateur } from '@/types';
+import { onMounted, ref, type Ref } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
 
@@ -14,8 +14,104 @@ let utilisateurLogin = '';
 if (props.ingredient.utilisateur) {
     utilisateurId = props.ingredient.utilisateur.id;
     utilisateurLogin = props.ingredient.utilisateur.login;
-    console.log(utilisateurId + " " + utilisateurLogin);
+    // console.log(props.ingredient.utilisateur.roles)
 }
+
+const isAdmin = ref(false);
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
+
+
+const deleteIngredient = async (ingredientId: number) => {
+    fetch(encodeURI('https://localhost:8000/api/ingredients/' + Number(ingredientId) + '/quantite_ingredients'))
+        .then(reponsehttp => reponsehttp.json())
+        .then(async reponseJSON => {
+            if (reponseJSON['hydra:member'].length === 0) {
+                const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + storeAuthentification.JWT
+                    },
+                });
+
+                if (response.ok) {
+                    console.log('Ingrédient supprimé avec succès !');
+                    flashMessage.show({
+                        type: 'success',
+                        title: "L'ingrédient a bien été supprimé"
+                    });
+                    router.push('/mesIngredients')
+
+                } else {
+                    flashMessage.show({
+                        type: 'error',
+                        title: "L'ingrédient n'a pas pu être supprimé"
+                    });
+                    console.error('Erreur lors de la suppression de l\'ingrédient');
+                }
+            }
+            else {
+
+                reponseJSON['hydra:member'].forEach(async (ingre: { recette: any; }) => {
+                    console.log('ok')
+                    if (ingre.recette) {
+                        console.log('hello')
+                        const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': 'Bearer ' + storeAuthentification.JWT
+                            },
+                        });
+
+                        console.log(response)
+                        if (response.ok) {
+                            console.log('Ingrédient supprimé avec succès !');
+                            flashMessage.show({
+                                type: 'success',
+                                title: "L'ingrédient a bien été supprimé"
+                            });
+                            router.push('/mesIngredients')
+
+                        } else {
+                            flashMessage.show({
+                                type: 'error',
+                                title: "L'ingrédient n'a pas pu être supprimé"
+                            });
+                            console.error('Erreur lors de la suppression de l\'ingrédient');
+                        }
+                    }
+                    else {
+                        console.log('by')
+                        flashMessage.show({
+                            type: 'error',
+                            title: "L'ingredient ne peut pas être supprimé car des recettes l'utilise"
+                        });
+                        return;
+                    }
+                })
+            }
+        });
+};
+
+
 
 </script>
 
@@ -34,10 +130,12 @@ if (props.ingredient.utilisateur) {
         <div class="footer">
             <p>Prix : {{ ingredient.prix }} €</p>
         </div>
-        {{ ingredient.id }}
-        <!-- <button v-if="utilisateurId === storeAuthentification.userId"
-            @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button> -->
 
+        <router-link :to="{ name: 'modifierIngredient', params: { id: ingredient.id } }" class="clicable">
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
+        </router-link>
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
+            @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button>
     </div>
 </template>
   
