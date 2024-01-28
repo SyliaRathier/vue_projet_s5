@@ -12,7 +12,7 @@ const ingredients: Ref<Ingredient[]> = ref([]);
 async function chargerFeed(idCategorie: string) {
     if (idCategorie == '0') {
 
-        fetch(encodeURI(`https://localhost:8000/api/ingredients`))
+        fetch(encodeURI(`https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients`))
             .then(reponsehttp => reponsehttp.json())
             .then(async reponseJSON => {
                 ingredients.value = reponseJSON['hydra:member'];
@@ -21,7 +21,7 @@ async function chargerFeed(idCategorie: string) {
 
 
     } else {
-        fetch(encodeURI(`https://localhost:8000/api/categorie_ingredients/${idCategorie}`))
+        fetch(encodeURI(`https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_ingredients/${idCategorie}`))
             .then(reponsehttp => reponsehttp.json())
             .then(async reponseJSON => {
                 ingredients.value = await reponseJSON["ingredients"];
@@ -35,7 +35,7 @@ async function chargerFeed(idCategorie: string) {
 
 const categories: Ref<Categorie[]> = ref([]);
 async function chargerCategorie() {
-    fetch(encodeURI('https://localhost:8000/api/categorie_ingredients'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(async reponseJSON => {
             categories.value = await reponseJSON["hydra:member"];

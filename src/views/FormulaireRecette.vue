@@ -173,7 +173,7 @@ const fillIngredients = (selectedIngredients: any) => {
     let i: number = 0
     for (i = 0; i < selectedIngredients.length; i++) {
         if (selectedIngredients[i].idQuantite !== null) {
-            urlIngredient = "https://127.0.0.1:8000/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
+            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
             tabIngredient.push(urlIngredient);
         }
     }
@@ -187,7 +187,7 @@ const fillMateriels = (selectedMateriel: any) => {
     let i: number = 0
     for (i = 0; i < selectedMateriel.length; i++) {
         if (selectedMateriel[i].id !== null) {
-            urlIngredient = "https://127.0.0.1:8000/api/materiels/" + selectedMateriel[i].id;
+            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/" + selectedMateriel[i].id;
             tabMateriel.push(urlIngredient);
         }
     }
@@ -202,7 +202,7 @@ const fillCategories = (selectedCategories: any) => {
     let i: number = 0
     for (i = 0; i < selectedCategories.length; i++) {
         if (selectedCategories[i].id !== null) {
-            urlCategorie = "https://127.0.0.1:8000/api/categorie_recettes/" + selectedCategories[i].id;
+            urlCategorie = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes/" + selectedCategories[i].id;
             tabCategorie.push(urlCategorie);
         }
     }
@@ -226,7 +226,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
         console.log(JSON.stringify(tabM))
         console.log(JSON.stringify(tabC))
 
-        let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
+        let utilisateur = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId;
 
         const formData = new FormData();
         formData.append('titre', recette.value.titre);
@@ -249,7 +249,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
 
         try {
             console.log()
-            const response = await fetch('https://127.0.0.1:8000/api/recettes', {
+            const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -300,7 +300,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
 // const selectedIngredients: Ref<{ id_ingredient_id: Ingredient, quantite: number, unite: string, idQuantite: number | null }[]> = ref([]);
 const ingredients: Ref<Ingredient[]> = ref([]);
 function chargerFeed() {
-    fetch(encodeURI('https://localhost:8000/api/ingredients'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             ingredients.value = reponseJSON["hydra:member"];
@@ -338,7 +338,7 @@ const addIngredientToList = () => {
 };
 
 const removeIngredientFromList = (id: number, index: number) => {
-    const response = fetch('https://127.0.0.1:8000/api/quantite_ingredients/' + id, {
+    const response = fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/' + id, {
         method: 'DELETE',
     });
     selectedIngredients.value.splice(index, 1);
@@ -346,8 +346,8 @@ const removeIngredientFromList = (id: number, index: number) => {
 
 const reponseQuantite = ref();
 const createIngredientFromList = (id: number, quantite: number, unite: string, index: number) => {
-    const url = "https://127.0.0.1:8000/api/ingredients/" + id;
-    fetch('https://127.0.0.1:8000/api/quantite_ingredients', {
+    const url = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/" + id;
+    fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/ld+json',
@@ -416,7 +416,7 @@ console.log(selectedIngredients.value)
 const selectedMateriels: Ref<{ id: number, nom: string }[]> = ref([]);
 const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
 function chargerFeedMateriel() {
-    fetch(encodeURI('https://localhost:8000/api/materiels'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];
@@ -454,7 +454,7 @@ const selectedCategories: Ref<{ id: number, nom: string }[]> = ref([]);
 const categories: Ref<{ id: number, nom: string }[]> = ref([]);
 
 function chargerFeedCategorie() {
-    fetch(encodeURI('https://localhost:8000/api/categorie_recettes'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];

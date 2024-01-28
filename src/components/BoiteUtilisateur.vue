@@ -6,7 +6,7 @@ let login = props.utilisateur.login
 let adresseEmail = props.utilisateur.adresseEmail
 
 function modifier() {
-  fetch(`https://localhost:8000/api/utilisateurs/${props.utilisateur.id}`, {
+  fetch(`https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/${props.utilisateur.id}`, {
     method: "PATCH",
     headers: {
       'Content-Type': 'application/merge-patch+json',

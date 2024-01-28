@@ -38,7 +38,7 @@ const utilisateur = ref({
 });
 
 function submitForm() {
-    fetch("https://localhost:8000/api/utilisateurs", {
+    fetch("https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

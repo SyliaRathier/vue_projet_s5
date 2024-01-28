@@ -9,7 +9,7 @@ import { storeAuthentification } from '@/storeAuthentification';
 // Toutes les recettes
 const materiels: Ref<Materiel[]> = ref([]);
 function chargerFeed() {
-    fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId + '/materiels'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId + '/materiels'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];

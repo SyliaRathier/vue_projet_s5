@@ -9,14 +9,14 @@ import { useRoute } from 'vue-router'
 let recettes: Ref<Recette[]> = ref([]);
 function chargerFeed(idCategorie: string) {
     if (idCategorie == '0') {
-        fetch(encodeURI('https://localhost:8000/api/recettes'))
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes'))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["hydra:member"];
 
             });
     } else {
-        fetch(encodeURI(`https://localhost:8000/api/categorie_recettes/${idCategorie}`))
+        fetch(encodeURI(`https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes/${idCategorie}`))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["recettes"];
@@ -28,20 +28,20 @@ function chargerFeed(idCategorie: string) {
 // Pour ingrédient
 function chargerFeed2(idIngredient: string) {
     if (idIngredient == '0') {
-        fetch(encodeURI('https://localhost:8000/api/recettes'))
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes'))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["hydra:member"];
 
             });
     } else {
-        fetch(encodeURI(`https://localhost:8000/api/ingredients/${idIngredient}`))
+        fetch(encodeURI(`https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/${idIngredient}`))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = [];
                 reponseJSON["quantiteIngredients"].forEach((element: any) => {
                     console.log(element.recette.id)
-                    fetch(encodeURI('https://localhost:8000/api/recettes/' + element.recette.id))
+                    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + element.recette.id))
                         .then(reponsehttp => reponsehttp.json())
                         .then(reponseJSON => {
                             // console.log(reponseJSON);
@@ -58,7 +58,7 @@ function chargerFeed2(idIngredient: string) {
 // Pour Matériel
 function chargerFeed3(idMateriel: string) {
     if (idMateriel == '0') {
-        fetch(encodeURI('https://localhost:8000/api/recettes'))
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes'))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 recettes.value = reponseJSON["hydra:member"];
@@ -66,14 +66,14 @@ function chargerFeed3(idMateriel: string) {
 
             });
     } else {
-        fetch(encodeURI(`https://localhost:8000/api/materiels/${idMateriel}`))
+        fetch(encodeURI(`https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/${idMateriel}`))
             .then(reponsehttp => reponsehttp.json())
             .then(reponseJSON => {
                 console.log(reponseJSON["recettes"])
                 recettes.value = [];
                 reponseJSON["recettes"].forEach((element: any) => {
                     console.log(element.id)
-                    fetch(encodeURI('https://localhost:8000/api/recettes/' + element.id))
+                    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + element.id))
                         .then(reponsehttp => reponsehttp.json())
                         .then(reponseJSON => {
                             // console.log(reponseJSON);
@@ -91,7 +91,7 @@ function chargerFeed3(idMateriel: string) {
 
 const categories: Ref<Categorie[]> = ref([]);
 function chargerCategorie() {
-    fetch(encodeURI('https://localhost:8000/api/categorie_recettes'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];
@@ -102,7 +102,7 @@ function chargerCategorie() {
 
 const ingredients: Ref<Ingredient[]> = ref([]);
 function chargerIngredient() {
-    fetch(encodeURI('https://localhost:8000/api/ingredients'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             ingredients.value = reponseJSON["hydra:member"];
@@ -113,7 +113,7 @@ function chargerIngredient() {
 
 const materiels: Ref<Ingredient[]> = ref([]);
 function chargerMateriel() {
-    fetch(encodeURI('https://localhost:8000/api/materiels'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];

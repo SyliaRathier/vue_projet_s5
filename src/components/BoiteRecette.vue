@@ -20,7 +20,7 @@ const getImageUrl = (file: File) => {
             </div>
             <div class="recipe-content">
                 <p>{{ recette.description }}</p>
-              <img :src="'https://localhost:8000/image/recette/' + recette.imageName" alt="Recipe Image"
+              <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/recette/' + recette.imageName" alt="Recipe Image"
                    loading="lazy" />
             </div>
             <div class="recipe-footer">

@@ -8,7 +8,7 @@ const props = defineProps<{ ingredient: Ingredient }>();
 
 let url = ref('');
 async function loadImage() {
-    const response = await fetch('https://localhost:8000/image/ingredient/' + props.ingredient.imageName);
+    const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/ingredient/' + props.ingredient.imageName);
     const blob = await response.blob();
     return URL.createObjectURL(blob);
 }

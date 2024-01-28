@@ -37,7 +37,7 @@ const recette: Ref<Recette> = ref({
 
 
 onMounted(() => {
-    fetch(encodeURI('https://localhost:8000/api/recettes/' + Number(id)))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + Number(id)))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             recette.value = reponseJSON;

@@ -21,7 +21,7 @@ const isAdmin = ref(false);
 function getUtilisateur() {
     console.log(storeAuthentification.userId);
     try {
-        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId)
         ).then(
             reponsehttp => reponsehttp.json()
         ).then(
@@ -41,11 +41,11 @@ onMounted(() => {
 
 
 const deleteIngredient = async (ingredientId: number) => {
-    fetch(encodeURI('https://localhost:8000/api/ingredients/' + Number(ingredientId) + '/quantite_ingredients'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/' + Number(ingredientId) + '/quantite_ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(async reponseJSON => {
             if (reponseJSON['hydra:member'].length === 0) {
-                const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
+                const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/' + Number(ingredientId), {
                     method: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -74,7 +74,7 @@ const deleteIngredient = async (ingredientId: number) => {
                     console.log('ok')
                     if (ingre.recette) {
                         console.log('hello')
-                        const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
+                        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/' + Number(ingredientId), {
                             method: 'DELETE',
                             headers: {
                                 'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -123,7 +123,7 @@ const deleteIngredient = async (ingredientId: number) => {
 
         <div class="content">
             <p>{{ ingredient.description }}</p>
-            <img :src="'https://localhost:8000/img/ingredient/' + ingredient.imageName" alt="Ingredient Image"
+            <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/ingredient/' + ingredient.imageName" alt="Ingredient Image"
                 loading="lazy" />
         </div>
 

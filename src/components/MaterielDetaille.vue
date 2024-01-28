@@ -24,7 +24,7 @@ const isAdmin = ref(false);
 function getUtilisateur() {
     console.log(storeAuthentification.userId);
     try {
-        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId)
         ).then(
             reponsehttp => reponsehttp.json()
         ).then(
@@ -44,7 +44,7 @@ onMounted(() => {
 
 
 const deleteMateriel = async (materielId: number) => {
-    fetch(encodeURI('https://localhost:8000/api/materiels/' + Number(materielId)))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + Number(materielId)))
         .then(reponsehttp => reponsehttp.json())
         .then(async reponseJSON => {
             console.log(reponseJSON.recettes.length);
@@ -56,7 +56,7 @@ const deleteMateriel = async (materielId: number) => {
                 return;
             }
             else {
-                const response = await fetch('https://127.0.0.1:8000/api/materiels/' + Number(materielId), {
+                const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + Number(materielId), {
                     method: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -96,7 +96,7 @@ const deleteMateriel = async (materielId: number) => {
         <div class="content">
             <p class="utilisation">{{ materiel.utilisation }}</p>
             <p class="description">{{ materiel.description }}</p>
-            <img :src="'https://localhost:8000/image/materiel/' + materiel.imageName" alt="Materiel Image" loading="lazy" />
+            <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/materiel/' + materiel.imageName" alt="Materiel Image" loading="lazy" />
         </div>
 
         <div class="footer">
