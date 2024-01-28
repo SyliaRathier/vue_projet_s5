@@ -3,6 +3,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import type { Recette } from '@/types';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { onMounted, ref } from 'vue';
 
 
 const router = useRouter();
@@ -21,9 +22,32 @@ if (props.recette.utilisateur) {
     console.log(props.recette);
 }
 
+
+const isAdmin = ref(false);
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
+
 const deleteRecette = async (recetteId: number) => {
     props.recette.ingredients.forEach(ingredient => {
-        fetch('https://127.0.0.1:8000/api/quantite_ingredients/' + ingredient.id, {
+        fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/' + ingredient.id, {
             method: 'DELETE',
             headers: {
                 'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -35,7 +59,7 @@ const deleteRecette = async (recetteId: number) => {
     });
 
 
-    const response = await fetch('https://127.0.0.1:8000/api/recettes/' + recetteId, {
+    const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + recetteId, {
         method: 'DELETE',
         headers: {
             'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -60,6 +84,7 @@ const deleteRecette = async (recetteId: number) => {
     }
 
 };
+
 
 
 </script>
@@ -99,7 +124,7 @@ const deleteRecette = async (recetteId: number) => {
         </div>
 
         <div class="image">
-            <img :src="'https://localhost:8000/image/recette/' + recette.imageName" alt="Recipe Image" loading="lazy" />
+            <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/recette/' + recette.imageName" alt="Recipe Image" loading="lazy" />
         </div>
 
         <div class="section">
@@ -113,7 +138,7 @@ const deleteRecette = async (recetteId: number) => {
         <router-link :to="{ name: 'modifierRecette', params: { id: recette.id } }" class="clicable">
             <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
         </router-link>
-        <button v-if="utilisateurId === storeAuthentification.userId"
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteRecette(recette.id)">Supprimer</button>
 
 

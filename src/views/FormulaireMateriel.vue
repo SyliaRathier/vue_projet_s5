@@ -2,22 +2,22 @@
     <div class="materiel-form">
         <h2>Créer du matériel</h2>
         <form @submit.prevent="submitForm" class="form-container">
-            <label for="name">Nom:</label>
+            <label for="name">Nom</label>
             <input v-model="materiel.name" type="text" required class="input-field" />
 
-            <label for="description">Description:</label>
+            <label for="description">Description</label>
             <textarea v-model="materiel.description" rows="4" class="input-field"></textarea>
 
-            <label for="prix">Prix:</label>
+            <label for="prix">Prix</label>
             <input v-model="materiel.prix" type="number" class="input-field" />
 
-            <label for="caracteristique">Caractéristique:</label>
+            <label for="caracteristique">Caractéristiques</label>
             <input v-model="materiel.caracteristique" type="text" rows="4" class="input-field" />
 
-            <label for="caracteristique">Utilisation:</label>
+            <label for="caracteristique">Utilisation</label>
             <input v-model="materiel.utilisation" type="text" rows="4" class="input-field" />
 
-            <label for="imageFile" class="file-label">Image:</label>
+            <label for="imageFile" class="file-label">Image</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
 
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
@@ -47,7 +47,7 @@ const materiel = ref({
 
 const submitForm = async () => {
 
-    let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
+    let utilisateur = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId;
 
 
     const formData = new FormData();
@@ -65,7 +65,7 @@ const submitForm = async () => {
         formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
     }
     try {
-        const response = await fetch('https://127.0.0.1:8000/api/materiels', {
+        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels', {
             method: 'POST',
             headers: {
                 // Assurez-vous d'ajouter d'autres en-têtes requis par votre API si nécessaire
@@ -100,7 +100,11 @@ const submitForm = async () => {
 
 </script>
 
+
 <style scoped>
+body{
+  background-color: #E4D7CE;
+}
 .materiel-form {
   max-width: 500px;
   margin: 20px auto;
@@ -109,6 +113,7 @@ const submitForm = async () => {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   font-family: 'FreeMono', sans-serif;
+
 }
 
 .materiel-form h2 {
@@ -124,6 +129,7 @@ const submitForm = async () => {
 }
 
 label {
+
   font-size: 16px;
   color: #444;
 }
@@ -156,10 +162,12 @@ label {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+
 }
 
 
 .submit-button:hover {
   background-color: #A6A29A;
+
 }
 </style>

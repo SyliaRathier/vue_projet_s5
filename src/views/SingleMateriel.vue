@@ -20,7 +20,7 @@ const materiel: Ref<Materiel> = ref({
 
 
 onMounted(() => {
-    fetch(encodeURI('https://localhost:8000/api/materiels/' + Number(id)))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + Number(id)))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiel.value = reponseJSON;

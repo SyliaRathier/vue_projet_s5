@@ -169,7 +169,7 @@ const recette = ref({
 function fillRecette() {
     console.log(id);
 
-    fetch(encodeURI('https://localhost:8000/api/recettes/' + id))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + id))
         .then((reponsehttp) => reponsehttp.json())
         .then((reponseJSON) => {
             recette.value = reponseJSON;
@@ -211,7 +211,7 @@ const fillIngredients = (selectedIngredients: any) => {
     let i: number = 0
     for (i = 0; i < selectedIngredients.length; i++) {
         if (selectedIngredients[i].idQuantite !== null) {
-            urlIngredient = "https://127.0.0.1:8000/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
+            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
             tabIngredient.push(urlIngredient);
         }
     }
@@ -225,7 +225,7 @@ const fillMateriels = (selectedMateriel: any) => {
     let i: number = 0
     for (i = 0; i < selectedMateriel.length; i++) {
         if (selectedMateriel[i].id !== null) {
-            urlIngredient = "https://127.0.0.1:8000/api/materiels/" + selectedMateriel[i].id;
+            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/" + selectedMateriel[i].id;
             tabMateriel.push(urlIngredient);
         }
     }
@@ -240,7 +240,7 @@ const fillCategories = (selectedCategories: any) => {
     let i: number = 0
     for (i = 0; i < selectedCategories.length; i++) {
         if (selectedCategories[i].id !== null) {
-            urlCategorie = "https://127.0.0.1:8000/api/categorie_recettes/" + selectedCategories[i].id;
+            urlCategorie = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes/" + selectedCategories[i].id;
             tabCategorie.push(urlCategorie);
         }
     }
@@ -269,7 +269,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
 
         try {
             console.log()
-            const response = await fetch('https://127.0.0.1:8000/api/recettes/' + id, {
+            const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + id, {
                 method: 'PATCh',
                 headers: {
                     'Content-Type': 'application/merge-patch+json',
@@ -330,7 +330,7 @@ const submitForm = async (selectedIngredients: any, selectedMateriels: any, sele
 //Création QUAANTITE_INGREDIENTS
 const ingredients: Ref<Ingredient[]> = ref([]);
 function chargerFeed() {
-    fetch(encodeURI('https://localhost:8000/api/ingredients'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             ingredients.value = reponseJSON["hydra:member"];
@@ -368,7 +368,7 @@ const addIngredientToList = () => {
 };
 
 const removeIngredientFromList = (id: number, index: number) => {
-    const response = fetch('https://127.0.0.1:8000/api/quantite_ingredients/' + id, {
+    const response = fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/' + id, {
         method: 'DELETE',
     });
     selectedIngredients.value.splice(index, 1);
@@ -376,8 +376,8 @@ const removeIngredientFromList = (id: number, index: number) => {
 
 const reponseQuantite = ref();
 const createIngredientFromList = (id: number, quantite: number, unite: string, index: number) => {
-    const url = "https://127.0.0.1:8000/api/ingredients/" + id;
-    fetch('https://127.0.0.1:8000/api/quantite_ingredients', {
+    const url = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/" + id;
+    fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/ld+json',

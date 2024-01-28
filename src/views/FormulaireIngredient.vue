@@ -91,7 +91,7 @@ const submitForm = async () => {
     try {
         let tabC = fillCategories(selectedCategories);
 
-        let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
+        let utilisateur = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId;
 
         const formData = new FormData();
         formData.append('nom', ingredient.value.name);
@@ -107,7 +107,7 @@ const submitForm = async () => {
             formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
         }
         try {
-            const response = await fetch('https://127.0.0.1:8000/api/ingredients', {
+            const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients', {
                 method: 'POST',
                 headers: {
                     // Assurez-vous d'ajouter d'autres en-têtes requis par votre API si nécessaire
@@ -155,7 +155,7 @@ const selectedCategories: Ref<{ id: number, nom: string }[]> = ref([]);
 const categories: Ref<{ id: number, nom: string }[]> = ref([]);
 
 function chargerFeedCategorie() {
-    fetch(encodeURI('https://localhost:8000/api/categorie_ingredients'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];
@@ -211,6 +211,7 @@ onMounted(() => {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   font-family: 'FreeMono', sans-serif;
+
 }
 
 .ingredient-form h2 {
@@ -226,6 +227,7 @@ onMounted(() => {
 }
 
 label {
+
   font-size: 16px;
   color: #444;
 }
@@ -246,11 +248,13 @@ label {
 .input-field:focus,
 .file-label:focus {
   border-color: #BBB6AF;
+
   background-color: #fff;
 }
 
 .submit-button {
   background-color: #BBB6AF;
+
   color: white;
   padding: 12px 20px;
   border: none;
@@ -267,5 +271,6 @@ label {
 
 .submit-button:hover {
   background-color: #A6A29A;
+
 }
 </style>

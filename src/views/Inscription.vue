@@ -1,6 +1,6 @@
 <template>
     <div class="ingredient-form">
-        <h2>Créer un nouveau compte </h2>
+        <h2>Créer un nouveau compte</h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">Login</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
@@ -13,6 +13,7 @@
 
             <label for="description">Adresse mail</label>
             <textarea v-model="utilisateur.email" type="email" required class="input-field"></textarea>
+
 
             <label for="prix">Mot de passe</label>
             <input v-model="utilisateur.mdp" type="password" required class="input-field" />
@@ -38,7 +39,7 @@ const utilisateur = ref({
 });
 
 function submitForm() {
-    fetch("https://localhost:8000/api/utilisateurs", {
+    fetch("https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -56,12 +57,9 @@ function submitForm() {
         console.log(val);
         let erreur;
         val.then(reponseJSON => {
-
-            if (reponseJSON.violations) {
-                erreur = reponseJSON.violations[0].message
-            } else {
-                erreur = reponseJSON.message
-            }
+            // ingredients.value = reponseJSON["ingredients"];
+            console.log(reponseJSON["hydra:description"])
+            erreur = reponseJSON["hydra:description"];
 
             if (reponsehttp.status !== 201) {
                 console.log("Echec")
@@ -90,6 +88,7 @@ function submitForm() {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   font-family: 'FreeMono', sans-serif;
+
 }
 
 .ingredient-form h2 {
@@ -105,6 +104,7 @@ function submitForm() {
 }
 
 .ingredient-form label {
+
   font-size: 16px;
   color: #444;
 }
@@ -125,11 +125,13 @@ function submitForm() {
 .ingredient-form input:focus,
 .ingredient-form textarea:focus {
   border-color: #BBB6AF;
+
   background-color: #fff;
 }
 
 .ingredient-form button {
   background-color: #BBB6AF;
+
   color: white;
   padding: 12px 20px;
   border: none;
@@ -146,6 +148,7 @@ function submitForm() {
 
 .ingredient-form button:hover {
   background-color: #A6A29A;
+
 }
 </style>
 

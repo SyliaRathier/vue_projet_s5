@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Materiel } from '@/types';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
 
@@ -19,9 +19,32 @@ if (props.materiel.utilisateur) {
     console.log(utilisateurId + " " + utilisateurLogin);
 }
 
+const isAdmin = ref(false);
+
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
+
 
 const deleteMateriel = async (materielId: number) => {
-    fetch(encodeURI('https://localhost:8000/api/materiels/' + Number(materielId)))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + Number(materielId)))
         .then(reponsehttp => reponsehttp.json())
         .then(async reponseJSON => {
             console.log(reponseJSON.recettes.length);
@@ -33,7 +56,7 @@ const deleteMateriel = async (materielId: number) => {
                 return;
             }
             else {
-                const response = await fetch('https://127.0.0.1:8000/api/materiels/' + Number(materielId), {
+                const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + Number(materielId), {
                     method: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -73,7 +96,7 @@ const deleteMateriel = async (materielId: number) => {
         <div class="content">
             <p class="utilisation">{{ materiel.utilisation }}</p>
             <p class="description">{{ materiel.description }}</p>
-            <img :src="'https://localhost:8000/image/materiel/' + materiel.imageName" alt="Materiel Image" loading="lazy" />
+            <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/materiel/' + materiel.imageName" alt="Materiel Image" loading="lazy" />
         </div>
 
         <div class="footer">
@@ -83,9 +106,9 @@ const deleteMateriel = async (materielId: number) => {
             <p>Créé par {{ utilisateur }}</p>
         </div>
         <router-link :to="{ name: 'modifierMateriel', params: { id: materiel.id } }" class="clicable">
-            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
         </router-link>
-        <button v-if="utilisateurId === storeAuthentification.userId"
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteMateriel(materiel.id)">Supprimer</button>
 
     </div>

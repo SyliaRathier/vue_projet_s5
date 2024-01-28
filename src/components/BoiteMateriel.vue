@@ -18,7 +18,7 @@ const props = defineProps<{ materiel: Materiel }>();
             <div class="recipe-content">
                 <p>{{ materiel.description }}</p>
 
-              <img :src="'https://localhost:8000/image/materiel/' + materiel.imageName" alt="Stuff Image"
+              <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/materiel/' + materiel.imageName" alt="Stuff Image"
                    loading="lazy" />
             </div>
             <div class="recipe-footer">

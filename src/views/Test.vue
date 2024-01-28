@@ -5,7 +5,7 @@ const selectedMateriels: Ref<{ id: number, nom: string }[]> = ref([]);
 // Toutes les recettes
 const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
 function chargerFeedMateriel() {
-    fetch(encodeURI('https://localhost:8000/api/materiels'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];
@@ -33,7 +33,7 @@ const addMaterielToList = () => {
     }
 };
 const removeMaterielFromList = (id: number, index: number) => {
-    const response = fetch('https://127.0.0.1:8000/api/materiels/' + id, {
+    const response = fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + id, {
         method: 'DELETE',
     });
     selectedMateriels.value.splice(index, 1);

@@ -5,6 +5,7 @@ export interface Utilisateur{
     premium: boolean;
     nom: string,
     prenom: string
+    roles: []
 }
 
 export interface Recette{

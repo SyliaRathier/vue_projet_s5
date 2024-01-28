@@ -8,7 +8,7 @@ const props = defineProps<{ ingredient: Ingredient }>();
 
 let url = ref('');
 async function loadImage() {
-    const response = await fetch('https://localhost:8000/image/ingredient/' + props.ingredient.imageName);
+    const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/ingredient/' + props.ingredient.imageName);
     const blob = await response.blob();
     return URL.createObjectURL(blob);
 }
@@ -33,7 +33,7 @@ onMounted(async () => {
                     loading="lazy"  sizes="(max-width: 800px) 100vw, 50vw"/>
             </div>
             <div class="recipe-footer">
-                <p>Créé par {{ ingredient.utilisateur.login }}</p>
+                <p v-if="ingredient.utilisateur">Créé par {{ ingredient.utilisateur.login }}</p>
             </div>
         </div>
     </router-link>

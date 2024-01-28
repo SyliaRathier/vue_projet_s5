@@ -11,7 +11,7 @@ import { storeAuthentification } from '@/storeAuthentification';
 const recettes: Ref<Recette[]> = ref([]);
 function chargerFeed() {
     console.log(storeAuthentification.userId)
-    let url = 'https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId + '/recettes';
+    let url = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId + '/recettes';
     console.log(url)
     fetch(encodeURI(url))
         .then(reponsehttp => reponsehttp.json())
