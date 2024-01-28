@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Materiel } from '@/types';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
 
@@ -18,6 +18,29 @@ if (props.materiel.utilisateur) {
     utilisateurLogin = props.materiel.utilisateur.login;
     console.log(utilisateurId + " " + utilisateurLogin);
 }
+
+const isAdmin = ref(false);
+
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
 
 
 const deleteMateriel = async (materielId: number) => {
@@ -83,9 +106,9 @@ const deleteMateriel = async (materielId: number) => {
             <p>Créé par {{ utilisateur }}</p>
         </div>
         <router-link :to="{ name: 'modifierMateriel', params: { id: materiel.id } }" class="clicable">
-            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
         </router-link>
-        <button v-if="utilisateurId === storeAuthentification.userId"
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteMateriel(materiel.id)">Supprimer</button>
 
     </div>
