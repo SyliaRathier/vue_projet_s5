@@ -3,6 +3,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import type { Recette } from '@/types';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
+import { onMounted, ref } from 'vue';
 
 
 const router = useRouter();
@@ -20,6 +21,29 @@ if (props.recette.utilisateur) {
     utilisateurLogin = props.recette.utilisateur.login;
     console.log(props.recette);
 }
+
+
+const isAdmin = ref(false);
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
 
 const deleteRecette = async (recetteId: number) => {
     props.recette.ingredients.forEach(ingredient => {
@@ -60,6 +84,7 @@ const deleteRecette = async (recetteId: number) => {
     }
 
 };
+
 
 
 </script>
@@ -113,7 +138,7 @@ const deleteRecette = async (recetteId: number) => {
         <router-link :to="{ name: 'modifierRecette', params: { id: recette.id } }" class="clicable">
             <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
         </router-link>
-        <button v-if="utilisateurId === storeAuthentification.userId"
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteRecette(recette.id)">Supprimer</button>
 
 

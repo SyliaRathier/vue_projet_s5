@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter, RouterLink } from 'vue-router';
-import type { Ingredient } from '@/types';
-import { onMounted } from 'vue';
+import type { Ingredient, Utilisateur } from '@/types';
+import { onMounted, ref, type Ref } from 'vue';
 import { storeAuthentification } from '@/storeAuthentification'
 import { flashMessage } from '@smartweb/vue-flash-message';
 
@@ -14,17 +14,37 @@ let utilisateurLogin = '';
 if (props.ingredient.utilisateur) {
     utilisateurId = props.ingredient.utilisateur.id;
     utilisateurLogin = props.ingredient.utilisateur.login;
-    console.log(utilisateurId + " " + utilisateurLogin);
+    // console.log(props.ingredient.utilisateur.roles)
 }
+
+const isAdmin = ref(false);
+function getUtilisateur() {
+    console.log(storeAuthentification.userId);
+    try {
+        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        ).then(
+            reponsehttp => reponsehttp.json()
+        ).then(
+            reponseJSON => {
+                console.log(reponseJSON['roles'].includes('ROLE_ADMIN'))
+                isAdmin.value = reponseJSON['roles'].includes('ROLE_ADMIN')
+            }
+        )
+    } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+    }
+}
+
+onMounted(() => {
+    getUtilisateur()
+});
 
 
 const deleteIngredient = async (ingredientId: number) => {
     fetch(encodeURI('https://localhost:8000/api/ingredients/' + Number(ingredientId) + '/quantite_ingredients'))
         .then(reponsehttp => reponsehttp.json())
         .then(async reponseJSON => {
-            // console.log(reponseJSON['hydra:member']);
             if (reponseJSON['hydra:member'].length === 0) {
-                console.log('hello')
                 const response = await fetch('https://127.0.0.1:8000/api/ingredients/' + Number(ingredientId), {
                     method: 'DELETE',
                     headers: {
@@ -32,7 +52,6 @@ const deleteIngredient = async (ingredientId: number) => {
                     },
                 });
 
-                console.log(response)
                 if (response.ok) {
                     console.log('Ingrédient supprimé avec succès !');
                     flashMessage.show({
@@ -92,6 +111,8 @@ const deleteIngredient = async (ingredientId: number) => {
         });
 };
 
+
+
 </script>
 
 <template>
@@ -109,11 +130,11 @@ const deleteIngredient = async (ingredientId: number) => {
         <div class="footer">
             <p>Prix : {{ ingredient.prix }} €</p>
         </div>
-        {{ ingredient.id }}
+
         <router-link :to="{ name: 'modifierIngredient', params: { id: ingredient.id } }" class="clicable">
-            <button v-if="utilisateurId === storeAuthentification.userId">Mofifier</button>
+            <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
         </router-link>
-        <button v-if="utilisateurId === storeAuthentification.userId"
+        <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true"
             @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button>
     </div>
 </template>
