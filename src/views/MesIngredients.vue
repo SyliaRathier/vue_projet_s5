@@ -10,7 +10,7 @@ import { storeAuthentification } from '@/storeAuthentification';
 // Toutes les recettes
 const ingredients: Ref<Ingredient[]> = ref([]);
 function chargerFeed() {
-    let url = 'https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId + '/ingredients';
+    let url = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId + '/ingredients';
     console.log(url)
     fetch(encodeURI(url))
         .then(reponsehttp => reponsehttp.json())

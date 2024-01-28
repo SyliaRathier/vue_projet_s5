@@ -27,7 +27,7 @@ const isAdmin = ref(false);
 function getUtilisateur() {
     console.log(storeAuthentification.userId);
     try {
-        fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId)
+        fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId)
         ).then(
             reponsehttp => reponsehttp.json()
         ).then(
@@ -47,7 +47,7 @@ onMounted(() => {
 
 const deleteRecette = async (recetteId: number) => {
     props.recette.ingredients.forEach(ingredient => {
-        fetch('https://127.0.0.1:8000/api/quantite_ingredients/' + ingredient.id, {
+        fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/' + ingredient.id, {
             method: 'DELETE',
             headers: {
                 'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -59,7 +59,7 @@ const deleteRecette = async (recetteId: number) => {
     });
 
 
-    const response = await fetch('https://127.0.0.1:8000/api/recettes/' + recetteId, {
+    const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/recettes/' + recetteId, {
         method: 'DELETE',
         headers: {
             'Authorization': 'Bearer ' + storeAuthentification.JWT
@@ -124,7 +124,7 @@ const deleteRecette = async (recetteId: number) => {
         </div>
 
         <div class="image">
-            <img :src="'https://localhost:8000/image/recette/' + recette.imageName" alt="Recipe Image" loading="lazy" />
+            <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/recette/' + recette.imageName" alt="Recipe Image" loading="lazy" />
         </div>
 
         <div class="section">

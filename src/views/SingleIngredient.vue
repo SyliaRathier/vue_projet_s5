@@ -19,7 +19,7 @@ const ingredient: Ref<Ingredient> = ref({
 
 
 onMounted(() => {
-    fetch(encodeURI('https://localhost:8000/api/ingredients/' + Number(id)))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/' + Number(id)))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             ingredient.value = reponseJSON;

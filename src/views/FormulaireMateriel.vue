@@ -47,7 +47,7 @@ const materiel = ref({
 
 const submitForm = async () => {
 
-    let utilisateur = 'https://127.0.0.1:8000/api/utilisateurs/' + storeAuthentification.userId;
+    let utilisateur = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId;
 
 
     const formData = new FormData();
@@ -65,7 +65,7 @@ const submitForm = async () => {
         formData.append('imageFile', imageInput.value.files[0] ?? new File([], ''));
     }
     try {
-        const response = await fetch('https://127.0.0.1:8000/api/materiels', {
+        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels', {
             method: 'POST',
             headers: {
                 // Assurez-vous d'ajouter d'autres en-têtes requis par votre API si nécessaire

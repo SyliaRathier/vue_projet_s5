@@ -47,7 +47,7 @@ const id = route.params.id
 function fillIngredient() {
     console.log(id);
 
-    fetch(encodeURI('https://localhost:8000/api/materiels/' + id))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + id))
         .then((reponsehttp) => reponsehttp.json())
         .then((reponseJSON) => {
             materiel.value = reponseJSON;
@@ -69,7 +69,7 @@ onMounted(() => {
 const submitForm = async () => {
 
     try {
-        const response = await fetch('https://127.0.0.1:8000/api/materiels/' + id, {
+        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/merge-patch+json',

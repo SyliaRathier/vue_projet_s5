@@ -64,7 +64,7 @@ let state = reactive({
 async function fillProfil() {
     console.log(storeAuthentification.userId);
     try {
-        const response = await fetch(encodeURI('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId));
+        const response = await fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId));
         return await response.json();
     } catch (error) {
         console.error('Erreur lors du chargement du profil:', error);
@@ -78,7 +78,7 @@ onMounted(async () => {
 
 function submitForm() {
     console.log(storeAuthentification.userId);
-    fetch('https://localhost:8000/api/utilisateurs/' + storeAuthentification.userId, {
+    fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/utilisateurs/' + storeAuthentification.userId, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/merge-patch+json',
@@ -129,7 +129,7 @@ function redirectTo(url: string) {
 
 async function loadImage() {
     try {
-        const response = await fetch('https://127.0.0.1:8001/my/avatar/' + md5(utilisateur.value.adresseEmail));
+        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~henchiria/projet_web/public/my/avatar/' + md5(utilisateur.value.adresseEmail));
         state.url = await response.text();
     } catch (error) {
         console.error('Erreur lors du chargement de l\'image:', error);

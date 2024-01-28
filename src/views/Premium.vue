@@ -4,7 +4,7 @@ import {storeAuthentification} from "@/storeAuthentification";
 import router from "@/router";
 import * as https from "https";
 
-let url = 'https://localhost:8000/premium/checkout/user/' + storeAuthentification.userId;
+let url = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/premium/checkout/user/' + storeAuthentification.userId;
 
 </script>
 

@@ -23,7 +23,7 @@ async function chargerFeed() {
 
     loading.value = true;
 
-    const url = `https://localhost:8000/api/materiels?page=${page.value}`;
+    const url = `https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels?page=${page.value}`;
     const response = await fetch(encodeURI(url));
 
     if (response.ok) {
