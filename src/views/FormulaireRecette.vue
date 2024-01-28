@@ -498,93 +498,92 @@ onMounted(() => {
 <style scoped>
 body {
 
-  font-family: 'FreeMono', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f8f8;
+    font-family: 'FreeMono', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
 }
 
 div {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fafafa;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fafafa;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
 }
 
 h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
 }
 
 form {
-  display: grid;
-  gap: 20px;
+    display: grid;
+    gap: 20px;
 }
 
 label {
 
-  font-size: 16px;
-  color: #444;
+    font-size: 16px;
+    color: #444;
 }
 
 input,
 textarea,
 select {
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  background-color: #fff;
-  transition: border-color 0.3s, background-color 0.3s;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s, background-color 0.3s;
 }
 
 button {
-  background-color: #BBB6AF;
-
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  background-color: #fff;
-}
-
-li button {
     background-color: #BBB6AF;
+
     color: white;
-    padding: 5px 10px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 14px;
-}
+    font-size: 16px;
+    transition: background-color 0.3s;
 
-li button:hover {
-    background-color: #A6A29A;
 
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background-color: #fff;
+    }
+
+    li button {
+        background-color: #BBB6AF;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    li button:hover {
+        background-color: #A6A29A;
+    }
 }
 </style>
-@/storeAuthentification
