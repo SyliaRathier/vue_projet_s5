@@ -40,9 +40,9 @@ function connect(): void {
 
 <template>
     <!-- <p>{{ storeAuthentification.JWT }}</p> -->
-    <div class="wrapper">
+    <div class="login-form">
         <div class="top">
-            <h3>Création du profil</h3>
+            <h2>Connexion</h2>
         </div>
         <form @submit.prevent="connect" class="content">
             <div class="group">
@@ -61,7 +61,72 @@ function connect(): void {
 </template>
 
 <style scoped>
-/* @import "@/components/ContentBox.css"; */
+.login-form {
+  max-width: 500px;
+  margin: 70px auto;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  font-family: 'FreeMono', sans-serif;
+
+}
+
+.login-form h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.login-form form {
+  display: grid;
+  gap: 20px;
+}
+
+.login-form label {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.login-form input:focus {
+  border-color: #BBB6AF;
+  background-color: #fff;
+}
+
+.login-form button {
+  background-color: #BBB6AF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.login-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-form button:hover {
+  background-color: #A6A29A;
+}
 </style>
 
 

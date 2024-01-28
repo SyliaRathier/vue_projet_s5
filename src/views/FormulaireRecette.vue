@@ -2,28 +2,28 @@
     <div>
         <h2>Créer une nouvelle recette</h2>
         <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)">
-            <label for="titre">Titre:</label>
+            <label for="titre">Titre</label>
             <input v-model="recette.titre" type="text" required />
 
-            <label for="description">Description:</label>
+            <label for="description">Description</label>
             <textarea v-model="recette.description" rows="4" required></textarea>
 
-            <label for="conseil">Conseil:</label>
+            <label for="conseil">Conseil</label>
             <textarea v-model="recette.conseil" rows="4"></textarea>
 
-            <label for="ingredients">Ingrédients:</label>
+            <label for="ingredients">Ingrédients</label>
 
             <!-- Création QuantiteIngredient  -->
 
 
             <div>
-                <div>Selected: {{ selected }}</div>
 
-                <label for="search">Search:</label>
+
+                <label for="search">Rechercher</label>
                 <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />
 
                 <select v-model="selected" @change="chargerFeed">
-                    <option disabled value="">Please select one</option>
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id">
                         {{ ingredient.nom }}
                     </option>
@@ -38,8 +38,8 @@
                             {{ item.id_ingredient_id.nom }}
 
 
-                            <label>Quantité: <input v-model="item.quantite"></label>
-                            <label>Unité: <input v-model="item.unite"></label>
+                            <label>Quantité <input v-model="item.quantite"></label>
+                            <label>Unité <input v-model="item.unite"></label>
                             <button
                                 @click.prevent="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
                             <button
@@ -59,13 +59,12 @@
             <!-- Ajouter mtériels -->
 
             <div>
-                <div>Selected: {{ selectedM }}</div>
 
-                <label for="searchM">Search:</label>
+                <label for="searchM">Rechercher</label>
                 <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
 
                 <select v-model="selectedM" @change="chargerFeedMateriel">
-                    <option disabled value="">Please select one</option>
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
                         {{ materiel.nom }}
                     </option>
@@ -74,7 +73,7 @@
                 <button @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
 
                 <div v-if="selectedMateriels.length > 0">
-                    <h3>Ingrédients sélectionnés :</h3>
+                    <h3>Matériels sélectionnés :</h3>
                     <ul>
                         <li v-for="(item, index) in selectedMateriels" :key="item.id">
                             {{ item.nom }}
@@ -88,10 +87,10 @@
             <!-- Fin de Ajouter mtériels -->
 
 
-            <label for="duree">Durée:</label>
+            <label for="duree">Durée</label>
             <input v-model="recette.duree" type="text" required />
 
-            <label for="prix">Prix:</label>
+            <label for="prix">Prix</label>
             <input v-model="recette.prix" type="text" required />
 
             <label for="imageFile">Image:</label>
@@ -100,9 +99,8 @@
 
 
             <div>
-                <div>Selected: {{ selectedCategorie }}</div>
 
-                <label for="searchCategorie">Search:</label>
+                <label for="searchCategorie">Rechercher</label>
                 <input v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
                     placeholder="Rechercher une catégorie" />
 
@@ -125,11 +123,6 @@
                     </ul>
                 </div>
             </div>
-
-
-
-
-
 
             <button type="submit">Créer la recette</button>
 
@@ -499,28 +492,29 @@ onMounted(() => {
 });
 
 </script>
-  
+
 
 <style scoped>
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'FreeMono', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
 }
 
 div {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #fafafa;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 15px;
 }
 
 h2 {
-    color: #333;
-    text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
 }
 
 form {
@@ -529,35 +523,32 @@ form {
 }
 
 label {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-size: 16px;
+  color: #444;
 }
 
 input,
 textarea,
 select {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-size: 16px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
 button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #BBB6AF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 ul {
@@ -576,7 +567,7 @@ li {
 }
 
 li button {
-    background-color: #ff5b5b;
+    background-color: #BBB6AF;
     color: white;
     padding: 5px 10px;
     border: none;
@@ -586,7 +577,7 @@ li button {
 }
 
 li button:hover {
-    background-color: #d73838;
+    background-color: #A6A29A;
 }
 </style>
 @/storeAuthentification

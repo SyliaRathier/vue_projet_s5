@@ -30,6 +30,8 @@ const getImageUrl = (file: File) => {
     </router-link>
 </template>
 
+
+
 <style scoped>
 @import "@/assets/contentBox.css";
 </style>
