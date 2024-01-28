@@ -139,51 +139,104 @@ const selectedMateriel = ref('')
 
 
 <template>
-    <p>Séectionner par catégories</p>
-    <div>Selected: {{ selected }}</div>
+  <div class="wrapper">
+    <div class="section">
+      <h2>Catégories</h2>
+      <!-- <div class="selected-label">Selected: {{ selected }}</div> -->
 
-    <select v-model="selected" @change="chargerFeed(selected)">
+    <select v-model="selected" @change="chargerFeed(selected)" class="select">
         <option disabled value="">Sélectionner une catégorie</option>
         <option value="0">Toutes Categories</option>
         <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
             {{ categorie.nom }}
         </option>
     </select>
+    </div>
 
-    <p>Ou par ingrédients</p>
+    <div class="section">
+      <h2>Ingrédients</h2>
 
-    <div>Selected: {{ selectedIngredient }}</div>
 
-    <select v-model="selectedIngredient" @change="chargerFeed2(selectedIngredient)">
+    <select v-model="selectedIngredient" @change="chargerFeed2(selectedIngredient)" class="select">
         <option disabled value="">Sélectionner un ingrédient</option>
         <option value="0"></option>
         <option v-for="ingredient in ingredients" :key="ingredient.id" :value="ingredient.id">
             {{ ingredient.nom }}
         </option>
     </select>
+    </div>
 
-    <p>Ou par matériels</p>
+    <div class="section">
+      <h2>Matériels</h2>
 
-    <div>Selected: {{ selectedMateriel }}</div>
 
-    <select v-model="selectedMateriel" @change="chargerFeed3(selectedMateriel)">
+
+    <select v-model="selectedMateriel" @change="chargerFeed3(selectedMateriel)" class="select">
         <option disabled value="">Sélectionner un matériel</option>
         <option value="0"></option>
         <option v-for="materiel in materiels" :key="materiel.id" :value="materiel.id">
             {{ materiel.nom }}
         </option>
     </select>
+    </div>
 
 
     <div class="recipe-list">
         <BoiteRecette v-for="recette in recettes" :key="recette.id" :recette="recette" />
     </div>
+  </div>
 </template>
 
 <style scoped>
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 40px;
+  margin-top: 60px;
+  font-family: 'FreeMono', sans-serif;
+}
+
+.section {
+  width: 20%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.section:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.select {
+  width: 90%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.select:focus {
+  border-color: #4caf50;
+  background-color: #fff;
+}
+
 .recipe-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>

@@ -63,11 +63,14 @@ function connect(): void {
 <style scoped>
 .login-form {
   max-width: 500px;
+
   margin: 20px auto;
   padding: 20px;
   background-color: #fafafa;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  font-family: 'FreeMono', sans-serif;
+
 }
 
 .login-form h2 {
@@ -83,9 +86,11 @@ function connect(): void {
 }
 
 .login-form label {
-  font-weight: bold;
   font-size: 16px;
   color: #444;
+  margin-bottom: 5px;
+  display: block;
+
 }
 
 .login-form input {
@@ -101,12 +106,14 @@ function connect(): void {
 }
 
 .login-form input:focus {
-  border-color: #4caf50;
+  border-color: #BBB6AF;
+
   background-color: #fff;
 }
 
 .login-form button {
-  background-color: #4caf50;
+  background-color: #BBB6AF;
+
   color: white;
   padding: 12px 20px;
   border: none;
@@ -122,7 +129,8 @@ function connect(): void {
 }
 
 .login-form button:hover {
-  background-color: #45a049;
+  background-color: #A6A29A;
+
 }
 </style>
 

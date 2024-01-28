@@ -1,12 +1,15 @@
 @import './base.css';
 
 .navbar {
-  background-color: #3498db;
-  padding: 10px;
+  background-color: #EFEDE9;
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  font-family: 'FreeMono', sans-serif;
+
 }
 
 .logo {
@@ -27,4 +30,6 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #EFEDE9;
+
 }

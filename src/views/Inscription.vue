@@ -5,14 +5,15 @@
             <label for="name">Login</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
 
-            <label for="prix">Nom</label>
-            <input v-model="utilisateur.nom" type="text" required class="input-field" />
+          <label for="prix">Prénom</label>
+          <input v-model="utilisateur.prenom" type="text" required class="input-field" />
 
-            <label for="prix">Prénom</label>
-            <input v-model="utilisateur.prenom" type="text" required class="input-field" />
+          <label for="prix">Nom</label>
+          <input v-model="utilisateur.nom" type="text" required class="input-field" />
 
             <label for="description">Adresse mail</label>
             <textarea v-model="utilisateur.email" type="email" required class="input-field"></textarea>
+
 
             <label for="prix">Mot de passe</label>
             <input v-model="utilisateur.mdp" type="password" required class="input-field" />
@@ -86,6 +87,8 @@ function submitForm() {
   background-color: #fafafa;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  font-family: 'FreeMono', sans-serif;
+
 }
 
 .ingredient-form h2 {
@@ -101,7 +104,7 @@ function submitForm() {
 }
 
 .ingredient-form label {
-  font-weight: bold;
+
   font-size: 16px;
   color: #444;
 }
@@ -121,12 +124,14 @@ function submitForm() {
 
 .ingredient-form input:focus,
 .ingredient-form textarea:focus {
-  border-color: #4caf50;
+  border-color: #BBB6AF;
+
   background-color: #fff;
 }
 
 .ingredient-form button {
-  background-color: #4caf50;
+  background-color: #BBB6AF;
+
   color: white;
   padding: 12px 20px;
   border: none;
@@ -142,7 +147,8 @@ function submitForm() {
 }
 
 .ingredient-form button:hover {
-  background-color: #45a049;
+  background-color: #A6A29A;
+
 }
 </style>
 

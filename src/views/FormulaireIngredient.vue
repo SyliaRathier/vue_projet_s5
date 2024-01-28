@@ -210,6 +210,8 @@ onMounted(() => {
   background-color: #fafafa;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  font-family: 'FreeMono', sans-serif;
+
 }
 
 .ingredient-form h2 {
@@ -225,7 +227,7 @@ onMounted(() => {
 }
 
 label {
-  font-weight: bold;
+
   font-size: 16px;
   color: #444;
 }
@@ -245,12 +247,14 @@ label {
 
 .input-field:focus,
 .file-label:focus {
-  border-color: #4caf50;
+  border-color: #BBB6AF;
+
   background-color: #fff;
 }
 
 .submit-button {
-  background-color: #4caf50;
+  background-color: #BBB6AF;
+
   color: white;
   padding: 12px 20px;
   border: none;
@@ -266,6 +270,7 @@ label {
 }
 
 .submit-button:hover {
-  background-color: #45a049;
+  background-color: #A6A29A;
+
 }
 </style>

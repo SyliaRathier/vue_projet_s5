@@ -112,6 +112,8 @@ body{
   background-color: #fafafa;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  font-family: 'FreeMono', sans-serif;
+
 }
 
 .materiel-form h2 {
@@ -127,7 +129,7 @@ body{
 }
 
 label {
-  font-weight: bold;
+
   font-size: 16px;
   color: #444;
 }
@@ -147,12 +149,12 @@ label {
 
 .input-field:focus,
 .file-label:focus {
-  border-color: #4caf50;
+  border-color: #BBB6AF;
   background-color: #fff;
 }
 
 .submit-button {
-  background-color: #4caf50;
+  background-color: #BBB6AF;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -160,14 +162,12 @@ label {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+
 }
 
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
 
 .submit-button:hover {
-  background-color: #45a049;
+  background-color: #A6A29A;
+
 }
 </style>

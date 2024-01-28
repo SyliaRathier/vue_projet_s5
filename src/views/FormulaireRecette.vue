@@ -16,9 +16,10 @@
             <!-- Création QuantiteIngredient  -->
 
             <div>
-              <div>Selected: {{ selected }}</div>
 
-              <!--<label for="search">Search</label> -->
+
+                <label for="search">Rechercher</label>
+
                 <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />
 
                 <select v-model="selected" @change="chargerFeed">
@@ -37,8 +38,8 @@
                             {{ item.id_ingredient_id.nom }}
 
 
-                            <label>Quantité: <input v-model="item.quantite"></label>
-                            <label>Unité: <input v-model="item.unite"></label>
+                            <label>Quantité <input v-model="item.quantite"></label>
+                            <label>Unité <input v-model="item.unite"></label>
                             <button
                                 @click.prevent="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
                             <button
@@ -58,9 +59,9 @@
             <!-- Ajouter mtériels -->
 
             <div>
-                <div>Selected: {{ selectedM }}</div>
 
-                <!-- <label for="searchM">Search:</label> -->
+                <label for="searchM">Rechercher</label>
+
                 <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
 
                 <select v-model="selectedM" @change="chargerFeedMateriel">
@@ -73,7 +74,7 @@
                 <button @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
 
                 <div v-if="selectedMateriels.length > 0">
-                    <h3>Ingrédients sélectionnés :</h3>
+                    <h3>Matériels sélectionnés :</h3>
                     <ul>
                         <li v-for="(item, index) in selectedMateriels" :key="item.id">
                             {{ item.nom }}
@@ -99,9 +100,8 @@
 
 
             <div>
-                <div>Selected: {{ selectedCategorie }}</div>
 
-                <label for="searchCategorie">Search:</label>
+                <label for="searchCategorie">Rechercher</label>
                 <input v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
                     placeholder="Rechercher une catégorie" />
 
@@ -124,11 +124,6 @@
                     </ul>
                 </div>
             </div>
-
-
-
-
-
 
             <button type="submit">Créer la recette</button>
 
@@ -502,6 +497,7 @@ onMounted(() => {
 
 <style scoped>
 body {
+
   font-family: 'FreeMono', sans-serif;
   margin: 0;
   padding: 0;
@@ -530,7 +526,7 @@ form {
 }
 
 label {
-  font-weight: bold;
+
   font-size: 16px;
   color: #444;
 }
@@ -538,7 +534,6 @@ label {
 input,
 textarea,
 select {
-  width: 100%;
   padding: 12px;
   box-sizing: border-box;
   border: 1px solid #ddd;
@@ -549,15 +544,9 @@ select {
   transition: border-color 0.3s, background-color 0.3s;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #4caf50;
-  background-color: #fff;
-}
-
 button {
-  background-color: #4caf50;
+  background-color: #BBB6AF;
+
   color: white;
   padding: 12px 20px;
   border: none;
@@ -565,16 +554,7 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
-}
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-button:hover {
-  background-color: #45a049;
-}
 
 ul {
   list-style: none;
@@ -593,18 +573,18 @@ li {
 }
 
 li button {
-  background-color: #ff5b5b;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
+    background-color: #BBB6AF;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 li button:hover {
-  background-color: #d73838;
+    background-color: #A6A29A;
+
 }
 </style>
 @/storeAuthentification
