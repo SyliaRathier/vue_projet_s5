@@ -17,6 +17,7 @@ import MesMateriels from '@/views/MesMateriels.vue'
 import { storeAuthentification } from '@/storeAuthentification'
 import ListeMateriel from '@/views/ListeMateriel.vue'
 import ModifierIngredient from '@/views/ModifierIngredient.vue'
+import Premium from "@/views/Premium.vue";
 import ModifierMateriel from '@/views/ModifierMateriel.vue'
 import ModifierRecette from '@/views/ModifierRecette.vue'
 
@@ -35,6 +36,11 @@ const router = createRouter({
       path: '/recettes',
       name: 'recettes',
       component: ListeRecette
+    },
+    {
+      path: '/premium',
+      name: 'premium',
+      component: Premium
     },
     {
       path: '/ingredients',

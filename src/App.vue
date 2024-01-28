@@ -14,15 +14,19 @@ import { storeAuthentification } from '@/storeAuthentification'
         <router-link to="/recettes">Recettes</router-link>
         <router-link to="/ingredients">Ingredients</router-link>
         <router-link to="/materiels">Materiels</router-link>
-        <router-link v-if="storeAuthentification.estConnecte" to="/creerRecette">Créer une recette</router-link>
-        <router-link v-if="storeAuthentification.estConnecte" to="/creerIngredient">Créer un ingredient</router-link>
-        <router-link v-if="storeAuthentification.estConnecte" to="/creerMateriel">Créer un Matériel</router-link>
-        <router-link v-if="storeAuthentification.estConnecte" to="/utilisateur">Profil</router-link>
+        <template v-if="storeAuthentification.estConnecte">
+          <router-link v-if="!storeAuthentification.premium" to="/premium">Premium</router-link>
+          <router-link to="/creerRecette">Créer une recette</router-link>
+          <router-link to="/creerIngredient">Créer un ingredient</router-link>
+          <router-link to="/creerMateriel">Créer un Matériel</router-link>
+          <router-link to="/utilisateur">Profil</router-link>
+        </template>
+        <template v-else>
         <!-- <router-link v-if="storeAuthentification.estConnecte" to="/mesRecettes">Mes Recettes</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/mesIngredients">Mes Ingredients</router-link> -->
         <router-link to="/connexion">Connexion</router-link>
         <router-link to="/inscription">Inscription</router-link>
-
+        </template>
       </nav>
       <FlashMessage position="top" />
 
@@ -40,27 +44,5 @@ import { storeAuthentification } from '@/storeAuthentification'
 
 
 <style scoped>
-.navbar {
-  background-color: #3498db;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-}
-
-.logo {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-.router-link {
-  text-decoration: none;
-  color: #fff;
-  margin: 0 10px;
-}
-
-.router-link:hover {
-  text-decoration: underline;
-}
+@import "@/assets/main.css";
 </style>
