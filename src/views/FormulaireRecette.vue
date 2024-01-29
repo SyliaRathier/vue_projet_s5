@@ -1,7 +1,8 @@
 <template>
     <div class="formulaire">
         <h2>Créer une nouvelle recette</h2>
-        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)" class="form-container">
+        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)"
+            class="form-container">
             <label for="titre">Titre</label>
             <input v-model="recette.titre" type="text" required class="input-field" />
 
@@ -16,16 +17,18 @@
             <!-- Création QuantiteIngredient  -->
 
             <div>
-              <!--<label for="search">Rechercher</label>
+                <!--<label for="search">Rechercher</label>
               <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />-->
                 <select v-model="selected" @change="chargerFeed" class="input-field">
                     <option disabled value="">Sélectionner</option>
-                    <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id" class="input-field">
+                    <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id"
+                        class="input-field">
                         {{ ingredient.nom }}
                     </option>
                 </select>
 
-                <button class="submit-button" @click.prevent="addIngredientToList" :disabled="selected === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addIngredientToList"
+                    :disabled="selected === ''">Ajouter</button>
 
                 <div v-if="selectedIngredients.length > 0">
                     <h3>Ingrédients sélectionnés :</h3>
@@ -56,10 +59,10 @@
 
             <div>
 
-              <!--<label for="searchM">Rechercher</label>
+                <!--<label for="searchM">Rechercher</label>
 
               <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />-->
-              <label for="materiels">Matériels</label>
+                <label for="materiels">Matériels</label>
 
                 <select v-model="selectedM" @change="chargerFeedMateriel" class="input-field">
                     <option disabled value="">Sélectionner</option>
@@ -68,7 +71,8 @@
                     </option>
                 </select>
 
-                <button class="submit-button" @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addMaterielToList"
+                    :disabled="selectedM === ''">Ajouter</button>
 
                 <div v-if="selectedMateriels.length > 0">
                     <h3>Matériels sélectionnés :</h3>
@@ -86,22 +90,22 @@
 
 
             <label for="duree">Durée</label>
-            <input v-model="recette.duree" type="text" required class="input-field"/>
+            <input v-model="recette.duree" type="text" required class="input-field" />
 
             <label for="prix">Prix</label>
-            <input v-model="recette.prix" type="text" required class="input-field"/>
+            <input v-model="recette.prix" type="text" required class="input-field" />
 
             <label for="imageFile">Image</label>
-            <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field"/>
+            <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
 
 
 
             <div>
 
-              <!--<label for="searchCategorie">Rechercher</label>
+                <!--<label for="searchCategorie">Rechercher</label>
               <!nput v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
                   placeholder="Rechercher une catégorie" />-->
-              <label for="categorie">Catégorie</label>
+                <label for="categorie">Catégorie</label>
 
                 <select v-model="selectedCategorie" @change="chargerFeedCategorie" class="input-field">
                     <option disabled value="">Sélectionner</option>
@@ -110,10 +114,11 @@
                     </option>
                 </select>
 
-              <button class="submit-button" @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addCategorieToList"
+                    :disabled="selectedCategorie === ''">Ajouter</button>
 
 
-              <div v-if="selectedCategories.length > 0">
+                <div v-if="selectedCategories.length > 0">
                     <h3> Catégories sélectionnées</h3>
                     <ul>
                         <li v-for="(item, index) in selectedCategories" :key="item.id">
@@ -167,7 +172,7 @@ const fillIngredients = (selectedIngredients: any) => {
     let i: number = 0
     for (i = 0; i < selectedIngredients.length; i++) {
         if (selectedIngredients[i].idQuantite !== null) {
-            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
+            urlIngredient = "/~rathiers/projet_web/public/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
             tabIngredient.push(urlIngredient);
         }
     }
@@ -181,7 +186,7 @@ const fillMateriels = (selectedMateriel: any) => {
     let i: number = 0
     for (i = 0; i < selectedMateriel.length; i++) {
         if (selectedMateriel[i].id !== null) {
-            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/" + selectedMateriel[i].id;
+            urlIngredient = "/~rathiers/projet_web/public/api/materiels/" + selectedMateriel[i].id;
             tabMateriel.push(urlIngredient);
         }
     }
@@ -196,7 +201,7 @@ const fillCategories = (selectedCategories: any) => {
     let i: number = 0
     for (i = 0; i < selectedCategories.length; i++) {
         if (selectedCategories[i].id !== null) {
-            urlCategorie = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes/" + selectedCategories[i].id;
+            urlCategorie = "/~rathiers/projet_web/public/api/categorie_recettes/" + selectedCategories[i].id;
             tabCategorie.push(urlCategorie);
         }
     }
@@ -340,7 +345,7 @@ const removeIngredientFromList = (id: number, index: number) => {
 
 const reponseQuantite = ref();
 const createIngredientFromList = (id: number, quantite: number, unite: string, index: number) => {
-    const url = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients/" + id;
+    const url = "/~rathiers/projet_web/public/api/ingredients/" + id;
     fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients', {
         method: 'POST',
         headers: {
@@ -363,7 +368,7 @@ const createIngredientFromList = (id: number, quantite: number, unite: string, i
                     title: 'Ingrédient enregistré',
                 });
                 const existingItemIndex = selectedIngredients.value.findIndex(item => item.idQuantite === reponseQuantite.value.id);
-                console.log(existingItemIndex)
+                console.log(reponseJSON)
 
                 selectedIngredients.value.splice(index, 1);;
                 // If the item doesn't exist, add a new one
@@ -496,5 +501,4 @@ onMounted(() => {
 
 <style scoped>
 @import "@/assets/form.css";
-
 </style>

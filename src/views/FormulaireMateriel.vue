@@ -9,7 +9,7 @@
             <textarea v-model="materiel.description" rows="4" class="input-field"></textarea>
 
             <label for="prix">Prix</label>
-            <input v-model="materiel.prix" type="number" class="input-field" />
+            <input v-model="materiel.prix" type="text" class="input-field" />
 
             <label for="caracteristique">Caractéristiques</label>
             <input v-model="materiel.caracteristique" type="text" rows="4" class="input-field" />
@@ -57,7 +57,10 @@ const submitForm = async () => {
     formData.append('caracteristique', materiel.value.caracteristique);
     formData.append('utilisation', materiel.value.utilisation);
     formData.append('utilisateur', utilisateur);
-    formData.append('lien', materiel.value.lien);
+    if (storeAuthentification.premium) {
+        formData.append('lien', materiel.value.lien);
+
+    }
 
 
 
@@ -68,26 +71,30 @@ const submitForm = async () => {
         const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels', {
             method: 'POST',
             headers: {
-                // Assurez-vous d'ajouter d'autres en-têtes requis par votre API si nécessaire
+                'Authorization': 'Bearer ' + storeAuthentification.JWT
             },
             body: formData,
         });
+        response.json().then(reponseJSON => {
 
-        if (response.ok) {
-            console.log('Ingrédient créé avec succès !');
-            // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
-            flashMessage.show({
-                type: 'success',
-                title: 'Le matériel a bien été créé'
-            });
-        } else {
-            // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
-            materiel.value.imageUrl = 'URL_de_l_image_retournee_par_votre_API';
-            flashMessage.show({
-                type: 'error',
-                title: "Le matériel n'a pas pu être créé"
-            });
-        }
+            if (response.ok) {
+                console.log('Ingrédient créé avec succès !');
+                // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
+                flashMessage.show({
+                    type: 'success',
+                    title: 'Le matériel a bien été créé'
+                });
+            } else {
+                // Vous pouvez mettre à jour l'URL de l'image après la création réussie si votre API retourne l'URL de l'image
+                materiel.value.imageUrl = 'URL_de_l_image_retournee_par_votre_API';
+                console.log(reponseJSON["detail"]);
+
+                flashMessage.show({
+                    type: 'error',
+                    title: "Le matériel n'a pas pu être créé"
+                });
+            }
+        });
     } catch (error) {
         console.error('Erreur lors de la requête :', error);
         flashMessage.show({

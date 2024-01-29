@@ -9,7 +9,7 @@
             <textarea v-model="ingredient.description" rows="4" required class="input-field"></textarea>
 
             <label for="prix">Prix</label>
-            <input v-model="ingredient.prix" type="number" required class="input-field" />
+            <input v-model="ingredient.prix" type="text" required class="input-field" />
 
             <label for="imageFile">Image</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
@@ -17,18 +17,19 @@
             <div>
 
 
-              <!--<label for="searchCategorie">Rechercher</label>
+                <!--<label for="searchCategorie">Rechercher</label>
               <!nput v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
                   placeholder="Rechercher une catégorie" class="input-field"/>-->
-              <label for="categorie">Catégorie</label>
+                <label for="categorie">Catégorie</label>
                 <select v-model="selectedCategorie" @change="chargerFeedCategorie" class="input-field">
                     <option disabled value="">Sélectionner</option>
-                    <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id" >
+                    <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
                         {{ categorie.nom }}
                     </option>
                 </select>
 
-                <button class="submit-button" @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addCategorieToList"
+                    :disabled="selectedCategorie === ''">Ajouter</button>
 
                 <div v-if="selectedCategories.length > 0">
                     <h3> Catégories sélectionnées :</h3>
@@ -110,7 +111,7 @@ const submitForm = async () => {
             const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/ingredients', {
                 method: 'POST',
                 headers: {
-                    // Assurez-vous d'ajouter d'autres en-têtes requis par votre API si nécessaire
+                    'Authorization': 'Bearer ' + storeAuthentification.JWT
                 },
                 body: formData,
             });

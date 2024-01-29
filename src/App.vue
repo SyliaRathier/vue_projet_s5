@@ -12,12 +12,12 @@ import logo from './assets/logo.png'
       <nav class="navbar">
 
         <template v-if="storeAuthentification.estConnecte">
-          <router-link to="/about">About</router-link>
+          <router-link to="/">About</router-link>
           <router-link to="/recettes">Recettes</router-link>
           <router-link to="/ingredients">Ingrédients</router-link>
           <router-link to="/materiels">Matériels</router-link>
           <router-link v-if="!storeAuthentification.premium" to="/premium">Premium</router-link>
-          <img :src="logo" class="logo"/>
+          <img :src="logo" class="logo" />
           <router-link to="/creerRecette">Créer une recette</router-link>
           <router-link to="/creerIngredient">Créer un ingrédient</router-link>
           <router-link to="/creerMateriel">Créer un Matériel</router-link>
@@ -27,12 +27,12 @@ import logo from './assets/logo.png'
           <router-link to="/about">About</router-link>
           <router-link to="/recettes">Recettes</router-link>
           <router-link to="/ingredients">Ingrédients</router-link>
-          <img :src="logo" class="logo"/>
+          <img :src="logo" class="logo" />
           <router-link to="/materiels">Matériels</router-link>
-        <!-- <router-link v-if="storeAuthentification.estConnecte" to="/mesRecettes">Mes Recettes</router-link>
+          <!-- <router-link v-if="storeAuthentification.estConnecte" to="/mesRecettes">Mes Recettes</router-link>
         <router-link v-if="storeAuthentification.estConnecte" to="/mesIngredients">Mes Ingredients</router-link> -->
-        <router-link to="/connexion">Connexion</router-link>
-        <router-link to="/inscription">Inscription</router-link>
+          <router-link to="/connexion">Connexion</router-link>
+          <router-link to="/inscription">Inscription</router-link>
         </template>
       </nav>
       <FlashMessage position="top" />
