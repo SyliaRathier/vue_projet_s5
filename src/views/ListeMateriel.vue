@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="recipe-list">
-            <BoiteMateriel v-for="materiel in materiels" :key="materiel.id" :materiel="materiel" />
+            <BoiteMateriel class="recipe-item" v-for="materiel in materiels" :key="materiel.id" :materiel="materiel" />
         </div>
         <button v-if="materiels.length >= 25" @click="chargerSuite" :disabled="loading">Charger la suite</button>
     </div>
@@ -48,17 +48,27 @@ onMounted(() => {
 </script>
   
 <style scoped>
+
 .recipe-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    min-height: 100vh;
-    /* For the scroll to work */
-    box-sizing: border-box;
-    padding: 10px;
-    /* Add padding for better visual */
-    box-sizing: border-box;
-    overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.recipe-item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  margin-top: 20px;
+  width: calc(30% - 20px);
+  margin-left: 45px;
+  aspect-ratio: 1/1;
 }
 </style>
   
