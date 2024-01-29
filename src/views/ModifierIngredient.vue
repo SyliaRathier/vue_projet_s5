@@ -9,7 +9,7 @@
             <textarea v-model="ingredient.description" rows="4" required class="input-field"></textarea>
 
             <label for="prix">Prix:</label>
-            <input v-model="ingredient.prix" type="number" required class="input-field" />
+            <input v-model="ingredient.prix" type="text" required class="input-field" />
 
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
             <input v-if="storeAuthentification.premium" v-model="ingredient.lien" type="text" class="input-field" />

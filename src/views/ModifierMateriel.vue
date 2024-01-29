@@ -9,7 +9,7 @@
             <textarea v-model="materiel.description" rows="4" class="input-field"></textarea>
 
             <label for="prix">Prix:</label>
-            <input v-model="materiel.prix" type="number" class="input-field" />
+            <input v-model="materiel.prix" type="text" class="input-field" />
 
             <label for="caracteristique">Caractéristique:</label>
             <input v-model="materiel.caracteristique" type="text" rows="4" class="input-field" />
@@ -38,7 +38,7 @@ const materiel = ref({
     utilisation: '',
     prix: '',
     caracteristique: '',
-    lien: '',
+    lien: null
 });
 
 const route = useRoute()
@@ -68,6 +68,32 @@ onMounted(() => {
 
 const submitForm = async () => {
 
+    let bodyM;
+    if (storeAuthentification.premium) {
+        bodyM = JSON.stringify({
+            nom: materiel.value.nom,
+            description: materiel.value.description,
+            prix: String(materiel.value.prix),
+            caracteristique: materiel.value.caracteristique,
+            utilisation: materiel.value.utilisation,
+            lien: null,
+        })
+        console.log(bodyM)
+
+    }
+    else {
+        bodyM = JSON.stringify({
+            nom: materiel.value.nom,
+            description: materiel.value.description,
+            prix: String(materiel.value.prix),
+            caracteristique: materiel.value.caracteristique,
+            utilisation: materiel.value.utilisation,
+        })
+        console.log(bodyM)
+
+
+    }
+
     try {
         const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/' + id, {
             method: 'PATCH',
@@ -75,14 +101,15 @@ const submitForm = async () => {
                 'Content-Type': 'application/merge-patch+json',
                 'Authorization': 'Bearer ' + storeAuthentification.JWT
             },
-            body: JSON.stringify({
-                nom: materiel.value.nom,
-                description: materiel.value.description,
-                prix: String(materiel.value.prix),
-                caracteristique: materiel.value.caracteristique,
-                utilisation: materiel.value.utilisation,
-                lien: materiel.value.lien,
-            })
+            body: bodyM
+            // body: JSON.stringify({
+            //     nom: materiel.value.nom,
+            //     description: materiel.value.description,
+            //     prix: String(materiel.value.prix),
+            //     caracteristique: materiel.value.caracteristique,
+            //     utilisation: materiel.value.utilisation,
+            //     lien: materiel.value.lien,
+
         });
         response.json().then(reponseJSON => {
 

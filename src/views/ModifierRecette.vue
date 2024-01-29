@@ -211,7 +211,7 @@ const fillIngredients = (selectedIngredients: any) => {
     let i: number = 0
     for (i = 0; i < selectedIngredients.length; i++) {
         if (selectedIngredients[i].idQuantite !== null) {
-            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
+            urlIngredient = "/~rathiers/projet_web/public/api/quantite_ingredients/" + selectedIngredients[i].idQuantite;
             tabIngredient.push(urlIngredient);
         }
     }
@@ -225,7 +225,7 @@ const fillMateriels = (selectedMateriel: any) => {
     let i: number = 0
     for (i = 0; i < selectedMateriel.length; i++) {
         if (selectedMateriel[i].id !== null) {
-            urlIngredient = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels/" + selectedMateriel[i].id;
+            urlIngredient = "/~rathiers/projet_web/public/api/materiels/" + selectedMateriel[i].id;
             tabMateriel.push(urlIngredient);
         }
     }
@@ -240,7 +240,7 @@ const fillCategories = (selectedCategories: any) => {
     let i: number = 0
     for (i = 0; i < selectedCategories.length; i++) {
         if (selectedCategories[i].id !== null) {
-            urlCategorie = "https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes/" + selectedCategories[i].id;
+            urlCategorie = "/~rathiers/projet_web/public/api/categorie_recettes/" + selectedCategories[i].id;
             tabCategorie.push(urlCategorie);
         }
     }
@@ -445,7 +445,7 @@ console.log(selectedIngredients.value)
 
 const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
 function chargerFeedMateriel() {
-    fetch(encodeURI('https://localhost:8000/api/materiels'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];
@@ -482,7 +482,7 @@ const removeMaterielFromList = (id: number, index: number) => {
 const categories: Ref<{ id: number, nom: string }[]> = ref([]);
 
 function chargerFeedCategorie() {
-    fetch(encodeURI('https://localhost:8000/api/categorie_recettes'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];
