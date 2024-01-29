@@ -445,7 +445,7 @@ console.log(selectedIngredients.value)
 
 const materiels: Ref<{ id: number, nom: string }[]> = ref([]);
 function chargerFeedMateriel() {
-    fetch(encodeURI('https://localhost:8000/api/materiels'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/materiels'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             materiels.value = reponseJSON["hydra:member"];
@@ -482,7 +482,7 @@ const removeMaterielFromList = (id: number, index: number) => {
 const categories: Ref<{ id: number, nom: string }[]> = ref([]);
 
 function chargerFeedCategorie() {
-    fetch(encodeURI('https://localhost:8000/api/categorie_recettes'))
+    fetch(encodeURI('https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/api/categorie_recettes'))
         .then(reponsehttp => reponsehttp.json())
         .then(reponseJSON => {
             categories.value = reponseJSON["hydra:member"];
