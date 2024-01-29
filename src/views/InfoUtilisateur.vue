@@ -129,7 +129,7 @@ function redirectTo(url: string) {
 
 async function loadImage() {
     try {
-        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~henchiria/projet_web/public/my/avatar/' + md5(utilisateur.value.adresseEmail));
+        const response = await fetch('https://webinfo.iutmontp.univ-montp2.fr/~henchiria/MyAvatar/public/my/avatar/' + md5(utilisateur.value.adresseEmail));
         state.url = await response.text();
     } catch (error) {
         console.error('Erreur lors du chargement de l\'image:', error);
