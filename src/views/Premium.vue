@@ -11,7 +11,7 @@ let url = 'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/p
 <template>
   <div class="premium_page" >
       <div class="button-premium"><a :href="url">Devenez premium pour seulement 5€ par mois</a></div>
-      <h3>Vous pourrez alors partager les liens vers les boutiques de vos ingrédients et de vos materiels dans les recettes que vous et la communauté conféctionne</h3>
+      <h3>En devenant premium, vous pourrez alors partager les liens vers les boutiques de vos ingrédients et de vos materiels dans les recettes que vous et la communauté conféctionne</h3>
   </div>
 </template>
 

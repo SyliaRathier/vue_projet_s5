@@ -131,12 +131,13 @@ const deleteIngredient = async (ingredientId: number) => {
              loading="lazy" class="ingredient-image" />
       </div>
     </div>
-
+    <div class="bouton">
     <router-link :to="{ name: 'modifierIngredient', params: { id: ingredient.id } }" class="clicable">
-      <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
+      <button class="submit-button" v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
     </router-link>
-    <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true" @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button>
-  </div>
+    <button class="submit-button" v-if="utilisateurId === storeAuthentification.userId || isAdmin == true" @click.prevent="deleteIngredient(ingredient.id)">Supprimer</button>
+    </div>
+    </div>
 </template>
 
 <style scoped>
@@ -194,5 +195,28 @@ const deleteIngredient = async (ingredientId: number) => {
 .clicable {
   display: inline-block;
   margin-top: 20px;
+}
+
+.bouton{
+  flex-direction: row;
+  gap: 30px;
+  margin-left: 20px;
+
+}
+
+.submit-button {
+  background-color: #BBB6AF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
+}
+
+.submit-button:hover {
+  background-color: #A6A29A;
 }
 </style>

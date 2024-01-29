@@ -2,13 +2,13 @@
     <div class="ingredient-form">
         <h2>Modifier l'ingrédient</h2>
         <form @submit.prevent="submitForm" class="form-container">
-            <label for="name">Nom:</label>
+            <label for="name">Nom</label>
             <input v-model="ingredient.nom" type="text" required class="input-field" />
 
-            <label for="description">Description:</label>
+            <label for="description">Description</label>
             <textarea v-model="ingredient.description" rows="4" required class="input-field"></textarea>
 
-            <label for="prix">Prix:</label>
+            <label for="prix">Prix</label>
             <input v-model="ingredient.prix" type="text" required class="input-field" />
 
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
@@ -113,48 +113,61 @@ const submitForm = async () => {
 
 <style scoped>
 .ingredient-form {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  font-family: 'FreeMono', sans-serif;
 }
 
 .form-container {
-    display: flex;
-    flex-direction: column;
+  display: grid;
+  gap: 20px;
 }
 
-.label {
-    margin-bottom: 8px;
+h2{
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+label {
+  font-size: 16px;
+  color: #444;
+
 }
 
 .input-field {
-    margin-bottom: 16px;
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
-.file-label {
-    margin-bottom: 8px;
-    display: block;
-}
+
 
 .submit-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+  background-color: #BBB6AF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
 }
 
+
 .submit-button:hover {
-    background-color: #45a049;
+  background-color: #A6A29A;
 }
 </style>

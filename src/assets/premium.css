@@ -5,9 +5,13 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
     transition: background-color 0.3s;
     text-align: center;
-    font-family: "Open Sans", sans-serif;
+    font-family: "FreeMono", sans-serif;
     margin-top: 10px;
+}
+
+h3{
+    text-align: center;
 }

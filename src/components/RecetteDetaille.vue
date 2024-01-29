@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { useRouter, RouterLink } from 'vue-router';
 import type { Recette } from '@/types';
 import { storeAuthentification } from '@/storeAuthentification'
@@ -138,12 +138,14 @@ const deleteRecette = async (recetteId: number) => {
         <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/recette/' + recette.imageName" alt="Recipe Image" loading="lazy" class="recipe-image" />
       </div>
     </div>
-
+  <div class="bouton">
     <router-link :to="{ name: 'modifierRecette', params: { id: recette.id } }" class="clicable">
-      <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
+      <button class="submit-button" v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
     </router-link>
-    <button v-if="utilisateurId === storeAuthentification.userId || isAdmin == true" @click.prevent="deleteRecette(recette.id)">Supprimer</button>
+    <button class="submit-button" v-if="utilisateurId === storeAuthentification.userId || isAdmin == true" @click.prevent="deleteRecette(recette.id)">Supprimer</button>
   </div>
+  </div>
+
 </template>
 
 <style scoped>
@@ -210,5 +212,27 @@ const deleteRecette = async (recetteId: number) => {
 .clicable {
   display: inline-block;
   margin-top: 20px;
+}
+.bouton{
+  flex-direction: row;
+  gap: 30px;
+  margin-left: 20px;
+
+}
+
+.submit-button {
+  background-color: #BBB6AF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
+}
+
+.submit-button:hover {
+  background-color: #A6A29A;
 }
 </style>

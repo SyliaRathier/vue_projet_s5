@@ -1,29 +1,25 @@
 <template>
-    <div>
+    <div class="recette-form">
         <h2>Modifier la recette</h2>
-        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)">
-            <label for="titre">Titre:</label>
-            <input v-model="recette.titre" type="text" required />
+        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)" class="form-container">
+            <label for="titre">Titre</label>
+            <input v-model="recette.titre" type="text" required class="input-field"/>
 
-            <label for="description">Description:</label>
-            <textarea v-model="recette.description" rows="4" required></textarea>
+            <label for="description">Description</label>
+            <textarea v-model="recette.description" rows="4" required class="input-field"></textarea>
 
-            <label for="conseil">Conseil:</label>
-            <textarea v-model="recette.conseil" rows="4"></textarea>
+            <label for="conseil">Conseil</label>
+            <textarea v-model="recette.conseil" rows="4" class="input-field"></textarea>
 
-            <label for="ingredients">Ingrédients:</label>
+            <label for="ingredients">Ingrédients</label>
 
             <!-- Création QuantiteIngredient  -->
 
 
             <div>
-                <div>Selected: {{ selected }}</div>
 
-                <label for="search">Search:</label>
-                <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />
-
-                <select v-model="selected" @change="chargerFeed">
-                    <option disabled value="">Please select one</option>
+                <select v-model="selected" @change="chargerFeed" class="input-field">
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id">
                         {{ ingredient.nom }}
                     </option>
@@ -38,10 +34,10 @@
                             {{ item.id_ingredient_id.nom }}
 
 
-                            <label>Quantité: <input v-model="item.quantite"></label>
-                            <label>Unité: <input v-model="item.unite"></label>
+                            <label>Quantité <input v-model="item.quantite"></label>
+                            <label>Unité <input v-model="item.unite"></label>
                             <button
-                                @click.prevent="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
+                                style="background-color:#BBB6AF" @click.prevent="createIngredientFromList(item.id_ingredient_id.id, item.quantite, item.unite, index)">Enregistrer</button>
                             <button
                                 @click.prevent="removeIngredientFromList(item.id_ingredient_id.id, index)">Supprimer</button>
 
@@ -59,12 +55,11 @@
             <!-- Ajouter mtériels -->
 
             <div>
-                <div>Selected: {{ selectedM }}</div>
 
-                <label for="searchM">Search:</label>
-                <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
 
-                <select v-model="selectedM" @change="chargerFeedMateriel">
+                <label for="materiel">Matériels</label>
+
+                <select v-model="selectedM" @change="chargerFeedMateriel" class="input-field">
                     <option disabled value="">Please select one</option>
                     <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
                         {{ materiel.nom }}
@@ -74,7 +69,7 @@
                 <button @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
 
                 <div v-if="selectedMateriels.length > 0">
-                    <h3>Ingrédients sélectionnés :</h3>
+                    <h3>Matériels sélectionnés :</h3>
                     <ul>
                         <li v-for="(item, index) in selectedMateriels" :key="item.id">
                             {{ item.nom }}
@@ -88,23 +83,22 @@
             <!-- Fin de Ajouter mtériels -->
 
 
-            <label for="duree">Durée:</label>
-            <input v-model="recette.duree" type="text" required />
+            <label for="duree">Durée</label>
+            <input v-model="recette.duree" type="text" required class="input-field"/>
 
-            <label for="prix">Prix:</label>
-            <input v-model="recette.prix" type="text" required />
+            <label for="prix">Prix</label>
+            <input v-model="recette.prix" type="text" required class="input-field" />
 
 
             <!-- Ajouter catégorie -->
             <div>
-                <div>Selected: {{ selectedCategorie }}</div>
 
-                <label for="searchCategorie">Search:</label>
-                <input v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
-                    placeholder="Rechercher une catégorie" />
 
-                <select v-model="selectedCategorie" @change="chargerFeedCategorie">
-                    <option disabled value="">Veuillez en sélectionner une</option>
+                <label for="categorie">Catégories</label>
+
+
+                <select v-model="selectedCategorie" @change="chargerFeedCategorie" class="input-field">
+                    <option disabled value="">Sélectionner</option>
                     <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
                         {{ categorie.nom }}
                     </option>
@@ -123,7 +117,7 @@
                 </div>
             </div>
 
-            <button type="submit">Modifier la recette</button>
+            <button type="submit" class="submit-button">Modifier la recette</button>
 
         </form>
     </div>
@@ -531,10 +525,13 @@ onMounted(() => {
 
 <style scoped>
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f8f8;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fafafa;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+
 }
 
 div {
@@ -544,6 +541,7 @@ div {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    font-family: 'FreeMono', sans-serif;
 }
 
 h2 {
@@ -557,7 +555,7 @@ form {
 }
 
 label {
-    font-weight: bold;
+  font-size: 16px;
     margin-bottom: 5px;
 }
 
@@ -574,7 +572,7 @@ select {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #BBB6AF;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -615,6 +613,24 @@ li button {
 
 li button:hover {
     background-color: #d73838;
+}
+
+.submit-button {
+  background-color: #BBB6AF;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+
+}
+
+
+
+.submit-button:hover {
+  background-color: #A6A29A;
 }
 </style>
 @/storeAuthentification
