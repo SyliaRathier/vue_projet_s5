@@ -1,35 +1,31 @@
 <template>
-    <div>
+    <div class="formulaire">
         <h2>Créer une nouvelle recette</h2>
-        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)">
+        <form v-if="!submitting" @submit.prevent="submitForm(selectedIngredients, selectedMateriels, selectedCategories)" class="form-container">
             <label for="titre">Titre</label>
-            <input v-model="recette.titre" type="text" required />
+            <input v-model="recette.titre" type="text" required class="input-field" />
 
             <label for="description">Description</label>
-            <textarea v-model="recette.description" rows="4" required></textarea>
+            <textarea v-model="recette.description" rows="4" required class="input-field"></textarea>
 
             <label for="conseil">Conseil</label>
-            <textarea v-model="recette.conseil" rows="4"></textarea>
+            <textarea v-model="recette.conseil" rows="4" class="input-field"></textarea>
 
             <label for="ingredients">Ingrédients</label>
 
             <!-- Création QuantiteIngredient  -->
 
             <div>
-
-
-                <label for="search">Rechercher</label>
-
-                <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />
-
-                <select v-model="selected" @change="chargerFeed">
+              <!--<label for="search">Rechercher</label>
+              <input v-model="search" type="text" @input="chargerFeed" placeholder="Rechercher un ingrédient" />-->
+                <select v-model="selected" @change="chargerFeed" class="input-field">
                     <option disabled value="">Sélectionner</option>
-                    <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id">
+                    <option v-for="ingredient in filterIngredients()" :key="ingredient.id" :value="ingredient.id" class="input-field">
                         {{ ingredient.nom }}
                     </option>
                 </select>
 
-                <button @click.prevent="addIngredientToList" :disabled="selected === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addIngredientToList" :disabled="selected === ''">Ajouter</button>
 
                 <div v-if="selectedIngredients.length > 0">
                     <h3>Ingrédients sélectionnés :</h3>
@@ -60,18 +56,19 @@
 
             <div>
 
-                <label for="searchM">Rechercher</label>
+              <!--<label for="searchM">Rechercher</label>
 
-                <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />
+              <input v-model="searchM" type="text" @input="chargerFeedMateriel" placeholder="Rechercher du matériel" />-->
+              <label for="materiels">Matériels</label>
 
-                <select v-model="selectedM" @change="chargerFeedMateriel">
+                <select v-model="selectedM" @change="chargerFeedMateriel" class="input-field">
                     <option disabled value="">Sélectionner</option>
                     <option v-for="materiel in filterMateriels()" :key="materiel.id" :value="materiel.id">
                         {{ materiel.nom }}
                     </option>
                 </select>
 
-                <button @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addMaterielToList" :disabled="selectedM === ''">Ajouter</button>
 
                 <div v-if="selectedMateriels.length > 0">
                     <h3>Matériels sélectionnés :</h3>
@@ -89,32 +86,34 @@
 
 
             <label for="duree">Durée</label>
-            <input v-model="recette.duree" type="text" required />
+            <input v-model="recette.duree" type="text" required class="input-field"/>
 
             <label for="prix">Prix</label>
-            <input v-model="recette.prix" type="text" required />
+            <input v-model="recette.prix" type="text" required class="input-field"/>
 
             <label for="imageFile">Image</label>
-            <input type="file" id="imageFile" ref="imageInput" accept="image/*" />
+            <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field"/>
 
 
 
             <div>
 
-                <label for="searchCategorie">Rechercher</label>
-                <input v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
-                    placeholder="Rechercher une catégorie" />
+              <!--<label for="searchCategorie">Rechercher</label>
+              <!nput v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
+                  placeholder="Rechercher une catégorie" />-->
+              <label for="categorie">Catégorie</label>
 
-                <select v-model="selectedCategorie" @change="chargerFeedCategorie">
+                <select v-model="selectedCategorie" @change="chargerFeedCategorie" class="input-field">
                     <option disabled value="">Sélectionner</option>
                     <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
                         {{ categorie.nom }}
                     </option>
                 </select>
 
-                <button @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
+              <button class="submit-button" @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
 
-                <div v-if="selectedCategories.length > 0">
+
+              <div v-if="selectedCategories.length > 0">
                     <h3> Catégories sélectionnées</h3>
                     <ul>
                         <li v-for="(item, index) in selectedCategories" :key="item.id">
@@ -125,7 +124,7 @@
                 </div>
             </div>
 
-            <button type="submit">Créer la recette</button>
+            <button class="submit-button" type="submit">Créer la recette</button>
 
         </form>
     </div>
@@ -496,94 +495,6 @@ onMounted(() => {
 
 
 <style scoped>
-body {
+@import "@/assets/form.css";
 
-    font-family: 'FreeMono', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f8f8;
-}
-
-div {
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fafafa;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-}
-
-h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
-}
-
-form {
-    display: grid;
-    gap: 20px;
-}
-
-label {
-
-    font-size: 16px;
-    color: #444;
-}
-
-input,
-textarea,
-select {
-    padding: 12px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    background-color: #fff;
-    transition: border-color 0.3s, background-color 0.3s;
-}
-
-button {
-    background-color: #BBB6AF;
-
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-
-
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        background-color: #fff;
-    }
-
-    li button {
-        background-color: #BBB6AF;
-        color: white;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    li button:hover {
-        background-color: #A6A29A;
-    }
-}
 </style>

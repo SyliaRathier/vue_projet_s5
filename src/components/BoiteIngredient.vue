@@ -20,7 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <router-link :to="{ name: 'ingredient', params: { id: ingredient.id } }" class="clickable">
+    <router-link :to="{ name: 'ingredient', params: { id: ingredient.id } }" class="clickable recipe" >
 
         <div class="recipe">
             <div class="recipe-header">

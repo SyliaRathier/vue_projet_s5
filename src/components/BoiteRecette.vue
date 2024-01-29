@@ -12,9 +12,9 @@ const getImageUrl = (file: File) => {
 </script>
 
 <template>
-    <router-link :to="{ name: 'recette', params: { id: recette.id } }" class="clickable">
+    <router-link :to="{ name: 'recette', params: { id: recette.id } }" class="clickable recipe">
 
-        <div class="recipe">
+
             <div class="recipe-header">
                 <h2>{{ recette.titre }}</h2>
             </div>
@@ -26,7 +26,7 @@ const getImageUrl = (file: File) => {
             <div class="recipe-footer">
                 <p>Créé par {{ recette.utilisateur.login }}</p>
             </div>
-        </div>
+
     </router-link>
 </template>
 

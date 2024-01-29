@@ -1,5 +1,5 @@
 <template>
-    <div class="materiel-form">
+    <div class="formulaire">
         <h2>Créer du matériel</h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">Nom</label>
@@ -23,7 +23,7 @@
             <label v-if="storeAuthentification.premium" for="lien">Lien vers le produit:</label>
             <input v-if="storeAuthentification.premium" v-model="materiel.lien" type="text" class="input-field" />
 
-            <button type="submit" class="submit-button">Créer</button>
+            <button type="submit" class="submit-button">Créer le matériel</button>
         </form>
     </div>
 </template>
@@ -102,72 +102,5 @@ const submitForm = async () => {
 
 
 <style scoped>
-body{
-  background-color: #E4D7CE;
-}
-.materiel-form {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fafafa;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-family: 'FreeMono', sans-serif;
-
-}
-
-.materiel-form h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
-}
-
-.form-container {
-  display: grid;
-  gap: 20px;
-}
-
-label {
-
-  font-size: 16px;
-  color: #444;
-}
-
-.input-field,
-.file-label {
-  width: 100%;
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  background-color: #fff;
-  transition: border-color 0.3s, background-color 0.3s;
-}
-
-.input-field:focus,
-.file-label:focus {
-  border-color: #BBB6AF;
-  background-color: #fff;
-}
-
-.submit-button {
-  background-color: #BBB6AF;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-
-}
-
-
-.submit-button:hover {
-  background-color: #A6A29A;
-
-}
+@import "@/assets/form.css";
 </style>

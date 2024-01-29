@@ -56,6 +56,7 @@ const selected = ref('')
 <template>
   <div class="wrapper">
     <div class="section">
+      <div class="item">
       <h2>Catégories</h2>
 
 
@@ -67,9 +68,10 @@ const selected = ref('')
         </option>
     </select>
     </div>
+    </div>
 
     <div class="recipe-list">
-        <BoiteIngredient v-for="ingredient in ingredients" :key="ingredient.id" :ingredient="ingredient" />
+        <BoiteIngredient class="recipe-item" v-for="ingredient in ingredients" :key="ingredient.id" :ingredient="ingredient" />
 
     </div>
   </div>
@@ -78,15 +80,23 @@ const selected = ref('')
 <style scoped>
 .wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
   margin-left: 40px;
   margin-top: 60px;
   font-family: 'FreeMono', sans-serif;
+
 }
 
-.section {
-  width: 20%;
+.section{
+  min-width: 20%;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.item {
+  width: calc(100% - 32px);
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
@@ -95,12 +105,13 @@ const selected = ref('')
   transition: box-shadow 0.3s;
 }
 
-.section:hover {
+
+.item:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.section h2 {
-  font-size: 20px;
+.item h2 {
+  font-size: 15px;
   color: #333;
   margin-bottom: 8px;
 }
@@ -116,21 +127,23 @@ const selected = ref('')
   transition: border-color 0.3s, background-color 0.3s;
 }
 
-.select:focus {
-  border-color: #4caf50;
-  background-color: #fff;
-}
-
 .recipe-list {
-  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
-.recipe-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.recipe-item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  width: calc(33.33% - 20px);
+  aspect-ratio: 1/1;
 }
 </style>

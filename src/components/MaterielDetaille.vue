@@ -90,20 +90,24 @@ const deleteMateriel = async (materielId: number) => {
 <template>
     <div class="materiel-details">
         <div class="header">
-            <h2>{{ materiel.nom }}</h2>
+            <h2 class="title">{{ materiel.nom }}</h2>
         </div>
 
         <div class="content">
+          <div class="text-container">
             <p class="utilisation">{{ materiel.utilisation }}</p>
             <p class="description">{{ materiel.description }}</p>
+          </div>
+          <div class="image-container">
             <img :src="'https://webinfo.iutmontp.univ-montp2.fr/~rathiers/projet_web/public/image/materiel/' + materiel.imageName" alt="Materiel Image" loading="lazy" />
+          </div>
         </div>
 
         <div class="footer">
             <p>Prix : {{ materiel.prix }} €</p>
         </div>
         <div class="recipe-footer">
-            <p>Créé par {{ utilisateur }}</p>
+            <p>Créé par {{ utilisateurLogin }}</p>
         </div>
         <router-link :to="{ name: 'modifierMateriel', params: { id: materiel.id } }" class="clicable">
             <button v-if="utilisateurId === storeAuthentification.userId">Modifier</button>
@@ -116,13 +120,45 @@ const deleteMateriel = async (materielId: number) => {
   
 <style scoped>
 .materiel-details {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: 'FreeMono', sans-serif;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.text-container {
+  flex: 1;
+  text-align: justify;
+}
+
+.image-container {
+  flex: 1;
+  margin-left: 20px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -147,10 +183,13 @@ img {
 }
 
 .footer {
-    text-align: center;
-    font-size: 18px;
-    color: #333;
+  margin-top: 20px;
 }
+.footer p {
+  font-size: 18px;
+  color: #555;
+}
+
 </style>
   
   

@@ -47,15 +47,13 @@ function connect(): void {
         <form @submit.prevent="connect" class="content">
             <div class="group">
                 <label>Login</label>
-                <input v-model="connectingUser.login">
+                <input v-model="connectingUser.login" class="input-field">
             </div>
             <div class="group">
                 <label>Mot de passe</label>
-                <input type="password" v-model="connectingUser.password">
+                <input type="password" v-model="connectingUser.password" class="input-field">
             </div>
-            <button type="submit">
-                Connexion
-            </button>
+          <button type="submit" class="submit-button">Connexion</button>
         </form>
     </div>
 </template>
@@ -63,7 +61,6 @@ function connect(): void {
 <style scoped>
 .login-form {
   max-width: 500px;
-
   margin: 20px auto;
   padding: 20px;
   background-color: #fafafa;
@@ -73,27 +70,24 @@ function connect(): void {
 
 }
 
-.login-form h2 {
+h2 {
   color: #333;
   margin-bottom: 20px;
   font-size: 24px;
   text-align: center;
 }
 
-.login-form form {
+.group {
   display: grid;
-  gap: 20px;
+  gap: 10px;
 }
 
-.login-form label {
+label {
   font-size: 16px;
   color: #444;
-  margin-bottom: 5px;
-  display: block;
-
 }
 
-.login-form input {
+.input-field {
   width: 100%;
   padding: 12px;
   box-sizing: border-box;
@@ -105,15 +99,13 @@ function connect(): void {
   transition: border-color 0.3s, background-color 0.3s;
 }
 
-.login-form input:focus {
+.input-field:focus {
   border-color: #BBB6AF;
-
   background-color: #fff;
 }
 
-.login-form button {
+.submit-button {
   background-color: #BBB6AF;
-
   color: white;
   padding: 12px 20px;
   border: none;
@@ -121,17 +113,15 @@ function connect(): void {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+  width: 100%;
+
 }
 
-.login-form button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.login-form button:hover {
+.submit-button:hover {
   background-color: #A6A29A;
-
 }
+
+
 </style>
 
 

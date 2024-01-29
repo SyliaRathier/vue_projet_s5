@@ -1,5 +1,5 @@
 <template>
-    <div class="ingredient-form">
+    <div class="formulaire">
         <h2>Créer un nouvel ingrédient</h2>
         <form @submit.prevent="submitForm" class="form-container">
             <label for="name">Nom</label>
@@ -11,24 +11,24 @@
             <label for="prix">Prix</label>
             <input v-model="ingredient.prix" type="number" required class="input-field" />
 
-            <label for="imageFile" class="file-label">Image</label>
+            <label for="imageFile">Image</label>
             <input type="file" id="imageFile" ref="imageInput" accept="image/*" class="input-field" />
 
             <div>
-                <div>Selected: {{ selectedCategorie }}</div>
 
-                <label for="searchCategorie">Search:</label>
-                <input v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
-                    placeholder="Rechercher une catégorie" />
 
-                <select v-model="selectedCategorie" @change="chargerFeedCategorie">
-                    <option disabled value="">Veuillez en sélectionner une</option>
-                    <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id">
+              <!--<label for="searchCategorie">Rechercher</label>
+              <!nput v-model="searchCategorie" type="text" @input="chargerFeedCategorie"
+                  placeholder="Rechercher une catégorie" class="input-field"/>-->
+              <label for="categorie">Catégorie</label>
+                <select v-model="selectedCategorie" @change="chargerFeedCategorie" class="input-field">
+                    <option disabled value="">Sélectionner</option>
+                    <option v-for="categorie in filterCategories()" :key="categorie.id" :value="categorie.id" >
                         {{ categorie.nom }}
                     </option>
                 </select>
 
-                <button @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
+                <button class="submit-button" @click.prevent="addCategorieToList" :disabled="selectedCategorie === ''">Ajouter</button>
 
                 <div v-if="selectedCategories.length > 0">
                     <h3> Catégories sélectionnées :</h3>
@@ -200,77 +200,6 @@ onMounted(() => {
 </script>
 
 
-
-
 <style scoped>
-.ingredient-form {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fafafa;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-family: 'FreeMono', sans-serif;
-
-}
-
-.ingredient-form h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
-}
-
-.form-container {
-  display: grid;
-  gap: 20px;
-}
-
-label {
-
-  font-size: 16px;
-  color: #444;
-}
-
-.input-field,
-.file-label {
-  width: 100%;
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  background-color: #fff;
-  transition: border-color 0.3s, background-color 0.3s;
-}
-
-.input-field:focus,
-.file-label:focus {
-  border-color: #BBB6AF;
-
-  background-color: #fff;
-}
-
-.submit-button {
-  background-color: #BBB6AF;
-
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.submit-button:hover {
-  background-color: #A6A29A;
-
-}
+@import "@/assets/form.css";
 </style>

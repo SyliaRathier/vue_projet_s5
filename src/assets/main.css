@@ -1,20 +1,22 @@
 @import './base.css';
 
+a{
+  text-decoration: none;
+  color: black;
+}
 .navbar {
   background-color: #EFEDE9;
   padding: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   color: #fff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   font-family: 'FreeMono', sans-serif;
-
 }
 
 .logo {
-  font-size: 1.5em;
-  font-weight: bold;
+  width: 10%;
 }
 
 .router-link {

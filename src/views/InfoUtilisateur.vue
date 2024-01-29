@@ -5,16 +5,16 @@
 
             <img :src="'data:image/jpeg;base64,' + state.url" alt="Profil Image" loading="lazy" />
 
-            <label for="name">login:</label>
+            <label for="name">Login</label>
             <input v-model="utilisateur.login" type="text" required class="input-field" />
 
-            <label for="description">adresse E-mail:</label>
+            <label for="description">Adresse mail</label>
             <textarea v-model="utilisateur.adresseEmail" type="email" required class="input-field"></textarea>
 
-            <label for="prix">nom</label>
+            <label for="prix">Nom</label>
             <input v-model="utilisateur.nom" type="text" required class="input-field" />
 
-            <label for="prix">prénom</label>
+            <label for="prix">Prénom</label>
             <input v-model="utilisateur.prenom" type="text" required class="input-field" />
 
             <button type="submit" class="submit-button">Modifier profil</button>
@@ -24,7 +24,7 @@
                 Mes Recettes
             </div>
             <div class="button-redirect" @click="redirectTo('/mesIngredients')">
-                Mes Ingredients
+                Mes Ingrédients
             </div>
             <div class="button-redirect" @click="redirectTo('/mesMateriels')">
                 Mes Matériels
@@ -33,7 +33,7 @@
 
 
         <div class="button-logout" @click="logout">
-            Deconnexion
+            Déconnexion
         </div>
     </div>
 </template>

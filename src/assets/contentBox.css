@@ -1,10 +1,10 @@
 
 .recipe {
-    border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 16px;
     padding: 16px;
+    font-family: 'FreeMono', sans-serif;
 }
 
 .recipe-header {
@@ -19,12 +19,17 @@
 }
 
 .recipe-content {
-    margin-top: 16px;
+    margin-top: 10px;
+}
+
+.recipe-footer {
+    font-size: 12px;
+    color: #555555;
 }
 
 .recipe-content p {
     color: #333;
-    font-size: 25px;
+    font-size: 14px;
     line-height: 1.5;
     align-content: center;
 
@@ -48,8 +53,7 @@
 }
 
 .clickable{
-    font-size:16px;
-    font-weight: 600;
+    font-weight: 400;
     color:black;
     text-decoration: none;
 }
